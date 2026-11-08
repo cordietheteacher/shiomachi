@@ -109,6 +109,11 @@ button.wrong{background:#e6c9bd!important;color:#7a2a1a!important;text-decoratio
 #fade{position:absolute;inset:0;background:#0d0b09;opacity:0;pointer-events:none;transition:opacity .45s;z-index:25}
 @media (max-width:640px){#obj{max-width:60vw;font-size:12.5px}#tbtns button{padding:6px 8px;font-size:12px}#dlg-pic{width:64px;height:76px}#dlg{bottom:8px;padding:10px}#dlg-text{font-size:15px}.card-txt h2{font-size:24px}.card-txt p{font-size:15px}#chap{display:none}}
 @media print{body *{visibility:hidden}#plan,#plan *{visibility:visible}#plan{position:fixed;left:0;top:0;width:100%;border:none}}
+.t-ctx{background:#7a716a;margin-right:6px}
+.plan label{display:block;font-weight:700;font-size:calc(14px*var(--fs));margin:12px 0 4px}
+.plan textarea{width:100%;box-sizing:border-box;min-height:64px;font:inherit;font-size:calc(15px*var(--fs));line-height:1.4;padding:8px;border:1.5px solid var(--ink);background:#fffdf6;color:#222;resize:vertical}
+.plan .hint{font-size:calc(13px*var(--fs));color:#6b6058;margin:4px 0 0}
+.plan .need{border-color:#b3412e;background:#fff1ec}
 </style></head><body>
 <div id="game">
   <canvas id="cv" aria-label="Game world"></canvas>
@@ -165,7 +170,7 @@ button.wrong{background:#e6c9bd!important;color:#7a2a1a!important;text-decoratio
   <div id="fade"></div>
 </div>
 
-<script>window.__VOICE={"c45889c0":[1,0,129408],"a4be666e":[1,129408,99840],"faefc2a3":[1,229248,53760],"22e7f269":[1,283008,55296],"2c224b8b":[1,338304,35328],"92a2a7aa":[1,373632,11520],"7dccbeb3":[1,385152,26880],"a6aba7fe":[1,412032,94080],"4ec4e846":[1,506112,61056],"44cc950c":[1,567168,114048],"caba6060":[1,681216,63360],"a5e2c275":[1,744576,105984],"3a517550":[1,850560,43008],"57fdc37e":[1,893568,56448],"42f61177":[1,950016,33408],"a3fcd340":[1,983424,87552],"caac1a24":[1,1070976,85248],"f23af125":[1,1156224,70272],"ca57794":[1,1226496,56064],"4e1f999c":[1,1282560,202368],"2d7e9611":[1,1484928,83328],"93d5e4d":[1,1568256,53760],"f28ddcae":[1,1622016,57600],"8f92dfde":[1,1679616,71424],"a36cdbd7":[1,1751040,108288],"8fb7be7d":[1,1859328,84864],"96aa1dd1":[1,1944192,110976],"882296ec":[1,2055168,33408],"71ed77fb":[1,2088576,52224],"66e95695":[1,2140800,105984],"36bd95e0":[1,2246784,115200],"7b6231ec":[1,2361984,36864],"e7416879":[1,2398848,287232],"7f8dfa63":[1,2686080,37248],"cf0cc310":[1,2723328,76032],"ad9d3fa1":[1,2799360,18432],"3ab6e4fd":[1,2817792,251520],"ce495d33":[1,3069312,37248],"dab91f0b":[1,3106560,78336],"ada7939a":[1,3184896,129408],"dfc9ddc9":[1,3314304,44160],"f89b2474":[1,3358464,127488],"670e2fdd":[1,3485952,31104],"c18061a3":[1,3517056,38016],"63073b0d":[1,3555072,71808],"610ac9c4":[1,3626880,52608],"49deaa89":[1,3679488,130176],"c6abce4b":[1,3809664,78336],"2c18e2be":[1,3888000,86400],"4cca78dd":[1,3974400,33408],"b35de30f":[1,4007808,59520],"65be829f":[1,4067328,104448],"e242131":[1,4171776,255360],"3fddcef5":[1,4427136,151680],"1af49901":[1,4578816,147840],"827000f8":[1,4726656,110592],"aab84235":[1,4837248,313344],"301a2167":[1,5150592,119040],"79a4df7e":[1,5269632,28416],"990ff5a2":[1,5298048,120576],"a8b337c2":[1,5418624,165120],"8bc093e3":[1,5583744,104832],"29af1a0b":[1,5688576,71808],"b8fc034":[1,5760384,97920],"8cebbaa1":[2,0,63744],"25ec9e1c":[2,63744,41088],"950efa4c":[2,104832,84480],"f511ebe5":[2,189312,62592],"5fc49a89":[2,251904,104064],"a761ac91":[2,355968,51456],"8ebaf821":[2,407424,80256],"7fd33a81":[2,487680,76032],"804daf33":[2,563712,184704],"98c267dd":[2,748416,14208],"60009939":[2,762624,37632],"e0a1f443":[2,800256,141696],"35e03308":[2,941952,98688],"6a81a44":[2,1040640,67968],"775f545a":[2,1108608,87552],"634f1ace":[2,1196160,102528],"6cefb4e0":[2,1298688,33408],"ea0c10cb":[2,1332096,167040],"7fb1d78d":[2,1499136,70656],"d4e680d1":[2,1569792,33792],"458501f5":[2,1603584,119424],"ce31dff7":[2,1723008,22656],"8a474297":[2,1745664,113280],"f08cee1d":[2,1858944,22656],"286f7cbe":[2,1881600,67968],"ce7fa474":[2,1949568,42240],"4ec25dea":[2,1991808,26496],"f8a952fc":[2,2018304,81792],"56944f63":[2,2100096,132864],"e14e4a96":[2,2232960,94080],"774ee7ba":[2,2327040,64896],"bda30e5":[2,2391936,156672],"863b0e03":[2,2548608,283392],"11e5048e":[2,2832000,64128],"ce3e8a8c":[2,2896128,344064],"f3f5cb93":[2,3240192,279936],"a179d2a3":[2,3520128,61056],"c0c307a0":[2,3581184,325248],"e0f9b0c9":[2,3906432,78336],"719fdc25":[2,3984768,119040],"7e2d16c3":[2,4103808,98688],"e119d2a8":[2,4202496,52608],"e809b882":[2,4255104,14976],"a10c8f2":[2,4270080,91008],"e8683ea5":[2,4361088,44928],"bd65c360":[2,4406016,115584],"ccbe72b2":[2,4521600,43776],"be162147":[2,4565376,64128],"e3f3d810":[2,4629504,79872],"1daf3925":[2,4709376,47232],"60564167":[2,4756608,319872],"ab43f472":[2,5076480,71424],"f2579661":[2,5147904,58752],"e1dff269":[2,5206656,139392],"183417e1":[2,5346048,97920],"63f17ca8":[2,5443968,80640],"5f091c4d":[2,5524608,157056],"3de58392":[2,5681664,56064],"b42b1d3":[2,5737728,44928],"d97f8f79":[2,5782656,175872],"569ebfe6":[3,0,91008],"25cf8908":[3,91008,46848],"f1ba997e":[3,137856,71040],"60ad2edb":[3,208896,128640],"a495b1ea":[3,337536,129792],"14f2cf07":[3,467328,40320],"6c971edd":[3,507648,197760],"ef9fdfe":[3,705408,152064],"9c3f7ca7":[3,857472,328704],"923073ca":[3,1186176,86784],"72610c05":[3,1272960,188928],"b40fd3da":[3,1461888,54528],"bbaf7dbd":[3,1516416,48768],"603f9f63":[3,1565184,205440],"1c144699":[3,1770624,15360],"94f32ef0":[3,1785984,66432],"d121b64":[3,1852416,319488],"9bb8601":[3,2171904,88704],"f3cbe9f4":[3,2260608,144768],"6314d7ff":[3,2405376,51840],"79150071":[3,2457216,62208],"1739aa49":[3,2519424,198144],"c151a7f4":[3,2717568,57216],"f2c5d21b":[3,2774784,50688],"bd579aa1":[3,2825472,25728],"95568624":[3,2851200,86016],"16b155bb":[3,2937216,167040],"455d6583":[3,3104256,80640],"cf3be61a":[3,3184896,15360],"73d7a75e":[3,3200256,91776],"af0ec00e":[3,3292032,88320],"8e611031":[3,3380352,69888],"a06b76b1":[3,3450240,104064],"997df33b":[3,3554304,174720],"13afde7b":[3,3729024,178944],"ae1ac200":[3,3907968,123264],"87e928a":[3,4031232,190080],"d4ed7493":[3,4221312,21888],"11eb290a":[3,4243200,151680],"41c675a":[3,4394880,26496],"a554ce00":[3,4421376,70656],"ce0136f3":[3,4492032,299520],"b6eef85":[3,4791552,97536],"217e310a":[3,4889088,180096],"c11e0ed2":[3,5069184,149376],"fe83e190":[3,5218560,27648],"9f6597a3":[3,5246208,49920],"542c6293":[3,5296128,104448],"dc34d448":[3,5400576,121728],"27a8c5c3":[3,5522304,116352],"b42755f6":[3,5638656,35328],"59c9caf8":[3,5673984,243072],"26065612":[4,0,75648],"3a8a2f3c":[4,75648,30336],"d49fac01":[4,105984,121728],"6bdc2149":[4,227712,61824],"fd19c322":[4,289536,17280],"fd96c4f2":[4,306816,102144],"c575caa2":[4,408960,13824],"bfd7ffb2":[4,422784,156288],"2760f762":[4,579072,155136],"fdfe6d2a":[4,734208,140544],"2da2791d":[4,874752,44160],"25ca6bee":[4,918912,19200],"eacf61c":[4,938112,129024],"fb5a0699":[4,1067136,70656],"f1f8ee2a":[4,1137792,110592],"3e025bf4":[4,1248384,33024],"7c3714ee":[4,1281408,66048],"1614a062":[4,1347456,258432],"60644cbb":[4,1605888,114816],"ee441a7a":[4,1720704,83328],"3982358f":[4,1804032,43776],"278792b5":[4,1847808,175488],"b698fc4d":[4,2023296,114048],"c06ca360":[4,2137344,52224],"9f025a9f":[4,2189568,169728],"20dda265":[4,2359296,140160],"ea8b1de9":[4,2499456,163200],"ad499154":[4,2662656,301056],"8f2ad258":[4,2963712,54144],"bd7ebb73":[4,3017856,83328],"bfb21914":[4,3101184,174720],"aea90121":[4,3275904,43392],"c29f1521":[4,3319296,74496],"7f852f20":[4,3393792,42240],"377153bf":[4,3436032,175872],"6c4ce890":[4,3611904,338304],"a59dea64":[4,3950208,75648],"5d59fb2f":[4,4025856,79872],"7055304e":[4,4105728,30336],"2f845f83":[4,4136064,179328],"894f0a81":[4,4315392,92160],"e5895005":[4,4407552,81792],"880b9812":[4,4489344,208896],"14336603":[4,4698240,26880],"96158986":[4,4725120,19968],"5f9f221d":[4,4745088,100224],"c55ea5c1":[4,4845312,142080],"333caae0":[4,4987392,43776],"cf844bbb":[4,5031168,153984],"5303f230":[4,5185152,96768],"932ea5f9":[4,5281920,17664],"fecdf23d":[4,5299584,23424],"8d70c16a":[4,5323008,117888],"78b2f0b0":[4,5440896,86016],"41b99732":[4,5526912,69888],"e9da21db":[4,5596800,43008],"dac11e91":[4,5639808,175104],"3b88cf09":[4,5814912,113280],"1001077f":[5,0,303360],"4ebf2c3e":[5,303360,240000],"61711314":[5,543360,123264],"d2b52ead":[5,666624,82560],"54c4acae":[5,749184,211968],"a59db408":[5,961152,152448],"8f790927":[5,1113600,91392],"cb8c3d17":[5,1204992,105600],"5bf0c5c0":[5,1310592,94080],"d9c2ce3a":[5,1404672,90624],"f394b5b6":[5,1495296,84096],"5f232783":[5,1579392,19200],"944e30d9":[5,1598592,125568],"d6759c0d":[5,1724160,258432],"63ed23a4":[5,1982592,150528],"2147411d":[5,2133120,127872],"1a3d1976":[5,2260992,130560],"6adfb34c":[5,2391552,20352],"ff39f1b0":[5,2411904,80640],"7c2469e0":[5,2492544,17664],"3f12d7ca":[5,2510208,44928],"77a3f5e2":[5,2555136,124800],"e31055cb":[5,2679936,189696],"7f902a8b":[5,2869632,132096],"1889e7c3":[5,3001728,64896],"29808fd5":[5,3066624,148992],"a7bc6bac":[5,3215616,60288],"d2bd77d8":[5,3275904,271488],"3292e00c":[5,3547392,301824],"97df50d9":[5,3849216,228864],"d0082275":[5,4078080,248832],"b96f9174":[5,4326912,185472],"ab8364d0":[5,4512384,257280],"af9496d5":[5,4769664,320640],"d045e9e6":[5,5090304,40704],"65066345":[5,5131008,326784],"fa6a7d35":[5,5457792,80640],"85e974a8":[5,5538432,59136],"18bcc69a":[5,5597568,105600],"df37982f":[5,5703168,48000],"e1c85d18":[5,5751168,64896],"9a94946":[5,5816064,67968],"61c2daaa":[6,0,43008],"be846784":[6,43008,47616],"86a3aac2":[6,90624,55680],"20b5f844":[6,146304,71808],"e7e87062":[6,218112,110208],"1c837a55":[6,328320,18432],"b4af73b3":[6,346752,45696],"2663048c":[6,392448,79488],"2dd3f75a":[6,471936,58368],"3c4c6253":[6,530304,122496],"27e47cf1":[6,652800,155520],"171a1a5":[6,808320,16896],"2a11ba75":[6,825216,22656],"309fc3f4":[6,847872,142848],"673e6811":[6,990720,36096],"b3a1545b":[6,1026816,124800],"889eb238":[6,1151616,35712],"6108c3c3":[6,1187328,71040],"6f6700c4":[6,1258368,91392],"23d7bac0":[6,1349760,164352],"c1f0f7e2":[6,1514112,84480],"2efa29cb":[6,1598592,87168],"b18fad72":[6,1685760,172416],"c3f403c6":[6,1858176,173952],"4cb8b5af":[6,2032128,68352],"38aa9250":[6,2100480,39936],"ceb1b9ce":[6,2140416,46464],"6ff45f3a":[6,2186880,246528],"4adc2605":[6,2433408,143616],"7bba188e":[6,2577024,98688],"53d538e7":[6,2675712,72960],"ad27d49b":[6,2748672,77952],"5c33d62e":[6,2826624,127872],"bc30e244":[6,2954496,54144],"d289a89a":[6,3008640,140928],"965053a0":[6,3149568,97536],"5dc815a2":[6,3247104,116736],"b219cc2":[6,3363840,71424],"f347ad3c":[6,3435264,22272],"44194461":[6,3457536,266496],"47488cf":[6,3724032,67200],"a667efc":[6,3791232,45696],"ca7e661e":[6,3836928,119808],"6aac4c6d":[6,3956736,56832],"4fee64f":[6,4013568,96000],"20f58f27":[6,4109568,104832],"c5cd2195":[6,4214400,52608],"c9ef3d19":[6,4267008,110208],"d5a534ad":[6,4377216,86784],"a39e2a5d":[6,4464000,107520],"37c2edc4":[6,4571520,61056],"4a1d2366":[6,4632576,67584],"1226a94b":[6,4700160,163200],"e8df20fd":[6,4863360,192000],"a9b8d719":[6,5055360,71040],"7d01a5c9":[6,5126400,99072],"1287ec15":[6,5225472,132096]};window.__VPACKS=6;</script>
+<script>window.__VOICE={"c45889c0":[1,0,129408],"a4be666e":[1,129408,109440],"faefc2a3":[1,238848,53760],"22e7f269":[1,292608,57984],"2c224b8b":[1,350592,37248],"92a2a7aa":[1,387840,13824],"7dccbeb3":[1,401664,25344],"a6aba7fe":[1,427008,94080],"4ec4e846":[1,521088,72192],"44cc950c":[1,593280,129024],"caba6060":[1,722304,72192],"a5e2c275":[1,794496,105984],"3a517550":[1,900480,43776],"57fdc37e":[1,944256,56448],"42f61177":[1,1000704,32640],"a3fcd340":[1,1033344,90624],"caac1a24":[1,1123968,85248],"f23af125":[1,1209216,58368],"ca57794":[1,1267584,53760],"4e1f999c":[1,1321344,202368],"2d7e9611":[1,1523712,83328],"93d5e4d":[1,1607040,53760],"f28ddcae":[1,1660800,75648],"8f92dfde":[1,1736448,71424],"a36cdbd7":[1,1807872,108288],"8fb7be7d":[1,1916160,84864],"96aa1dd1":[1,2001024,110976],"882296ec":[1,2112000,46080],"71ed77fb":[1,2158080,52224],"66e95695":[1,2210304,124416],"36bd95e0":[1,2334720,112128],"7b6231ec":[1,2446848,42240],"e7416879":[1,2489088,307968],"7f8dfa63":[1,2797056,41472],"cf0cc310":[1,2838528,76032],"ad9d3fa1":[1,2914560,19200],"3ab6e4fd":[1,2933760,251520],"ce495d33":[1,3185280,37248],"dab91f0b":[1,3222528,78336],"ada7939a":[1,3300864,129408],"dfc9ddc9":[1,3430272,44928],"f89b2474":[1,3475200,127488],"670e2fdd":[1,3602688,34560],"c18061a3":[1,3637248,38016],"63073b0d":[1,3675264,60288],"610ac9c4":[1,3735552,52608],"49deaa89":[1,3788160,133248],"c6abce4b":[1,3921408,79872],"2c18e2be":[1,4001280,97152],"4cca78dd":[1,4098432,49536],"b35de30f":[1,4147968,89856],"65be829f":[1,4237824,95616],"e242131":[1,4333440,255360],"3fddcef5":[1,4588800,151680],"1af49901":[1,4740480,147840],"827000f8":[1,4888320,110592],"aab84235":[1,4998912,313344],"301a2167":[1,5312256,119040],"79a4df7e":[1,5431296,28416],"990ff5a2":[1,5459712,120576],"a8b337c2":[1,5580288,165120],"8bc093e3":[1,5745408,104832],"29af1a0b":[1,5850240,71808],"b8fc034":[1,5922048,97920],"8cebbaa1":[1,6019968,63744],"25ec9e1c":[1,6083712,41088],"950efa4c":[1,6124800,84480],"f511ebe5":[1,6209280,62592],"5fc49a89":[2,0,104064],"a761ac91":[2,104064,51456],"8ebaf821":[2,155520,84480],"7fd33a81":[2,240000,74112],"804daf33":[2,314112,188544],"98c267dd":[2,502656,15360],"60009939":[2,518016,47616],"e0a1f443":[2,565632,123648],"35e03308":[2,689280,98688],"6a81a44":[2,787968,67968],"775f545a":[2,855936,87552],"634f1ace":[2,943488,86400],"6cefb4e0":[2,1029888,33408],"ea0c10cb":[2,1063296,167040],"7fb1d78d":[2,1230336,64128],"d4e680d1":[2,1294464,33792],"458501f5":[2,1328256,91008],"ce31dff7":[2,1419264,22656],"8a474297":[2,1441920,107136],"f08cee1d":[2,1549056,22656],"286f7cbe":[2,1571712,67968],"ce7fa474":[2,1639680,40704],"4ec25dea":[2,1680384,26496],"f8a952fc":[2,1706880,81792],"56944f63":[2,1788672,171264],"e14e4a96":[2,1959936,100992],"774ee7ba":[2,2060928,64896],"bda30e5":[2,2125824,156672],"863b0e03":[2,2282496,283392],"11e5048e":[2,2565888,64128],"ce3e8a8c":[2,2630016,344064],"f3f5cb93":[2,2974080,279936],"a179d2a3":[2,3254016,61056],"c0c307a0":[2,3315072,325248],"e0f9b0c9":[2,3640320,78336],"719fdc25":[2,3718656,119040],"7e2d16c3":[2,3837696,98688],"e119d2a8":[2,3936384,52608],"e809b882":[2,3988992,14976],"a10c8f2":[2,4003968,91008],"e8683ea5":[2,4094976,44928],"bd65c360":[2,4139904,115584],"ccbe72b2":[2,4255488,43776],"be162147":[2,4299264,64128],"e3f3d810":[2,4363392,79872],"1daf3925":[2,4443264,47232],"f2579661":[2,4490496,52992],"e1dff269":[2,4543488,158208],"183417e1":[2,4701696,95232],"63f17ca8":[2,4796928,80640],"5f091c4d":[2,4877568,166272],"3de58392":[2,5043840,56064],"b42b1d3":[2,5099904,42240],"d97f8f79":[2,5142144,175872],"569ebfe6":[2,5318016,91008],"25cf8908":[2,5409024,76800],"f1ba997e":[2,5485824,71040],"60ad2edb":[2,5556864,101760],"a495b1ea":[2,5658624,129792],"14f2cf07":[2,5788416,40320],"6c971edd":[2,5828736,197760],"ef9fdfe":[2,6026496,152064],"9c3f7ca7":[2,6178560,328704],"923073ca":[3,0,86784],"72610c05":[3,86784,188928],"b40fd3da":[3,275712,54528],"bbaf7dbd":[3,330240,66048],"603f9f63":[3,396288,205440],"1c144699":[3,601728,15360],"94f32ef0":[3,617088,66432],"d121b64":[3,683520,319488],"9bb8601":[3,1003008,88704],"f3cbe9f4":[3,1091712,144768],"6314d7ff":[3,1236480,51840],"79150071":[3,1288320,62208],"1739aa49":[3,1350528,198144],"c151a7f4":[3,1548672,57216],"f2c5d21b":[3,1605888,50688],"bd579aa1":[3,1656576,25728],"95568624":[3,1682304,86016],"16b155bb":[3,1768320,167040],"455d6583":[3,1935360,80640],"cf3be61a":[3,2016000,15360],"73d7a75e":[3,2031360,91776],"af0ec00e":[3,2123136,88320],"8e611031":[3,2211456,69888],"a06b76b1":[3,2281344,104064],"997df33b":[3,2385408,174720],"13afde7b":[3,2560128,178944],"ae1ac200":[3,2739072,123264],"87e928a":[3,2862336,171648],"d4ed7493":[3,3033984,21888],"11eb290a":[3,3055872,151680],"41c675a":[3,3207552,26496],"a554ce00":[3,3234048,70656],"ce0136f3":[3,3304704,299520],"b6eef85":[3,3604224,97536],"217e310a":[3,3701760,180096],"c11e0ed2":[3,3881856,149376],"fe83e190":[3,4031232,26112],"9f6597a3":[3,4057344,49920],"542c6293":[3,4107264,104448],"dc34d448":[3,4211712,121728],"27a8c5c3":[3,4333440,119424],"b42755f6":[3,4452864,35328],"59c9caf8":[3,4488192,222720],"26065612":[3,4710912,102144],"3a8a2f3c":[3,4813056,30336],"d49fac01":[3,4843392,109056],"6bdc2149":[3,4952448,57216],"fd19c322":[3,5009664,17280],"fd96c4f2":[3,5026944,137856],"c575caa2":[3,5164800,13824],"bfd7ffb2":[3,5178624,139008],"2760f762":[3,5317632,155136],"fdfe6d2a":[3,5472768,140544],"2da2791d":[3,5613312,36480],"25ca6bee":[3,5649792,19200],"eacf61c":[3,5668992,153600],"fb5a0699":[3,5822592,87936],"f1f8ee2a":[3,5910528,122112],"3e025bf4":[3,6032640,33024],"7c3714ee":[3,6065664,46080],"1614a062":[3,6111744,258432],"60644cbb":[4,0,114816],"ee441a7a":[4,114816,83328],"3982358f":[4,198144,43776],"278792b5":[4,241920,175488],"b698fc4d":[4,417408,114048],"c06ca360":[4,531456,52224],"9f025a9f":[4,583680,169728],"20dda265":[4,753408,140160],"ea8b1de9":[4,893568,163200],"ad499154":[4,1056768,301056],"8f2ad258":[4,1357824,54144],"bd7ebb73":[4,1411968,83328],"bfb21914":[4,1495296,174720],"aea90121":[4,1670016,46848],"c29f1521":[4,1716864,74496],"7f852f20":[4,1791360,42240],"377153bf":[4,1833600,175872],"a59dea64":[4,2009472,75648],"5d59fb2f":[4,2085120,79872],"7055304e":[4,2164992,30336],"2f845f83":[4,2195328,179328],"894f0a81":[4,2374656,92160],"e5895005":[4,2466816,81792],"880b9812":[4,2548608,208896],"14336603":[4,2757504,26880],"96158986":[4,2784384,19968],"5f9f221d":[4,2804352,100224],"c55ea5c1":[4,2904576,142080],"333caae0":[4,3046656,43776],"cf844bbb":[4,3090432,153984],"5303f230":[4,3244416,96768],"932ea5f9":[4,3341184,17664],"fecdf23d":[4,3358848,23424],"8d70c16a":[4,3382272,117888],"78b2f0b0":[4,3500160,86016],"41b99732":[4,3586176,69888],"e9da21db":[4,3656064,43008],"dac11e91":[4,3699072,175104],"3b88cf09":[4,3874176,113280],"1001077f":[4,3987456,303360],"4ebf2c3e":[4,4290816,240000],"61711314":[4,4530816,123264],"d2b52ead":[4,4654080,82560],"54c4acae":[4,4736640,211968],"a59db408":[4,4948608,152448],"8f790927":[4,5101056,95616],"cb8c3d17":[4,5196672,105600],"5bf0c5c0":[4,5302272,94080],"d9c2ce3a":[4,5396352,90624],"f394b5b6":[4,5486976,84096],"5f232783":[4,5571072,19200],"944e30d9":[4,5590272,125568],"d6759c0d":[4,5715840,258432],"63ed23a4":[4,5974272,150528],"2147411d":[4,6124800,112896],"1a3d1976":[4,6237696,130560],"6adfb34c":[5,0,20352],"ff39f1b0":[5,20352,86784],"7c2469e0":[5,107136,17664],"3f12d7ca":[5,124800,36864],"77a3f5e2":[5,161664,124800],"e31055cb":[5,286464,189696],"7f902a8b":[5,476160,132096],"1889e7c3":[5,608256,64896],"29808fd5":[5,673152,148992],"a7bc6bac":[5,822144,60288],"d2bd77d8":[5,882432,271488],"3292e00c":[5,1153920,301824],"97df50d9":[5,1455744,228864],"d0082275":[5,1684608,248832],"b96f9174":[5,1933440,185472],"ab8364d0":[5,2118912,257280],"af9496d5":[5,2376192,320640],"d045e9e6":[5,2696832,40704],"65066345":[5,2737536,326784],"fa6a7d35":[5,3064320,77568],"85e974a8":[5,3141888,98688],"18bcc69a":[5,3240576,105600],"df37982f":[5,3346176,48000],"e1c85d18":[5,3394176,64896],"9a94946":[5,3459072,72960],"61c2daaa":[5,3532032,43008],"be846784":[5,3575040,47616],"86a3aac2":[5,3622656,55680],"20b5f844":[5,3678336,71808],"e7e87062":[5,3750144,110208],"1c837a55":[5,3860352,25728],"b4af73b3":[5,3886080,44928],"2663048c":[5,3931008,79488],"2dd3f75a":[5,4010496,58368],"3c4c6253":[5,4068864,122496],"27e47cf1":[5,4191360,155520],"171a1a5":[5,4346880,16896],"2a11ba75":[5,4363776,22656],"309fc3f4":[5,4386432,142848],"673e6811":[5,4529280,36096],"b3a1545b":[5,4565376,145920],"889eb238":[5,4711296,35712],"6108c3c3":[5,4747008,57984],"6f6700c4":[5,4804992,91392],"23d7bac0":[5,4896384,164352],"c1f0f7e2":[5,5060736,84480],"2efa29cb":[5,5145216,87168],"b18fad72":[5,5232384,172416],"c3f403c6":[5,5404800,173952],"4cb8b5af":[5,5578752,68352],"38aa9250":[5,5647104,39936],"ceb1b9ce":[5,5687040,46464],"6ff45f3a":[5,5733504,246528],"4adc2605":[5,5980032,143616],"7bba188e":[5,6123648,96384],"53d538e7":[5,6220032,72960],"ad27d49b":[6,0,77952],"5c33d62e":[6,77952,127872],"bc30e244":[6,205824,54144],"d289a89a":[6,259968,140928],"965053a0":[6,400896,97536],"5dc815a2":[6,498432,116736],"b219cc2":[6,615168,71424],"f347ad3c":[6,686592,22272],"44194461":[6,708864,266496],"47488cf":[6,975360,67200],"a667efc":[6,1042560,61440],"ca7e661e":[6,1104000,126336],"6aac4c6d":[6,1230336,61824],"4fee64f":[6,1292160,96000],"20f58f27":[6,1388160,104832],"c5cd2195":[6,1492992,52608],"c9ef3d19":[6,1545600,110208],"d5a534ad":[6,1655808,86784],"a39e2a5d":[6,1742592,107520],"37c2edc4":[6,1850112,61056],"4a1d2366":[6,1911168,67584],"1226a94b":[6,1978752,163200],"e8df20fd":[6,2141952,192000],"a9b8d719":[6,2333952,71040],"7d01a5c9":[6,2404992,99072],"1287ec15":[6,2504064,132096],"a76dd0b4":[6,2636160,87168],"75028400":[6,2723328,137472],"1abc967":[6,2860800,290688],"6ae91c90":[6,3151488,170880],"86edabca":[6,3322368,76800],"af7a3ce9":[6,3399168,297600],"9354066b":[6,3696768,70272],"3eb9ee04":[6,3767040,271488],"c5cbd1f1":[6,4038528,90240],"9678656":[6,4128768,220800],"1c0a33ff":[6,4349568,192768],"30ebf9fd":[6,4542336,99456],"8a058733":[6,4641792,225408],"da848f1a":[6,4867200,210048],"d639201b":[6,5077248,90240],"36450d09":[6,5167488,175488],"2c1e87d0":[6,5342976,282240]};window.__VPACKS=6;</script>
 <script>
 (function(){
 /* ================= ART: woodblock-style vector drawing ================= */
@@ -276,50 +281,96 @@ function drawWeapon(ctx,w,dir,st,side,back){
 }
 
 /* ---------- Portraits (dialogue) ---------- */
+// (8 Nov, Cordel: the dialogue cards "all look alike, it's hard to tell who is a girl or boy or old or young")
+// s.yrs = age in years when the spec gives it; else small = teen and age 0-3 = about 30, 42, 55, 68.
+// Men: square jaw, heavy brows, broad shoulders. Women: oval face, arched brows, lashes, red lips, blush, shimada hair
+// and a coloured under-collar. Children: big round head, big eyes, narrow shoulders. Age adds lines, grey and droop.
 function portrait(ctx,s,W,H){
   ctx.save();ctx.clearRect(0,0,W,H);
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#e9dcc0');g.addColorStop(1,'#d6c39c');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   ctx.fillStyle='rgba(195,65,43,.16)';ell(ctx,W*0.5,H*0.42,W*0.42,W*0.42);ctx.fill();
   ctx.translate(W/2,H*0.62);const k=W/60;ctx.scale(k,k);
+  const fem=!!s.fem,y=s.yrs!=null?s.yrs:s.small?14:[30,42,55,68][s.age||0];
+  const kid=y<12,teen=y>=12&&y<18,man=!fem&&!kid&&!teen,mid=y>=40,old=y>=50,elder=y>=63;
   const sk=s.skin||P.skin,body=s.coat==='police'?'#1f2433':s.coat==='army'?'#2c3a2e':s.coat==='west'?(s.coatC||'#3a2f2a'):s.kim;
-  // shoulders
-  ctx.beginPath();ctx.moveTo(-26,30);ctx.quadraticCurveTo(-24,6,-9,2);ctx.lineTo(9,2);ctx.quadraticCurveTo(24,6,26,30);ctx.closePath();inkFill(ctx,body,1.2);
-  if(!s.coat){ctx.fillStyle='#efe9dc';ctx.beginPath();ctx.moveTo(-7,2);ctx.lineTo(0,16);ctx.lineTo(7,2);ctx.lineTo(4,2);ctx.lineTo(0,10);ctx.lineTo(-4,2);ctx.fill();ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-7,2);ctx.lineTo(1,18);ctx.moveTo(7,2);ctx.lineTo(-1,18);ctx.stroke();}
-  else{ctx.fillStyle='#e9e3d6';ctx.beginPath();ctx.moveTo(-4,2);ctx.lineTo(0,10);ctx.lineTo(4,2);ctx.fill();if(s.coat!=='west'){ctx.fillStyle=P.gold;for(let i=0;i<3;i++){ell(ctx,0,14+i*6,1.2,1.2);ctx.fill();}}else{ctx.fillStyle='#5a1f1a';ctx.beginPath();ctx.moveTo(-2,4);ctx.lineTo(2,4);ctx.lineTo(1,12);ctx.lineTo(-1,12);ctx.fill();}}
+  // shoulders: broad for men, narrow and sloping for women, small for children; old people stoop a little
+  const sw=kid?18:teen?(fem?20:22):fem?22:28,sy=kid?7:teen?3:0,sl=elder?5:0;
+  ctx.beginPath();ctx.moveTo(-sw-1,32);ctx.quadraticCurveTo(-sw+1,7+sy+sl,-8,2+sy);ctx.lineTo(8,2+sy);ctx.quadraticCurveTo(sw-1,7+sy+sl,sw+1,32);ctx.closePath();inkFill(ctx,body,1.2);
+  if(!s.coat){const c0=2+sy;
+    if(fem){ctx.fillStyle=s.eri||'#b8473a';ctx.beginPath();ctx.moveTo(-8,c0);ctx.lineTo(0,c0+15);ctx.lineTo(8,c0);ctx.lineTo(5.5,c0);ctx.lineTo(0,c0+10);ctx.lineTo(-5.5,c0);ctx.fill();}
+    ctx.fillStyle='#efe9dc';ctx.beginPath();ctx.moveTo(-6,c0);ctx.lineTo(0,c0+(fem?11:14));ctx.lineTo(6,c0);ctx.lineTo(3.5,c0);ctx.lineTo(0,c0+8);ctx.lineTo(-3.5,c0);ctx.fill();
+    ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-8,c0);ctx.lineTo(1,c0+17);ctx.moveTo(8,c0);ctx.lineTo(-1,c0+17);ctx.stroke();}
+  else{const c0=2+sy;ctx.fillStyle='#e9e3d6';ctx.beginPath();ctx.moveTo(-4,c0);ctx.lineTo(0,c0+8);ctx.lineTo(4,c0);ctx.fill();if(s.coat!=='west'){ctx.fillStyle=P.gold;for(let i=0;i<3;i++){ell(ctx,0,c0+12+i*6,1.2,1.2);ctx.fill();}}else{ctx.fillStyle='#5a1f1a';ctx.beginPath();ctx.moveTo(-2,c0+2);ctx.lineTo(2,c0+2);ctx.lineTo(1,c0+10);ctx.lineTo(-1,c0+10);ctx.fill();}}
   if(s.mon&&!s.coat){ctx.fillStyle='#efe9dc';ell(ctx,-15,12,2.6,2.6);ctx.fill();ell(ctx,15,12,2.6,2.6);ctx.fill();}
-  // neck & head
-  ctx.fillStyle=sk;ctx.fillRect(-4,-4,8,8);ctx.strokeStyle=P.ink;ctx.lineWidth=1.1;
-  ctx.beginPath();ctx.moveTo(-10,-16);ctx.quadraticCurveTo(-11,-2,-4,3);ctx.quadraticCurveTo(0,5,4,3);ctx.quadraticCurveTo(11,-2,10,-16);ctx.quadraticCurveTo(10,-30,0,-30);ctx.quadraticCurveTo(-10,-30,-10,-16);ctx.fill();ctx.stroke();
-  // ears
-  ell(ctx,-10.4,-13,1.8,3.2);ctx.fill();ctx.stroke();ell(ctx,10.4,-13,1.8,3.2);ctx.fill();ctx.stroke();
+  // head: children's heads are bigger for their bodies
+  const hs=kid?1.14:teen?1.08:1;ctx.save();ctx.translate(0,sy);ctx.scale(hs,hs);
+  const nw=fem||kid?5.4:man?8.4:7;ctx.fillStyle=sk;ctx.fillRect(-nw/2,-4,nw,8);
+  if(man&&!s.coat){ctx.strokeStyle='rgba(110,60,40,.4)';ctx.lineWidth=0.7;ctx.beginPath();ctx.moveTo(-0.8,1.5);ctx.quadraticCurveTo(0,0.6,0.8,1.5);ctx.stroke();}
+  ctx.strokeStyle=P.ink;ctx.lineWidth=1.1;ctx.fillStyle=sk;ctx.beginPath();
+  if(kid){ctx.moveTo(-11,-15);ctx.quadraticCurveTo(-11.6,0,0,3);ctx.quadraticCurveTo(11.6,0,11,-15);ctx.quadraticCurveTo(11,-30.5,0,-30.5);ctx.quadraticCurveTo(-11,-30.5,-11,-15);}
+  else if(fem){ctx.moveTo(-9.6,-16);ctx.quadraticCurveTo(-10,-4,-3.4,2.4);ctx.quadraticCurveTo(0,5,3.4,2.4);ctx.quadraticCurveTo(10,-4,9.6,-16);ctx.quadraticCurveTo(9.6,-30,0,-30);ctx.quadraticCurveTo(-9.6,-30,-9.6,-16);}
+  else if(teen){ctx.moveTo(-10,-16);ctx.quadraticCurveTo(-10.6,-3,-4,2.8);ctx.quadraticCurveTo(0,5,4,2.8);ctx.quadraticCurveTo(10.6,-3,10,-16);ctx.quadraticCurveTo(10,-30,0,-30);ctx.quadraticCurveTo(-10,-30,-10,-16);}
+  else{ctx.moveTo(-10.8,-16);ctx.quadraticCurveTo(-11.6,-4,-7,1.4);ctx.lineTo(-3.6,4.4);ctx.quadraticCurveTo(0,5.8,3.6,4.4);ctx.lineTo(7,1.4);ctx.quadraticCurveTo(11.6,-4,10.8,-16);ctx.quadraticCurveTo(10.8,-30.5,0,-30.5);ctx.quadraticCurveTo(-10.8,-30.5,-10.8,-16);}
+  ctx.fill();ctx.stroke();
+  ell(ctx,-10.6,-13,1.8,3.2);ctx.fill();ctx.stroke();ell(ctx,10.6,-13,1.8,3.2);ctx.fill();ctx.stroke();
   // hair
-  const hc=s.age>=3?'#c4beb2':s.age>=2?'#77716a':(s.hairC||'#17120e');ctx.fillStyle=hc;
-  if(s.hair==='top'){ctx.beginPath();ctx.moveTo(-10.5,-12);ctx.quadraticCurveTo(-12,-22,-8,-25);ctx.lineTo(-7,-17);ctx.lineTo(-9,-11);ctx.fill();ctx.beginPath();ctx.moveTo(10.5,-12);ctx.quadraticCurveTo(12,-22,8,-25);ctx.lineTo(7,-17);ctx.lineTo(9,-11);ctx.fill();
+  const hc=y>=63?'#d2cdc2':y>=52?'#8f8980':s.age>=2?'#77716a':(s.hairC||'#17120e');ctx.fillStyle=hc;ctx.strokeStyle=P.ink;
+  if(s.hair==='top'){ctx.beginPath();ctx.moveTo(-10.8,-12);ctx.quadraticCurveTo(-12,-22,-8,-25);ctx.lineTo(-7,-17);ctx.lineTo(-9,-11);ctx.fill();ctx.beginPath();ctx.moveTo(10.8,-12);ctx.quadraticCurveTo(12,-22,8,-25);ctx.lineTo(7,-17);ctx.lineTo(9,-11);ctx.fill();
     ctx.fillStyle='rgba(80,60,50,.18)';ctx.beginPath();ctx.ellipse(0,-25,8,5,0,Math.PI,Math.PI*2);ctx.fill();ctx.fillStyle=hc;ctx.save();ctx.translate(0,-30);ctx.rotate(-0.15);rr(ctx,-2,-9,4,11,1.5);ctx.fill();ctx.restore();}
-  else if(s.hair==='bun'){ctx.beginPath();ctx.moveTo(-11,-8);ctx.quadraticCurveTo(-14,-30,0,-32);ctx.quadraticCurveTo(14,-30,11,-8);ctx.quadraticCurveTo(9,-22,0,-24);ctx.quadraticCurveTo(-9,-22,-11,-8);ctx.fill();
-    ell(ctx,0,-36,9,5.5);ctx.fill();ctx.stroke();ctx.fillStyle=s.pin||P.verm;ctx.fillRect(-13,-37,26,1.6);ell(ctx,13,-36.2,1.6,1.6);ctx.fill();}
-  else if(s.hair==='child'){ctx.beginPath();ctx.moveTo(-10.5,-14);ctx.quadraticCurveTo(-11,-31,0,-31);ctx.quadraticCurveTo(11,-31,10.5,-14);ctx.quadraticCurveTo(6,-24,0,-23);ctx.quadraticCurveTo(-6,-24,-10.5,-14);ctx.fill();}
-  else if(s.hair==='short'||s.hair==='west'){ctx.beginPath();ctx.moveTo(-10.5,-13);ctx.quadraticCurveTo(-12,-31,0,-31.5);ctx.quadraticCurveTo(12,-31,10.5,-13);ctx.quadraticCurveTo(9,-22,s.hair==='west'?-2:0,-25);ctx.quadraticCurveTo(-8,-23,-10.5,-13);ctx.fill();}
+  else if(s.hair==='bun'){ // shimada: puffed side wings over the ears, a high knot, a pin; smaller and flatter for old women
+    const big=!elder;ctx.beginPath();ctx.moveTo(-10,-6);ctx.quadraticCurveTo(-15,-31,0,-32.5);ctx.quadraticCurveTo(15,-31,10,-6);ctx.quadraticCurveTo(8.6,-22,0,-24.5);ctx.quadraticCurveTo(-8.6,-22,-10,-6);ctx.fill();ctx.stroke();
+    if(big){ell(ctx,-11.4,-15,3.6,7.6);ctx.fill();ctx.stroke();ell(ctx,11.4,-15,3.6,7.6);ctx.fill();ctx.stroke();}
+    ell(ctx,0,-36,big?10:7,big?6:4.2);ctx.fill();ctx.stroke();if(big){ctx.fillStyle=s.pin||P.verm;rr(ctx,-2.2,-41.6,4.4,11,1.2);ctx.fill();ctx.fillStyle=hc;ell(ctx,0,-36,3,3);ctx.fill();}
+    ctx.fillStyle=s.pin||P.verm;ctx.fillRect(-14,-37.2,28,1.6);ell(ctx,14,-36.4,1.8,1.8);ctx.fill();
+    if(big&&y<40){ctx.fillStyle='#e4b04a';ell(ctx,-14,-36.4,1.4,1.4);ctx.fill();}}
+  else if(s.hair==='child'){ctx.beginPath();ctx.moveTo(-11,-14);ctx.quadraticCurveTo(-11.6,-32,0,-32);ctx.quadraticCurveTo(11.6,-32,11,-14);
+    if(fem){ctx.lineTo(11.4,-3);ctx.lineTo(8.4,-3);ctx.lineTo(8.4,-19);ctx.quadraticCurveTo(4,-21,0,-21);ctx.quadraticCurveTo(-4,-21,-8.4,-19);ctx.lineTo(-8.4,-3);ctx.lineTo(-11.4,-3);ctx.closePath();}
+    else{ctx.quadraticCurveTo(6,-21.5,0,-21);ctx.quadraticCurveTo(-6,-21.5,-11,-14);}ctx.fill();}
+  else if(s.hair==='short'||s.hair==='west'){const r=old?-27:-25;ctx.beginPath();ctx.moveTo(-10.8,-13);ctx.quadraticCurveTo(-12,-31,0,-31.5);ctx.quadraticCurveTo(12,-31,10.8,-13);ctx.quadraticCurveTo(9,-22,s.hair==='west'?-2:0,r);ctx.quadraticCurveTo(-8,-23,-10.8,-13);ctx.fill();}
   else if(s.hair==='shaved'){ctx.fillStyle='rgba(70,60,55,.3)';ctx.beginPath();ctx.ellipse(0,-22,10,8.5,0,Math.PI,Math.PI*2);ctx.fill();}
   // face
-  ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.fillStyle=P.ink;
-  const m=s.mood||0;
-  ctx.beginPath();ctx.moveTo(-7.5,-17.5+(m<0?0.8:0));ctx.quadraticCurveTo(-5,-19,-2.2,-17.4-(m<0?0.8:0));ctx.moveTo(7.5,-17.5+(m<0?0.8:0));ctx.quadraticCurveTo(5,-19,2.2,-17.4-(m<0?0.8:0));ctx.lineWidth=s.fem?0.8:1.5;ctx.stroke();
-  ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-7,-13.5);ctx.quadraticCurveTo(-4.8,-15.2,-2.6,-13.6);ctx.moveTo(7,-13.5);ctx.quadraticCurveTo(4.8,-15.2,2.6,-13.6);ctx.stroke();
-  ell(ctx,-4.8,-13.4,1.1,1);ctx.fill();ell(ctx,4.8,-13.4,1.1,1);ctx.fill();
-  ctx.strokeStyle='rgba(110,60,40,.7)';ctx.beginPath();ctx.moveTo(0.4,-12);ctx.quadraticCurveTo(1.4,-7,0,-6.4);ctx.lineTo(-1.6,-6.8);ctx.stroke();
-  ctx.strokeStyle=s.fem?'#9a3b2e':P.ink;ctx.lineWidth=s.fem?1.3:1;ctx.beginPath();ctx.moveTo(-3,-2.4);ctx.quadraticCurveTo(0,-2.4+m*1.2,3,-2.4);ctx.stroke();
-  if(s.age>=1){ctx.strokeStyle='rgba(110,60,40,.35)';ctx.lineWidth=0.7;ctx.beginPath();ctx.moveTo(-4.5,-6);ctx.quadraticCurveTo(-5,-3.5,-4,-1.5);ctx.moveTo(4.5,-6);ctx.quadraticCurveTo(5,-3.5,4,-1.5);ctx.stroke();}
-  if(s.age>=2){ctx.beginPath();ctx.moveTo(-6,-21.5);ctx.lineTo(-2,-21.8);ctx.moveTo(2,-21.8);ctx.lineTo(6,-21.5);ctx.stroke();}
+  const m=s.mood||0,ey=kid?-12:-13.4,ex=kid?4.6:4.8;
+  if(fem||kid){ctx.fillStyle=kid?'rgba(225,110,95,.28)':'rgba(215,95,90,.26)';ell(ctx,-6.4,-7.2,2.6,1.6);ctx.fill();ell(ctx,6.4,-7.2,2.6,1.6);ctx.fill();}
+  // brows: heavy and straight for men (grey and bushy when old), thin and arched for women, soft and high for children
+  const by=fem?-18.6:kid?-17.6:-17.4;ctx.strokeStyle=old&&!fem?(hc==='#d2cdc2'?'#9a948a':'#5f5a54'):P.ink;ctx.lineCap='round';ctx.beginPath();
+  if(fem){ctx.moveTo(-7.6,by+1);ctx.quadraticCurveTo(-5,by-1.6,-2.4,by+0.4);ctx.moveTo(7.6,by+1);ctx.quadraticCurveTo(5,by-1.6,2.4,by+0.4);ctx.lineWidth=0.7;}
+  else if(kid||teen){ctx.moveTo(-7,by);ctx.quadraticCurveTo(-4.8,by-1.2,-2.6,by);ctx.moveTo(7,by);ctx.quadraticCurveTo(4.8,by-1.2,2.6,by);ctx.lineWidth=kid?0.9:1.3;}
+  else{const d=m<0?1:0.5;ctx.moveTo(-8,by-0.4);ctx.lineTo(-2.2,by+d);ctx.moveTo(8,by-0.4);ctx.lineTo(2.2,by+d);ctx.lineWidth=old?2.4:2;}
+  ctx.stroke();ctx.lineCap='butt';
+  // eyes
+  ctx.strokeStyle=P.ink;ctx.fillStyle=P.ink;
+  if(kid||(teen&&!fem)){const z=kid?1:0.8;[-1,1].forEach(sd=>{ctx.fillStyle='#fff';ell(ctx,sd*ex,ey,2.3*z+0.2,1.9*z);ctx.fill();ctx.fillStyle=P.ink;ell(ctx,sd*ex,ey+0.1,1.6*z,1.7*z);ctx.fill();ctx.fillStyle='#fff';ell(ctx,sd*ex+0.6,ey-0.6,0.5,0.5);ctx.fill();
+    ctx.lineWidth=kid?0.9:1.1;ctx.beginPath();ctx.moveTo(sd*(ex+2.4),ey-0.4);ctx.quadraticCurveTo(sd*ex,ey-2.6*z,sd*(ex-2.4),ey-0.4);ctx.stroke();});}
+  else if(fem){[-1,1].forEach(sd=>{ctx.fillStyle='#fff';ell(ctx,sd*ex,ey,2.2,1.2);ctx.fill();ctx.fillStyle=P.ink;ell(ctx,sd*ex,ey+0.1,1.15,1.15);ctx.fill();
+    ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(sd*(ex-2.4),ey-0.2);ctx.quadraticCurveTo(sd*ex,ey-1.9,sd*(ex+2.5),ey-0.5);ctx.lineTo(sd*(ex+3.3),ey-1.4);ctx.stroke();
+    if(old){ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(sd*(ex-1.6),ey+1.8);ctx.quadraticCurveTo(sd*ex,ey+2.6,sd*(ex+1.8),ey+1.6);ctx.stroke();}});}
+  else{[-1,1].forEach(sd=>{ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(sd*(ex+2.4),ey-0.1);ctx.quadraticCurveTo(sd*ex,ey-(elder?1.0:1.6),sd*(ex-2.3),ey-0.1);ctx.stroke();
+    ell(ctx,sd*ex,ey+(elder?0.4:0.1),1.1,elder?0.7:0.95);ctx.fill();
+    if(old){ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(sd*(ex-1.8),ey+1.9);ctx.quadraticCurveTo(sd*ex,ey+2.8,sd*(ex+2),ey+1.7);ctx.stroke();}});}
+  // nose
+  ctx.strokeStyle='rgba(110,60,40,.7)';ctx.lineWidth=1;ctx.beginPath();
+  if(kid){ctx.moveTo(-0.8,-7.8);ctx.quadraticCurveTo(0,-7,0.8,-7.8);}else{ctx.moveTo(0.4,fem?-11:-12);ctx.quadraticCurveTo(1.4,-7,0,-6.4);ctx.lineTo(fem?-1.2:-1.8,-6.8);}ctx.stroke();
+  // mouth: red lips for women, small for children, a firm line for men; corners turn down with age
+  const my=kid?-3.4:-2.4;
+  if(fem){ctx.fillStyle='#b5403a';ctx.beginPath();ctx.moveTo(-2.4,my);ctx.quadraticCurveTo(-1,my-1.1+m*0.4,0,my-0.5);ctx.quadraticCurveTo(1,my-1.1+m*0.4,2.4,my);ctx.quadraticCurveTo(0,my+1.6+m*0.6,-2.4,my);ctx.fill();}
+  else{ctx.strokeStyle=kid||teen?'#a5524a':P.ink;ctx.lineWidth=kid?1:1.1;const w=kid?2:teen?2.6:3.2,dn=elder?0.9:0;ctx.beginPath();ctx.moveTo(-w,my+dn);ctx.quadraticCurveTo(0,my-dn+m*1.2,w,my+dn);ctx.stroke();}
+  // age lines
+  ctx.strokeStyle='rgba(110,60,40,.38)';ctx.lineWidth=0.7;ctx.beginPath();
+  if(mid&&!kid){ctx.moveTo(-4.6,-6.2);ctx.quadraticCurveTo(-5.2,-3.6,-4,-1.4);ctx.moveTo(4.6,-6.2);ctx.quadraticCurveTo(5.2,-3.6,4,-1.4);}
+  if(old){ctx.moveTo(-6,-22);ctx.quadraticCurveTo(0,-23,6,-22);ctx.moveTo(-8.4,-13.6);ctx.lineTo(-10,-14.6);ctx.moveTo(-8.4,-12.6);ctx.lineTo(-10,-12.2);ctx.moveTo(8.4,-13.6);ctx.lineTo(10,-14.6);ctx.moveTo(8.4,-12.6);ctx.lineTo(10,-12.2);}
+  if(elder){ctx.moveTo(-5,-23.8);ctx.quadraticCurveTo(0,-24.6,5,-23.8);ctx.moveTo(-8,-6);ctx.quadraticCurveTo(-7.4,-3,-6.6,-0.4);ctx.moveTo(8,-6);ctx.quadraticCurveTo(7.4,-3,6.6,-0.4);ctx.moveTo(-3.6,1.4);ctx.quadraticCurveTo(0,2.6,3.6,1.4);}
+  ctx.stroke();
+  if(man&&s.rough){ctx.fillStyle='rgba(60,50,40,.16)';ctx.beginPath();ctx.moveTo(-9.6,-6);ctx.quadraticCurveTo(-9,1,-3.6,4.4);ctx.quadraticCurveTo(0,5.8,3.6,4.4);ctx.quadraticCurveTo(9,1,9.6,-6);ctx.quadraticCurveTo(6,-1,3.2,-1);ctx.quadraticCurveTo(0,-0.2,-3.2,-1);ctx.quadraticCurveTo(-6,-1,-9.6,-6);ctx.fill();}
   if(s.must){ctx.fillStyle=hc;ctx.beginPath();ctx.moveTo(-5,-3.6);ctx.quadraticCurveTo(0,-6,5,-3.6);ctx.lineTo(5.6,-2.6);ctx.quadraticCurveTo(0,-4.3,-5.6,-2.6);ctx.fill();}
   if(s.beard){ctx.fillStyle=hc;ctx.beginPath();ctx.moveTo(-6,-1);ctx.quadraticCurveTo(0,6,6,-1);ctx.lineTo(4,3);ctx.quadraticCurveTo(0,7,-4,3);ctx.fill();}
   // hat
+  ctx.strokeStyle=P.ink;ctx.lineWidth=1;
   if(s.hat==='kepi'){ctx.fillStyle='#1b1f2b';ctx.beginPath();ctx.moveTo(-11,-24);ctx.lineTo(-10,-37);ctx.lineTo(10,-37);ctx.lineTo(11,-24);ctx.closePath();ctx.fill();ctx.fillStyle='#0d0f15';ctx.beginPath();ctx.ellipse(0,-23.5,12,3,0,0,Math.PI);ctx.fill();ctx.fillStyle=P.gold;ctx.fillRect(-2,-34,4,4);ctx.fillStyle='#b8a26a';ctx.fillRect(-10.6,-27,21.2,1.6);}
   else if(s.hat==='bowler'){ctx.fillStyle='#211c19';ell(ctx,0,-26,16,3);ctx.fill();ctx.beginPath();ctx.ellipse(0,-28,10,9,0,Math.PI,Math.PI*2);ctx.fill();}
   else if(s.hat==='hachimaki'){ctx.fillStyle='#f4efe4';ctx.fillRect(-11,-25,22,3.6);ctx.strokeRect(-11,-25,22,3.6);}
   else if(s.hat==='tenugui'){ctx.fillStyle='#e9e1cf';ctx.beginPath();ctx.ellipse(0,-23,11.6,9,0,Math.PI,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#5a7ca0';ctx.fillRect(-11,-24.5,22,1.6);}
   else if(s.hat==='straw'||s.hat==='jingasa'){ctx.fillStyle=s.hat==='straw'?'#cdb071':'#2a2522';ctx.beginPath();ctx.moveTo(-24,-22);ctx.quadraticCurveTo(0,-44,24,-22);ctx.quadraticCurveTo(0,-26,-24,-22);ctx.fill();ctx.stroke();}
-  ctx.restore();grain(ctx,W,H,0.6);
+  ctx.restore();ctx.restore();grain(ctx,W,H,0.6);
 }
 
 /* ---------- Scenery ---------- */
@@ -953,15 +1004,18 @@ async function card(o){setMode('card');const c=$('card');c.hidden=false;$('fade'
 
 /* ---------- Case book & tagging ---------- */
 const TAGS={S:'Social',P:'Political',E:'Economic'};
+// notes about Japan before 1868: still sorted, but filed as context, and not offered as evidence of the Restoration's effects
+const CONTEXT=new Set(['The closed country','Prices and trade','The unequal treaties']);
 async function caseNote(title,text,tag,why){const n={title,text,tag,ch:G.ch,year:G.year};G.book.push(n);setMode('tag');sfx('stamp');
   const o=$('tag');o.hidden=false;$('tag-title').textContent=title;$('tag-text').textContent=text;$('tag-msg').textContent='';
   speak('Case book. '+title+'. '+text+' Which kind of change is this?',null);
   let tries=0;await new Promise(res=>{o.querySelectorAll('[data-tag]').forEach(b=>{b.disabled=false;b.classList.remove('wrong','right');b.onclick=()=>{tries++;if(b.dataset.tag===tag){b.classList.add('right');sfx('good');if(tries===1)G.tagScore[0]++;G.tagScore[1]++;n.got=tries===1;$('tag-msg').textContent=why||'Filed.';speak(why||'Filed.',null);setTimeout(res,why?2600:900);o.querySelectorAll('[data-tag]').forEach(x=>x.disabled=true);}
     else{b.classList.add('wrong');b.disabled=true;sfx('bad');const h=tag==='E'?'Think about money, trade, jobs or industry.':tag==='P'?'Think about government, laws, power or who rules.':'Think about how people live, dress, learn, or what class they belong to.';$('tag-msg').textContent='Not quite. '+h;speak('Not quite. '+h,null);}};});});
-  o.hidden=true;setMode('play');save();toast('Added to your case book (press B or tap Case book)',2600);}
+  o.hidden=true;setMode('play');save();
+  toast(CONTEXT.has(title)?'Filed as context: this is from before 1868. Use it to set the scene, not as evidence of the Restoration\'s effects.':'Added to your case book (press B or tap Case book)',CONTEXT.has(title)?5200:2600);}
 function openBook(){if(G.mode!=='play')return;setMode('book');const o=$('book');o.hidden=false;const l=$('book-list');l.innerHTML='';
   if(!G.book.length)l.innerHTML='<p class="empty">No entries yet. Cases you solve are filed here.</p>';
-  G.book.forEach(n=>{const d=document.createElement('div');d.className='entry';d.innerHTML=`<b>${n.year||''} · ${n.title}</b><span class="tg t-${n.tag}">${TAGS[n.tag]}</span><p>${n.text}</p>`;l.appendChild(d);});
+  G.book.forEach(n=>{const d=document.createElement('div');d.className='entry';d.innerHTML=`<b>${n.year||''} · ${n.title}</b><span class="tg t-${n.tag}">${TAGS[n.tag]}</span>${CONTEXT.has(n.title)?'<span class="tg t-ctx">Context · before 1868</span>':''}<p>${n.text}</p>`;l.appendChild(d);});
   $('book-close').onclick=()=>{o.hidden=true;setMode('play');};}
 $('btn-book').onclick=()=>openBook();
 
@@ -1100,23 +1154,23 @@ function passMap(){ // the mountain road west of town, night
 const F=()=>G.flags;
 const CAST={
   juro:{name:'Jūrō',voice:'juro',spec:()=>{const c=G.ch,cut=F().topknot==='cut';
-    if(c<=1)return {kim:'#5a7ca0',obi:'#2b2b2b',hair:'top',small:true,wpn:G.player&&G.player.wpn};
+    if(c<=1)return {kim:'#5a7ca0',obi:'#2b2b2b',hair:'top',small:true,yrs:14,wpn:G.player&&G.player.wpn};
     if(c===2)return {kim:'#3b4a5e',obi:'#c9a04a',hak:'#5c5248',hair:'top',wpn:'sword'};
     if(c<=4)return {coat:'police',hat:'kepi',hair:cut?'short':'top',wpn:c===4?'sword':'baton'};
     return {coat:'police',hat:'kepi',hair:cut?'short':'top',age:2,must:true,wpn:'saber'};}},
   heizo:{name:'Heizō',voice:'heizo',spec:()=>G.ch<=1?{kim:'#4a4038',hak:'#6a5d4c',hair:'top',age:1,wpn:'sword',mon:1}:G.ch<=2?{kim:'#4a4038',hak:'#6a5d4c',hair:'top',age:2,mon:1}:{kim:'#6b6155',hair:'top',age:3}},
-  genji:{name:'Genji',voice:'genji',spec:()=>G.ch<=1?{kim:'#a7804e',obi:'#5a3a22',hair:'child',small:true}:G.ch<=2?{kim:'#2f4a3e',obi:'#c9a04a',hair:'top',pat:1}:G.ch<=4?{coat:'west',coatC:'#2f3a46',hair:'west',hat:'bowler'}:{coat:'west',coatC:'#3a3530',hair:'west',age:2,must:true}},
-  hirata:{name:'Hirata',voice:'hirata',spec:()=>G.ch<=1?{kim:'#7a5a3a',hak:'#4a4038',hair:'top',small:true,wpn:'sword'}:G.ch<=2?{kim:'#3a2a22',hak:'#2a2a2a',hair:'top',hat:'jingasa',wpn:'sword'}:G.ch<=4?{kim:'#4a3a30',hak:'#3a3530',hair:'top',wpn:'sword',age:1}:{kim:'#5a5248',hair:'short',age:2}},
+  genji:{name:'Genji',voice:'genji',spec:()=>G.ch<=1?{kim:'#a7804e',obi:'#5a3a22',hair:'child',small:true,yrs:14}:G.ch<=2?{kim:'#2f4a3e',obi:'#c9a04a',hair:'top',pat:1}:G.ch<=4?{coat:'west',coatC:'#2f3a46',hair:'west',hat:'bowler'}:{coat:'west',coatC:'#3a3530',hair:'west',age:2,must:true}},
+  hirata:{name:'Hirata',voice:'hirata',spec:()=>G.ch<=1?{kim:'#7a5a3a',hak:'#4a4038',hair:'top',small:true,yrs:19,wpn:'sword'}:G.ch<=2?{kim:'#3a2a22',hak:'#2a2a2a',hair:'top',hat:'jingasa',wpn:'sword'}:G.ch<=4?{kim:'#4a3a30',hak:'#3a3530',hair:'top',wpn:'sword',age:1,rough:1}:{kim:'#5a5248',hair:'short',age:2,rough:1}},
   sagara:{name:'Superintendent Sagara',voice:'sagara',spec:()=>({coat:'police',hat:'kepi',hair:'short',must:true,age:G.ch>=5?2:1,wpn:'saber'})},
-  sayo:{name:'Sayo',voice:'sayo',spec:()=>G.ch<=1?{kim:'#c3412b',hair:'child',small:true,fem:1}:G.ch<=3?{kim:'#a0423a',obi:'#e9c46a',hair:'bun',fem:1,pat:1}:{kim:'#5a4a6a',obi:'#c9a04a',hair:'bun',fem:1,age:1,hat:G.ch>=5?'tenugui':null}},
+  sayo:{name:'Sayo',voice:'sayo',spec:()=>G.ch<=1?{kim:'#c3412b',hair:'child',small:true,fem:1,yrs:11}:G.ch<=3?{kim:'#a0423a',obi:'#e9c46a',hair:'bun',fem:1,pat:1}:{kim:'#5a4a6a',obi:'#c9a04a',hair:'bun',fem:1,age:1,hat:G.ch>=5?'tenugui':null}},
   mitsu:{name:'Mitsu',voice:'mitsu',spec:()=>({kim:'#5a5a6e',obi:'#8a7a5a',hair:'bun',fem:1,age:G.ch<=2?1:G.ch<=4?2:3,pin:'#5a4a3a'})},
   tami:{name:'Tami',voice:'tami',spec:()=>({kim:'#3f6b5a',obi:'#e4d5b5',hair:'bun',fem:1,age:G.ch>=5?1:0,pat:1})},
-  masao:{name:'Masao',voice:'masao',spec:()=>G.ch<=2?{kim:'#d9c48e',hair:'child',small:true}:G.ch<=4?{kim:'#22305a',hair:'short',small:true}:{coat:'west',coatC:'#2a3140',hair:'short'}},
+  masao:{name:'Masao',voice:'masao',spec:()=>G.ch<=2?{kim:'#d9c48e',hair:'child',small:true,yrs:6}:G.ch<=4?{kim:'#22305a',hair:'short',small:true,yrs:10}:{coat:'west',coatC:'#2a3140',hair:'short',yrs:23}},
   oume:{name:'Oume',voice:'oume',spec:()=>({kim:'#7a5a7a',obi:'#c3412b',hair:'bun',fem:1,age:G.ch<=1?0:G.ch<=3?1:G.ch<=4?2:3,pin:'#c9a04a'})},
-  kiku:{name:'Kiku',voice:'kiku',spec:{kim:'#6b7f95',obi:'#c3412b',hair:'bun',fem:1,hat:'tenugui',small:true}},
+  kiku:{name:'Kiku',voice:'kiku',spec:{kim:'#6b7f95',obi:'#c3412b',hair:'bun',fem:1,hat:'tenugui',small:true,yrs:16}},
   hollis:{name:'Mr. Hollis',voice:'hollis',spec:{coat:'west',coatC:'#4a3a2e',hair:'west',hairC:'#7a5a3a',hat:'bowler',skin:'#efd2b8',must:true}},
-  gonzo:{name:'Gonzō',voice:'gonzo',spec:()=>({kim:'#5a6a6e',hair:'top',hat:'tenugui',age:G.ch>=5?2:1})},
-  tora:{name:'Tora',voice:'tora',spec:()=>G.ch<=3?{kim:'#8a7a5a',hair:'child',small:true}:{kim:'#3a3a3a',hair:'short',hat:'hachimaki'}},
+  gonzo:{name:'Gonzō',voice:'gonzo',spec:()=>({kim:'#5a6a6e',hair:'top',hat:'tenugui',age:G.ch>=5?2:1,rough:1})},
+  tora:{name:'Tora',voice:'tora',spec:()=>G.ch<=3?{kim:'#8a7a5a',hair:'child',small:true,yrs:8}:{kim:'#3a3a3a',hair:'short',hat:'hachimaki',yrs:23}},
   ota:{name:'Captain Ōta',voice:'heizo',spec:{kim:'#22305a',hak:'#3a3a3a',hair:'top',hat:'jingasa',age:2,wpn:'sword',mon:1}},
   clerk:{name:'Magistrate\'s clerk',voice:'clerk',spec:{kim:'#3a3a4a',hak:'#5a5a5a',hair:'top',age:1}},
   ikeda:{name:'Ikeda, telegraph clerk',voice:'clerk',spec:{coat:'west',coatC:'#3a4a3a',hair:'short'}},
@@ -1129,7 +1183,7 @@ const CAST={
   officer:{name:'Police officer',voice:'masao',spec:{coat:'police',hat:'kepi',hair:'short',wpn:'sword'}},
   gateman:{name:'Gate man',voice:'gonzo',spec:{kim:'#3a2f2a',hair:'short',hat:'hachimaki'}},
   official:{name:'Polling clerk',voice:'clerk',spec:{coat:'west',coatC:'#2a2a2a',hair:'short',age:1,must:true}},
-  girl:{name:'Mill girl',voice:'kiku',spec:{kim:'#7a8aa0',hair:'bun',fem:1,small:true,hat:'tenugui'}},
+  girl:{name:'Mill girl',voice:'kiku',spec:{kim:'#7a8aa0',hair:'bun',fem:1,small:true,hat:'tenugui',yrs:15}},
   villager:{name:'Villager',voice:'gonzo',spec:{kim:'#7a6a5a',hair:'top',hat:'straw'}},
   villagerW:{name:'Villager',voice:'oume',spec:{kim:'#8a6a5a',hair:'bun',fem:1}},
 };
@@ -1323,12 +1377,15 @@ async function chapter3(){
   const k=await ask('tami','[tease] Well? I can\'t hold these all morning.',['"Cut it."','"Leave it. I\'m the same man either way."']);
   if(k===0){G.flags.topknot='cut';await say('juro','[quiet] Cut it.');await narr('[hushed] Snip. ... It takes less time than you expected.');await say('heizo','[quiet] Hm.');}
   else{G.flags.topknot='kept';await say('juro','[firm] Leave it. I\'m the same man either way.');await say('tami','[wry] You are. That\'s rather the problem.');}
+  await caseNote('Civilization and Enlightenment','From the 1870s the government urged people to copy Western ways: short haircuts, Western clothes, brick buildings, newspapers, even beef. Police and officials wore Western uniforms. In the 1880s many Japanese turned back toward traditional values, and Japanese life became a blend of old and new.','S','Social: it\'s about how people dress, eat and live, and what they value.');
   await say('mitsu','[warm] Sayo sent money from the silk mill again. A bonus, she says. For your uniform.');
   await say('juro','[wry] A bonus. In her first year.');
   await say('mitsu','[proud] She\'s very good, apparently. Faster than the French instructors.');
   await say('masao','[excited] Father! The teacher says the earth goes around the sun! Did you know?');
   await say('juro','[wry] I knew it went around... something.');
-  await caseNote('Schools and the army','The 1872 education law required schooling for all children, boys and girls. From 1873, conscription made young men of every class serve in the army. The samurai were no longer the only ones who fought.','S','Social: it changes how people live and learn, and what each class does.');
+  await caseNote('Schools for everyone','The 1872 education law required schooling for all children, boys and girls, from every class. Schools taught Western science and mathematics alongside loyalty to the Emperor.','S','Social: it changes how people live and learn.');
+  await say('heizo','[wry] And the army takes farmers now. Farmers. With rifles.');
+  await caseNote('Conscription','From 1873, every young man had to serve three years in the new army: farmers\' sons, merchants\' sons and samurai sons alike. Fighting was no longer the job of the samurai class alone.','S','Social: it changes what each class does. A farmer\'s son can now be a soldier.');
   ambient([{who:'oume',x:735,y:600,lines:[[['oume','Somebody\'s paying good money for copper in Yokohama. A scrap man near the new station. Copper\'s worth more than fish these days.']],[['oume','Beer! The foreign sailors want beer. I don\'t understand it either, but they pay in silver.']]]},
     {id:'tora',who:'tora',x:1700,y:1030,lines:[[['tora','My father goes fishing at night now. He says they bite better in the dark.'],['tora','He comes home with no fish, though.']]]},
     {who:'villager',x:1100,y:640,wander:40,lines:[[['villager','My son\'s in the army now. A farmer\'s son, with a rifle. My grandfather would have died of shock.']]]}]);
@@ -1452,7 +1509,9 @@ async function chapter4(){
     await say('juro','[hesitant] Why?');
     if(G.flags.genjiSecret==='kept')await say('genji','[warm] Because you\'ll be useful one day. And because you kept your mouth shut about a boy and a boat... a long time ago. Take your pick.',1);
     else await say('genji','[wry] Because you\'ll be useful one day. And because I\'d like you to owe me something. For once. Take your pick.',1);
-    G.flags.owesGenji=true;});
+    G.flags.owesGenji=true;
+    await say('genji','[excited] The government is lending money to anyone who\'ll build a factory. My father wants a silk mill. A modern one, like Tomioka. French machines.');
+    await caseNote('Banks and factories','In 1872 the government built the Tomioka silk mill, with French machines and instructors, to show Japanese owners how a modern factory worked. It lent money to private companies, built mines and shipyards, and in 1882 set up a European-style central bank, the Bank of Japan.','E','Economic: it\'s about banks, money and new industry.');});
   await Promise.all([ph,pg]);
   objective('Night: guard the police storehouse on the beach road',{x:1955,y:960});
   await fade(1);
@@ -1504,6 +1563,7 @@ async function chapter4(){
   await say('sagara','[sad] Don\'t say anything, Kanda. There\'s nothing that helps.');
   await fade(1);
   await card({k:'September 24, 1877',t:'Shiroyama',b:'Saigō Takamori and his last few hundred samurai died fighting the government\'s conscript army above Kagoshima. Rifles beat swords. The samurai as a privileged class were finished, and the government in Tokyo was stronger than any Japanese government had been.',art:{sky:'dusk',ground:'#4f5a40',hz:0.62}});
+  await caseNote('A modern army and navy','The Meiji government hired French officers to train a modern conscript army, and in 1877 that army defeated Saigō\'s samurai. It also built a modern navy, with warships designed by Japanese engineers trained by French experts, so that Japan could defend itself against the West.','P','Political: it\'s about the government\'s power and its ability to defend the country.');
   if(G.flags.hirata==='south')await card({k:'Shiomachi, October',t:'',b:'[grave] A parcel arrives at the police station, addressed to Kanda Jūrō. Inside is Hirata\'s sword, wrapped in an old battery flag. ... There is no letter.'});
   else await card({k:'Shiomachi, October',t:'',b:'Hirata is sentenced to ten years in prison in Yokohama. He doesn\'t answer your letters. You keep writing them anyway, once a year.'});
   return 5;}
@@ -1522,7 +1582,7 @@ async function chapter5(){
   await say('juro','[hesitant] Sayo is the head reeler. She\'s paid three times what the girls are.');
   await say('sagara','[cold] Then she has the least excuse.');
   await say('sagara','[warm] One more thing. The education ministry asked me for the name of a young teacher. For a post in Tokyo. I can give them Masao\'s. ...I\'d like to.');
-  await caseNote('The Meiji Constitution','The 1889 constitution created an elected House of Representatives, but the Emperor kept supreme power. Only men who paid 15 yen a year in direct taxes could vote: about 1 person in 100. (Some textbooks say 5% of men.)','P','Political: it\'s about the government, laws and voting.');
+  await caseNote('The Meiji Constitution','The 1889 constitution created an elected House of Representatives, but the Emperor kept supreme power. Only men who paid 15 yen a year in direct taxes could vote: about 1 in every 100 Japanese people, or about 5 in every 100 adult men.','P','Political: it\'s about the government, laws and voting.');
   ent({id:'masao',who:'masao',x:660,y:940,dir:'u'});ent({id:'mitsu',who:'mitsu',x:455,y:600,dir:'d'});ent({id:'genji',who:'genji',x:1150,y:600,dir:'d'});
   ent({id:'sayo',who:'sayo',x:1960,y:350,dir:'d'});ent({id:'kiku',who:'kiku',x:2010,y:360,dir:'l'});
   for(let i=0;i<6;i++)ent({who:'girl',x:1900+i*25,y:390+(i%2)*14,dir:'d'});
@@ -1638,8 +1698,8 @@ async function argument(){setMode('arg');const o=$('arg');o.hidden=false;const s
   speak('What changed Shiomachi the most? Choose your claim: social, political, or economic changes.',null);
   out.claim=await new Promise(r=>step.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{sfx('card');r(b.dataset.c);}));
   // 2 evidence
-  const pool=G.book.slice();
-  step.innerHTML=`<h3>Pick two pieces of evidence from your case book</h3><p>They must support your claim: <b>${TAGS[out.claim]}</b> changes.</p><div class="ev"></div><p class="msg"></p>`;
+  const pool=G.book.filter(n=>!CONTEXT.has(n.title));
+  step.innerHTML=`<h3>Pick two pieces of evidence from your case book</h3><p>They must support your claim: <b>${TAGS[out.claim]}</b> changes. (Notes from before 1868 are context, so they aren't listed here.)</p><div class="ev"></div><p class="msg"></p>`;
   speak('Pick two pieces of evidence from your case book that support your claim.',null);
   const ev=step.querySelector('.ev');const chosen=[];
   await new Promise(r=>{pool.forEach((n,i)=>{const b=document.createElement('button');b.innerHTML=`<b>${n.title}</b><span>${n.text}</span>`;b.onclick=()=>{if(b.disabled)return;
@@ -1657,18 +1717,29 @@ async function argument(){setMode('arg');const o=$('arg');o.hidden=false;const s
   await new Promise(r=>{CC.ops.slice().sort(()=>Math.random()-.5).forEach(([t,ok])=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{tries++;if(ok){b.classList.add('right');sfx('good');out.reb=t;out.rebFirst=tries===1;setTimeout(r,600);}else{b.classList.add('wrong');b.disabled=true;sfx('bad');step.querySelector('.msg').textContent='That doesn\'t answer the point with evidence. Try another.';}};box.appendChild(b);});});
   out.cc=CC.cc;G.arg=out;
   // 4 plan
+  // 4 plan: the lesson's sentence starters, finished by the student in their own words (the game's notes are hints)
   const adv={S:'socially',P:'politically',E:'economically'}[out.claim];
-  step.innerHTML=`<h3>Your argument plan</h3><div class="plan" id="plan">
-    <p><b>Claim:</b> Though the Meiji Restoration had many types of effects on Japan, this period of modernization most affected Japan ${adv}.</p>
-    <p><b>Context:</b> Before the Meiji era, Japan was governed by the Tokugawa shoguns, who kept the country closed to foreigners. When Commodore Perry's ships arrived in 1853, Japan had no navy to resist, and in 1868 the shogun's rule ended.</p>
-    <p><b>Evidence 1:</b> ${out.ev[0].text}</p><p><b>Evidence 2:</b> ${out.ev[1].text}</p>
-    <p><b>Counterclaim:</b> Some people may argue ${out.cc.replace(/^"|"$/g,'').replace(/^\w+\? /,'')}</p>
-    <p><b>Rebuttal:</b> ${out.reb}</p></div>
-    <div class="row"><button id="plan-print">Copy this plan</button><button id="plan-next" class="main">Continue to the quiz</button></div>`;
+  const ccAdv={S:'economically',P:'economically',E:'socially'}[out.claim];
+  const ctxNotes=G.book.filter(n=>CONTEXT.has(n.title)).map(n=>n.title).join(', ');
+  const FLD=[['claim','Claim',`Though the Meiji Restoration had many types of effects on Japan, this period of modernization most affected Japan ${adv}`,'Finish the sentence: say why, in a few words.'],
+    ['ctx','Context','Before the Meiji era, Japan was governed by the',`Use your context notes (${ctxNotes||'the closed country, Perry, 1868'}): who ruled, how they treated foreigners, and how their rule ended.`],
+    ['ev1','Evidence 1',`The Meiji Restoration most affected Japan ${adv} because`,`Put this in your own words: ${out.ev[0].title}. ${out.ev[0].text}`],
+    ['ev2','Evidence 2','Another example is',`Put this in your own words: ${out.ev[1].title}. ${out.ev[1].text}`],
+    ['ev3','Evidence 3','In addition,','Add one more piece of evidence, from your case book or from your class documents.'],
+    ['cc','Counterclaim',`Some people may argue that the Meiji era most impacted Japan ${ccAdv} because`,`${CAST[CC.who].name} said: ${out.cc}`],
+    ['reb','Rebuttal','However,',`The rebuttal you chose: ${out.reb}`]];
+  step.innerHTML=`<h3>Write your argument</h3><p>Finish each sentence in your own words. The notes under each box are there to help; don't just copy them.</p><div class="plan" id="plan">
+    ${FLD.map(([id,l,st,h])=>`<label for="pl-${id}">${l}</label><textarea id="pl-${id}">${st} </textarea><p class="hint">${h}</p>`).join('')}</div>
+    <p class="msg" id="plan-msg"></p>
+    <div class="row"><button id="plan-print">Copy my paragraph</button><button id="plan-next" class="main">Continue to the quiz</button></div>`;
   speak('Here is your argument plan. Use it to write your paragraph.',null);
-  $('plan-print').onclick=()=>{const t=$('plan').innerText;const ok=()=>{$('plan-print').textContent='Copied';};try{navigator.clipboard.writeText(t).then(ok,()=>{selectPlan();});}catch(e){selectPlan();}};
-  function selectPlan(){const r=document.createRange();r.selectNodeContents($('plan'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);$('plan-print').textContent='Selected: press Ctrl+C';}
-  await new Promise(r=>$('plan-next').onclick=r);o.hidden=true;
+  const bx=id=>$('pl-'+id),para=()=>FLD.map(([id])=>bx(id).value.trim()).join(' ');
+  const unfinished=()=>FLD.filter(([id,,st])=>bx(id).value.trim().length<st.length+12);
+  $('plan-print').onclick=()=>{const t=para();const ok=()=>{$('plan-print').textContent='Copied';};try{navigator.clipboard.writeText(t).then(ok,()=>{$('plan-print').textContent='Select the boxes and press Ctrl+C';});}catch(e){$('plan-print').textContent='Select the boxes and press Ctrl+C';}};
+  await new Promise(r=>$('plan-next').onclick=()=>{const u=unfinished();FLD.forEach(([id])=>bx(id).classList.remove('need'));
+    if(u.length){u.forEach(([id])=>bx(id).classList.add('need'));$('plan-msg').textContent=`Finish ${u.map(f=>f[1]).join(', ')} first, in your own words.`;sfx('bad');bx(u[0][0]).focus();return;}
+    out.paragraph=para();r();});
+  o.hidden=true;
   await quiz();}
 
 /* ---------- Quiz ---------- */
