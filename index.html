@@ -12,7 +12,9 @@
 :root{--ink:#1b1713;--paper:#efe4cc;--paper2:#e4d5b5;--verm:#c3412b;--indigo:#22305a;--gold:#c9a04a;--fs:1}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#1b1713;color-scheme:dark;color:var(--ink);font-family:'Zen Kaku Gothic New',system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
-body.big{--fs:1.18}
+body.bigtext{--fs:1.18}
+.lastres{display:block;margin:10px 0 0;background:none;border:none;color:var(--indigo);text-decoration:underline;cursor:pointer;font-size:calc(14px*var(--fs))}
+#end-para{text-align:left;background:#fffdf6;border:1.5px solid var(--ink);padding:8px 14px;margin:10px 0}#end-para small{font-weight:700}#end-para p{white-space:pre-wrap;font-size:calc(15px*var(--fs));margin:6px 0}
 #game{position:fixed;inset:0;overflow:hidden;user-select:none}
 #plan{user-select:text}
 #cv{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
@@ -107,7 +109,7 @@ button.wrong{background:#e6c9bd!important;color:#7a2a1a!important;text-decoratio
 .big{font:700 18px inherit;padding:12px 26px;background:var(--verm);color:#fff;border:2px solid var(--ink);border-radius:2px}.big.alt{background:var(--indigo)}
 .meta{display:block;margin-top:14px;font-size:12px;color:#5a4e42;line-height:1.5}#vload.ok{color:#3f6b4f;font-weight:700}
 #fade{position:absolute;inset:0;background:#0d0b09;opacity:0;pointer-events:none;transition:opacity .45s;z-index:25}
-@media (max-width:640px){#obj{max-width:60vw;font-size:12.5px}#tbtns button{padding:6px 8px;font-size:12px}#dlg-pic{width:64px;height:76px}#dlg{bottom:8px;padding:10px}#dlg-text{font-size:15px}.card-txt h2{font-size:24px}.card-txt p{font-size:15px}#chap{display:none}}
+@media (max-width:640px){#stick{width:112px;height:112px;left:14px;bottom:16px}#knob{left:31px;top:31px}#tbuttons{right:10px;bottom:14px;width:142px;flex-wrap:wrap;justify-content:flex-end;gap:8px}#tbuttons button{width:62px;height:62px}#b-atk{width:76px!important;height:76px!important}#obj{max-width:60vw;font-size:12.5px}#tbtns button{padding:6px 8px;font-size:12px}#dlg-pic{width:64px;height:76px}#dlg{bottom:8px;padding:10px}#dlg-text{font-size:15px}.card-txt h2{font-size:24px}.card-txt p{font-size:15px}#chap{display:none}}
 @media print{body *{visibility:hidden}#plan,#plan *{visibility:visible}#plan{position:fixed;left:0;top:0;width:100%;border:none}}
 .t-ctx{background:#7a716a;margin-right:6px}
 .plan label{display:block;font-weight:700;font-size:calc(14px*var(--fs));margin:12px 0 4px}
@@ -145,13 +147,14 @@ button.wrong{background:#e6c9bd!important;color:#7a2a1a!important;text-decoratio
   <section id="arg" class="panel" hidden><div class="pin wide" id="arg-step"></div></section>
   <section id="quiz" class="panel" hidden><div class="pin"><small id="quiz-n"></small><h3 id="quiz-q"></h3><div id="quiz-ops"></div><p id="quiz-msg"></p></div></section>
   <section id="end" class="panel" hidden><div class="pin wide"><small>The Constable of Shiomachi</small><h2 id="end-t"></h2><p id="end-b"></p><div id="end-facts"></div>
+    <div id="end-para" hidden><small>Your paragraph</small><p id="end-ptext"></p><button id="end-copy" type="button">Copy for Google Classroom</button></div>
     <div class="code">Your finish code<b id="end-code"></b><span>Give this code to your teacher.</span></div><p id="end-hist" class="hist"></p><button id="end-again" type="button">Play again</button></div></section>
 
   <section id="title">
     <canvas id="title-cv"></canvas>
     <div class="t-card"><small>Japan · 1853 to 1890</small><h1>The Constable<br>of Shiomachi</h1>
       <p>One fishing town. Thirty-seven years. The Black Ships arrive when you are fourteen. By the time you are fifty, everything you grew up with is gone, and you are the man who enforces what replaced it.</p>
-      <div class="row"><button id="start" class="big" type="button">Begin</button><button id="resume" class="big alt" type="button" hidden>Continue</button></div>
+      <div class="row"><button id="start" class="big" type="button">Begin</button><button id="resume" class="big alt" type="button" hidden>Continue</button><button id="lastres" class="lastres" type="button" hidden>Last result</button></div>
       <span class="meta">Wear headphones: this game talks. · Arrow keys or WASD to move, E to talk, J to strike, K to dodge · <span id="vload">Loading voices…</span> · © 2026 Cordel. All rights reserved.</span></div>
   </section>
 
@@ -161,16 +164,17 @@ button.wrong{background:#e6c9bd!important;color:#7a2a1a!important;text-decoratio
     <button id="set-close" type="button">Close</button></div></div>
   <div id="tpanel" class="panel" hidden><div class="pin"><h3>Teacher</h3><div id="t-lock"><p>Enter the teacher PIN.</p><input id="t-pin" inputmode="numeric" maxlength="6" autocomplete="off"><button id="t-ok" type="button">Unlock</button><p id="t-err"></p></div>
     <div id="t-menu" hidden><p>Jump to a chapter (starts it fresh, with default choices for earlier chapters):</p><div class="row wrap" id="t-jump"></div>
-      <p>Check a finish code:</p><input id="t-code" placeholder="SHIO-000-AA" autocomplete="off"><button id="t-check" type="button">Check</button><p id="t-res"></p>
-      <p>Change the PIN on this computer:</p><input id="t-newpin" inputmode="numeric" maxlength="6" autocomplete="off"><button id="t-setpin" type="button">Save PIN</button></div>
+      <p>Check a finish code:</p><input id="t-code" placeholder="SHIO-00000-AA" autocomplete="off"><button id="t-check" type="button">Check</button><p id="t-res"></p>
+      <p>Change the PIN on this computer:</p><input id="t-newpin" inputmode="numeric" maxlength="6" autocomplete="off"><button id="t-setpin" type="button">Save PIN</button>
+      <p>For students who struggle with the fights (on this computer only):</p><button id="t-skip" type="button">Skip fights: Off</button></div>
     <button id="t-close" type="button">Close</button></div></div>
   <div id="hpanel" class="panel" hidden><div class="pin"><h3>Controls</h3>
-    <p><b>Move:</b> arrow keys or W A S D<br><b>Talk or look at something:</b> walk up to it and press E (or Enter)<br><b>Next line / choose an answer:</b> E, Enter or Space, or click. Pick answers with the arrow keys or number keys<br><b>Strike:</b> J or Space (in fights)<br><b>Dodge:</b> K or Shift (in fights). Dodge when an enemy shows a red <b>!</b><br><b>Case book:</b> B<br><b>Where to go:</b> follow the red arrow</p>
+    <p><b>Move:</b> arrow keys or W A S D, or click where you want to walk<br><b>Talk:</b> click a person, or walk up and press E<br><b>Talk or look at something:</b> walk up to it and press E (or Enter)<br><b>Next line / choose an answer:</b> E, Enter or Space, or click. Pick answers with the arrow keys or number keys<br><b>Strike:</b> J or Space (in fights)<br><b>Dodge:</b> K or Shift (in fights). Dodge when an enemy shows a red <b>!</b><br><b>Case book:</b> B<br><b>Where to go:</b> follow the red arrow</p>
     <p>On a touch screen: the stick moves you, and the Talk, Dodge and Strike buttons do the rest.</p><button id="h-close" type="button">Close</button></div></div>
   <div id="fade"></div>
 </div>
 
-<script>window.__VOICE={"c45889c0":[1,0,129408],"a4be666e":[1,129408,109440],"faefc2a3":[1,238848,53760],"22e7f269":[1,292608,57984],"2c224b8b":[1,350592,37248],"92a2a7aa":[1,387840,13824],"7dccbeb3":[1,401664,25344],"a6aba7fe":[1,427008,94080],"4ec4e846":[1,521088,72192],"44cc950c":[1,593280,129024],"caba6060":[1,722304,72192],"a5e2c275":[1,794496,105984],"3a517550":[1,900480,43776],"57fdc37e":[1,944256,56448],"42f61177":[1,1000704,32640],"a3fcd340":[1,1033344,90624],"caac1a24":[1,1123968,85248],"f23af125":[1,1209216,58368],"ca57794":[1,1267584,53760],"4e1f999c":[1,1321344,202368],"2d7e9611":[1,1523712,83328],"93d5e4d":[1,1607040,53760],"f28ddcae":[1,1660800,75648],"8f92dfde":[1,1736448,71424],"a36cdbd7":[1,1807872,108288],"8fb7be7d":[1,1916160,84864],"96aa1dd1":[1,2001024,110976],"882296ec":[1,2112000,46080],"71ed77fb":[1,2158080,52224],"66e95695":[1,2210304,124416],"36bd95e0":[1,2334720,112128],"7b6231ec":[1,2446848,42240],"e7416879":[1,2489088,307968],"7f8dfa63":[1,2797056,41472],"cf0cc310":[1,2838528,76032],"ad9d3fa1":[1,2914560,19200],"3ab6e4fd":[1,2933760,251520],"ce495d33":[1,3185280,37248],"dab91f0b":[1,3222528,78336],"ada7939a":[1,3300864,129408],"dfc9ddc9":[1,3430272,44928],"f89b2474":[1,3475200,127488],"670e2fdd":[1,3602688,32640],"c18061a3":[1,3635328,38016],"63073b0d":[1,3673344,60288],"610ac9c4":[1,3733632,52608],"49deaa89":[1,3786240,133248],"c6abce4b":[1,3919488,79872],"2c18e2be":[1,3999360,97152],"4cca78dd":[1,4096512,49536],"b35de30f":[1,4146048,89856],"65be829f":[1,4235904,95616],"e242131":[1,4331520,255360],"3fddcef5":[1,4586880,151680],"1af49901":[1,4738560,147840],"827000f8":[1,4886400,110592],"aab84235":[1,4996992,313344],"301a2167":[1,5310336,119040],"79a4df7e":[1,5429376,28416],"990ff5a2":[1,5457792,120576],"a8b337c2":[1,5578368,165120],"8bc093e3":[1,5743488,104832],"29af1a0b":[1,5848320,71808],"b8fc034":[1,5920128,97920],"8cebbaa1":[1,6018048,63744],"25ec9e1c":[1,6081792,41088],"950efa4c":[1,6122880,84480],"f511ebe5":[1,6207360,62592],"5fc49a89":[2,0,104064],"a761ac91":[2,104064,51456],"8ebaf821":[2,155520,88320],"7fd33a81":[2,243840,74112],"804daf33":[2,317952,188544],"98c267dd":[2,506496,15360],"60009939":[2,521856,47616],"e0a1f443":[2,569472,123648],"35e03308":[2,693120,98688],"6a81a44":[2,791808,38400],"775f545a":[2,830208,87552],"634f1ace":[2,917760,94848],"6cefb4e0":[2,1012608,33408],"ea0c10cb":[2,1046016,167040],"7fb1d78d":[2,1213056,64128],"d4e680d1":[2,1277184,33792],"458501f5":[2,1310976,91008],"ce31dff7":[2,1401984,22656],"8a474297":[2,1424640,107136],"f08cee1d":[2,1531776,22656],"286f7cbe":[2,1554432,67968],"ce7fa474":[2,1622400,40704],"4ec25dea":[2,1663104,26496],"f8a952fc":[2,1689600,81792],"56944f63":[2,1771392,171264],"e14e4a96":[2,1942656,87168],"774ee7ba":[2,2029824,64896],"bda30e5":[2,2094720,156672],"863b0e03":[2,2251392,283392],"11e5048e":[2,2534784,64128],"ce3e8a8c":[2,2598912,344064],"f3f5cb93":[2,2942976,279936],"a179d2a3":[2,3222912,61056],"c0c307a0":[2,3283968,325248],"e0f9b0c9":[2,3609216,78336],"719fdc25":[2,3687552,119040],"7e2d16c3":[2,3806592,98688],"e119d2a8":[2,3905280,52608],"e809b882":[2,3957888,14976],"a10c8f2":[2,3972864,91008],"e8683ea5":[2,4063872,44928],"bd65c360":[2,4108800,115584],"ccbe72b2":[2,4224384,43776],"be162147":[2,4268160,64128],"e3f3d810":[2,4332288,79872],"1daf3925":[2,4412160,47232],"f2579661":[2,4459392,52992],"e1dff269":[2,4512384,158208],"183417e1":[2,4670592,95232],"63f17ca8":[2,4765824,80640],"5f091c4d":[2,4846464,166272],"3de58392":[2,5012736,56064],"b42b1d3":[2,5068800,42240],"d97f8f79":[2,5111040,175872],"569ebfe6":[2,5286912,91008],"25cf8908":[2,5377920,76800],"f1ba997e":[2,5454720,71040],"60ad2edb":[2,5525760,101760],"a495b1ea":[2,5627520,129792],"14f2cf07":[2,5757312,40320],"6c971edd":[2,5797632,197760],"ef9fdfe":[2,5995392,152064],"9c3f7ca7":[2,6147456,328704],"923073ca":[3,0,86784],"72610c05":[3,86784,188928],"b40fd3da":[3,275712,54528],"bbaf7dbd":[3,330240,54528],"603f9f63":[3,384768,205440],"1c144699":[3,590208,15360],"94f32ef0":[3,605568,66432],"d121b64":[3,672000,319488],"9bb8601":[3,991488,88704],"f3cbe9f4":[3,1080192,144768],"6314d7ff":[3,1224960,51840],"79150071":[3,1276800,62208],"1739aa49":[3,1339008,198144],"c151a7f4":[3,1537152,57216],"f2c5d21b":[3,1594368,50688],"bd579aa1":[3,1645056,25728],"95568624":[3,1670784,86016],"16b155bb":[3,1756800,167040],"455d6583":[3,1923840,80640],"cf3be61a":[3,2004480,15360],"73d7a75e":[3,2019840,91776],"af0ec00e":[3,2111616,88320],"8e611031":[3,2199936,69888],"a06b76b1":[3,2269824,104064],"997df33b":[3,2373888,174720],"13afde7b":[3,2548608,178944],"ae1ac200":[3,2727552,123264],"87e928a":[3,2850816,171648],"d4ed7493":[3,3022464,21888],"11eb290a":[3,3044352,151680],"41c675a":[3,3196032,26496],"a554ce00":[3,3222528,70656],"ce0136f3":[3,3293184,299520],"b6eef85":[3,3592704,97536],"217e310a":[3,3690240,180096],"c11e0ed2":[3,3870336,149376],"fe83e190":[3,4019712,26112],"9f6597a3":[3,4045824,49920],"542c6293":[3,4095744,104448],"dc34d448":[3,4200192,121728],"27a8c5c3":[3,4321920,119424],"b42755f6":[3,4441344,35328],"59c9caf8":[3,4476672,222720],"26065612":[3,4699392,102144],"3a8a2f3c":[3,4801536,30336],"d49fac01":[3,4831872,109056],"6bdc2149":[3,4940928,57216],"fd19c322":[3,4998144,17280],"fd96c4f2":[3,5015424,137856],"c575caa2":[3,5153280,13824],"bfd7ffb2":[3,5167104,139008],"2760f762":[3,5306112,155136],"fdfe6d2a":[3,5461248,140544],"2da2791d":[3,5601792,36480],"25ca6bee":[3,5638272,19200],"eacf61c":[3,5657472,153600],"fb5a0699":[3,5811072,87936],"f1f8ee2a":[3,5899008,122112],"3e025bf4":[3,6021120,33024],"7c3714ee":[3,6054144,46080],"1614a062":[3,6100224,258432],"60644cbb":[4,0,114816],"ee441a7a":[4,114816,83328],"3982358f":[4,198144,43776],"278792b5":[4,241920,175488],"b698fc4d":[4,417408,114048],"c06ca360":[4,531456,52224],"9f025a9f":[4,583680,169728],"20dda265":[4,753408,140160],"ea8b1de9":[4,893568,163200],"ad499154":[4,1056768,301056],"8f2ad258":[4,1357824,54144],"bd7ebb73":[4,1411968,83328],"bfb21914":[4,1495296,174720],"aea90121":[4,1670016,46848],"c29f1521":[4,1716864,74496],"7f852f20":[4,1791360,42240],"377153bf":[4,1833600,175872],"a59dea64":[4,2009472,75648],"5d59fb2f":[4,2085120,79872],"7055304e":[4,2164992,30336],"2f845f83":[4,2195328,179328],"894f0a81":[4,2374656,92160],"e5895005":[4,2466816,81792],"880b9812":[4,2548608,208896],"14336603":[4,2757504,26880],"96158986":[4,2784384,19968],"5f9f221d":[4,2804352,100224],"c55ea5c1":[4,2904576,142080],"333caae0":[4,3046656,43776],"cf844bbb":[4,3090432,153984],"5303f230":[4,3244416,96768],"932ea5f9":[4,3341184,17664],"fecdf23d":[4,3358848,23424],"8d70c16a":[4,3382272,117888],"78b2f0b0":[4,3500160,86016],"41b99732":[4,3586176,69888],"e9da21db":[4,3656064,43008],"dac11e91":[4,3699072,175104],"3b88cf09":[4,3874176,113280],"1001077f":[4,3987456,303360],"4ebf2c3e":[4,4290816,240000],"61711314":[4,4530816,123264],"d2b52ead":[4,4654080,82560],"54c4acae":[4,4736640,211968],"a59db408":[4,4948608,152448],"8f790927":[4,5101056,95616],"cb8c3d17":[4,5196672,105600],"5bf0c5c0":[4,5302272,94080],"d9c2ce3a":[4,5396352,90624],"f394b5b6":[4,5486976,84096],"5f232783":[4,5571072,19200],"944e30d9":[4,5590272,125568],"d6759c0d":[4,5715840,258432],"63ed23a4":[4,5974272,150528],"2147411d":[4,6124800,112896],"1a3d1976":[5,0,130560],"6adfb34c":[5,130560,20352],"ff39f1b0":[5,150912,86784],"7c2469e0":[5,237696,17664],"3f12d7ca":[5,255360,36864],"77a3f5e2":[5,292224,124800],"e31055cb":[5,417024,189696],"7f902a8b":[5,606720,132096],"1889e7c3":[5,738816,64896],"29808fd5":[5,803712,148992],"a7bc6bac":[5,952704,60288],"d2bd77d8":[5,1012992,271488],"3292e00c":[5,1284480,301824],"97df50d9":[5,1586304,228864],"d0082275":[5,1815168,248832],"b96f9174":[5,2064000,185472],"ab8364d0":[5,2249472,257280],"af9496d5":[5,2506752,320640],"d045e9e6":[5,2827392,40704],"65066345":[5,2868096,326784],"fa6a7d35":[5,3194880,77568],"85e974a8":[5,3272448,98688],"18bcc69a":[5,3371136,105600],"df37982f":[5,3476736,48000],"e1c85d18":[5,3524736,64896],"9a94946":[5,3589632,72960],"61c2daaa":[5,3662592,43008],"be846784":[5,3705600,47616],"86a3aac2":[5,3753216,55680],"20b5f844":[5,3808896,71808],"e7e87062":[5,3880704,110208],"1c837a55":[5,3990912,25728],"b4af73b3":[5,4016640,44928],"2663048c":[5,4061568,79488],"2dd3f75a":[5,4141056,58368],"3c4c6253":[5,4199424,122496],"27e47cf1":[5,4321920,155520],"171a1a5":[5,4477440,16896],"2a11ba75":[5,4494336,22656],"309fc3f4":[5,4516992,142848],"673e6811":[5,4659840,36096],"b3a1545b":[5,4695936,145920],"889eb238":[5,4841856,35712],"6108c3c3":[5,4877568,57984],"6f6700c4":[5,4935552,91392],"23d7bac0":[5,5026944,164352],"c1f0f7e2":[5,5191296,84480],"2efa29cb":[5,5275776,87168],"b18fad72":[5,5362944,172416],"c3f403c6":[5,5535360,173952],"4cb8b5af":[5,5709312,68352],"38aa9250":[5,5777664,39936],"ceb1b9ce":[5,5817600,46464],"6ff45f3a":[5,5864064,246528],"4adc2605":[5,6110592,143616],"7bba188e":[6,0,96384],"53d538e7":[6,96384,72960],"ad27d49b":[6,169344,77952],"5c33d62e":[6,247296,127872],"bc30e244":[6,375168,51072],"d289a89a":[6,426240,140928],"965053a0":[6,567168,97536],"5dc815a2":[6,664704,116736],"b219cc2":[6,781440,71424],"f347ad3c":[6,852864,22272],"44194461":[6,875136,266496],"47488cf":[6,1141632,67200],"a667efc":[6,1208832,61440],"ca7e661e":[6,1270272,126336],"6aac4c6d":[6,1396608,61824],"4fee64f":[6,1458432,96000],"20f58f27":[6,1554432,104832],"c5cd2195":[6,1659264,52608],"c9ef3d19":[6,1711872,110208],"d5a534ad":[6,1822080,86784],"a39e2a5d":[6,1908864,107520],"37c2edc4":[6,2016384,61056],"4a1d2366":[6,2077440,67584],"1226a94b":[6,2145024,163200],"e8df20fd":[6,2308224,192000],"a9b8d719":[6,2500224,71040],"7d01a5c9":[6,2571264,99072],"1287ec15":[6,2670336,132096],"a76dd0b4":[6,2802432,87168],"75028400":[6,2889600,137472],"1abc967":[6,3027072,290688],"6ae91c90":[6,3317760,170880],"86edabca":[6,3488640,76800],"af7a3ce9":[6,3565440,297600],"9354066b":[6,3863040,70272],"3eb9ee04":[6,3933312,271488],"c5cbd1f1":[6,4204800,90240],"9678656":[6,4295040,220800],"1c0a33ff":[6,4515840,192768],"30ebf9fd":[6,4708608,99456],"8a058733":[6,4808064,225408],"da848f1a":[6,5033472,210048],"d639201b":[6,5243520,90240],"36450d09":[6,5333760,175488],"2c1e87d0":[6,5509248,282240]};window.__VPACKS=6;</script>
+<script>window.__VOICE={"c45889c0":[1,0,129408],"a4be666e":[1,129408,109440],"faefc2a3":[1,238848,53760],"22e7f269":[1,292608,57984],"2c224b8b":[1,350592,37248],"92a2a7aa":[1,387840,13824],"7dccbeb3":[1,401664,25344],"a6aba7fe":[1,427008,94080],"4ec4e846":[1,521088,72192],"44cc950c":[1,593280,129024],"caba6060":[1,722304,72192],"a5e2c275":[1,794496,105984],"3a517550":[1,900480,43776],"57fdc37e":[1,944256,56448],"42f61177":[1,1000704,32640],"a3fcd340":[1,1033344,90624],"caac1a24":[1,1123968,85248],"f23af125":[1,1209216,58368],"ca57794":[1,1267584,53760],"4e1f999c":[1,1321344,202368],"2d7e9611":[1,1523712,83328],"93d5e4d":[1,1607040,53760],"f28ddcae":[1,1660800,75648],"8f92dfde":[1,1736448,71424],"a36cdbd7":[1,1807872,108288],"8fb7be7d":[1,1916160,84864],"96aa1dd1":[1,2001024,110976],"882296ec":[1,2112000,46080],"71ed77fb":[1,2158080,52224],"66e95695":[1,2210304,124416],"36bd95e0":[1,2334720,112128],"7b6231ec":[1,2446848,42240],"e7416879":[1,2489088,307968],"7f8dfa63":[1,2797056,41472],"cf0cc310":[1,2838528,76032],"ad9d3fa1":[1,2914560,19200],"3ab6e4fd":[1,2933760,251520],"ce495d33":[1,3185280,37248],"dab91f0b":[1,3222528,78336],"ada7939a":[1,3300864,129408],"dfc9ddc9":[1,3430272,44928],"f89b2474":[1,3475200,127488],"670e2fdd":[1,3602688,32640],"c18061a3":[1,3635328,38016],"63073b0d":[1,3673344,60288],"610ac9c4":[1,3733632,52608],"49deaa89":[1,3786240,133248],"c6abce4b":[1,3919488,79872],"2c18e2be":[1,3999360,97152],"4cca78dd":[1,4096512,49536],"b35de30f":[1,4146048,89856],"65be829f":[1,4235904,95616],"e242131":[1,4331520,255360],"3fddcef5":[1,4586880,151680],"1af49901":[1,4738560,147840],"827000f8":[1,4886400,110592],"aab84235":[1,4996992,313344],"301a2167":[1,5310336,119040],"79a4df7e":[1,5429376,28416],"990ff5a2":[1,5457792,120576],"a8b337c2":[1,5578368,165120],"8bc093e3":[1,5743488,104832],"29af1a0b":[1,5848320,71808],"b8fc034":[1,5920128,97920],"8cebbaa1":[1,6018048,63744],"25ec9e1c":[1,6081792,41088],"950efa4c":[1,6122880,84480],"f511ebe5":[1,6207360,62592],"5fc49a89":[1,6269952,104064],"a761ac91":[1,6374016,51456],"8ebaf821":[1,6425472,88320],"7fd33a81":[1,6513792,74112],"804daf33":[1,6587904,188544],"98c267dd":[1,6776448,15360],"60009939":[1,6791808,47616],"e0a1f443":[1,6839424,123648],"35e03308":[1,6963072,98688],"6a81a44":[1,7061760,38400],"775f545a":[2,0,87552],"634f1ace":[2,87552,94848],"6cefb4e0":[2,182400,33408],"ea0c10cb":[2,215808,167040],"7fb1d78d":[2,382848,64128],"d4e680d1":[2,446976,33792],"458501f5":[2,480768,91008],"ce31dff7":[2,571776,22656],"8a474297":[2,594432,107136],"f08cee1d":[2,701568,22656],"286f7cbe":[2,724224,67968],"ce7fa474":[2,792192,40704],"4ec25dea":[2,832896,26496],"f8a952fc":[2,859392,81792],"56944f63":[2,941184,171264],"e14e4a96":[2,1112448,87168],"774ee7ba":[2,1199616,64896],"bda30e5":[2,1264512,156672],"863b0e03":[2,1421184,283392],"11e5048e":[2,1704576,64128],"ce3e8a8c":[2,1768704,344064],"f3f5cb93":[2,2112768,279936],"a179d2a3":[2,2392704,61056],"c0c307a0":[2,2453760,325248],"e0f9b0c9":[2,2779008,78336],"719fdc25":[2,2857344,119040],"7e2d16c3":[2,2976384,98688],"e119d2a8":[2,3075072,52608],"e809b882":[2,3127680,14976],"a10c8f2":[2,3142656,91008],"e8683ea5":[2,3233664,14592],"bd65c360":[2,3248256,115584],"ccbe72b2":[2,3363840,43776],"be162147":[2,3407616,64128],"e3f3d810":[2,3471744,79872],"1daf3925":[2,3551616,47232],"f2579661":[2,3598848,52992],"e1dff269":[2,3651840,158208],"183417e1":[2,3810048,95232],"63f17ca8":[2,3905280,80640],"5f091c4d":[2,3985920,166272],"3de58392":[2,4152192,56064],"b42b1d3":[2,4208256,42240],"d97f8f79":[2,4250496,175872],"569ebfe6":[2,4426368,91008],"25cf8908":[2,4517376,76800],"f1ba997e":[2,4594176,71040],"60ad2edb":[2,4665216,101760],"a495b1ea":[2,4766976,129792],"14f2cf07":[2,4896768,40320],"6c971edd":[2,4937088,197760],"ef9fdfe":[2,5134848,152064],"9c3f7ca7":[2,5286912,328704],"923073ca":[2,5615616,86784],"72610c05":[2,5702400,188928],"b40fd3da":[2,5891328,54528],"bbaf7dbd":[2,5945856,54528],"603f9f63":[2,6000384,205440],"1c144699":[2,6205824,15360],"94f32ef0":[2,6221184,66432],"d121b64":[2,6287616,319488],"9bb8601":[2,6607104,88704],"f3cbe9f4":[2,6695808,144768],"6314d7ff":[2,6840576,51840],"79150071":[2,6892416,62208],"1739aa49":[2,6954624,198144],"c151a7f4":[3,0,57216],"f2c5d21b":[3,57216,50688],"bd579aa1":[3,107904,25728],"95568624":[3,133632,86016],"16b155bb":[3,219648,167040],"455d6583":[3,386688,80640],"cf3be61a":[3,467328,15360],"73d7a75e":[3,482688,91776],"af0ec00e":[3,574464,88320],"8e611031":[3,662784,69888],"a06b76b1":[3,732672,104064],"997df33b":[3,836736,174720],"13afde7b":[3,1011456,178944],"ae1ac200":[3,1190400,123264],"87e928a":[3,1313664,171648],"d4ed7493":[3,1485312,21888],"11eb290a":[3,1507200,151680],"41c675a":[3,1658880,26496],"a554ce00":[3,1685376,70656],"ce0136f3":[3,1756032,299520],"b6eef85":[3,2055552,97536],"217e310a":[3,2153088,180096],"c11e0ed2":[3,2333184,149376],"fe83e190":[3,2482560,26112],"9f6597a3":[3,2508672,49920],"542c6293":[3,2558592,104448],"dc34d448":[3,2663040,121728],"27a8c5c3":[3,2784768,119424],"b42755f6":[3,2904192,35328],"59c9caf8":[3,2939520,222720],"26065612":[3,3162240,102144],"3a8a2f3c":[3,3264384,30336],"d49fac01":[3,3294720,109056],"6bdc2149":[3,3403776,57216],"fd19c322":[3,3460992,17280],"fd96c4f2":[3,3478272,137856],"c575caa2":[3,3616128,13824],"bfd7ffb2":[3,3629952,139008],"2760f762":[3,3768960,155136],"fdfe6d2a":[3,3924096,140544],"2da2791d":[3,4064640,36480],"25ca6bee":[3,4101120,19200],"eacf61c":[3,4120320,153600],"fb5a0699":[3,4273920,87936],"f1f8ee2a":[3,4361856,122112],"3e025bf4":[3,4483968,33024],"7c3714ee":[3,4516992,46080],"1614a062":[3,4563072,258432],"60644cbb":[3,4821504,114816],"ee441a7a":[3,4936320,83328],"3982358f":[3,5019648,43776],"278792b5":[3,5063424,175488],"b698fc4d":[3,5238912,114048],"c06ca360":[3,5352960,52224],"9f025a9f":[3,5405184,169728],"20dda265":[3,5574912,140160],"ea8b1de9":[3,5715072,163200],"ad499154":[3,5878272,301056],"8f2ad258":[3,6179328,54144],"bd7ebb73":[3,6233472,83328],"bfb21914":[3,6316800,174720],"aea90121":[3,6491520,46848],"c29f1521":[3,6538368,74496],"7f852f20":[3,6612864,42240],"377153bf":[3,6655104,175872],"a59dea64":[3,6830976,75648],"5d59fb2f":[3,6906624,79872],"7055304e":[3,6986496,30336],"2f845f83":[3,7016832,179328],"894f0a81":[4,0,92160],"e5895005":[4,92160,81792],"880b9812":[4,173952,208896],"14336603":[4,382848,26880],"96158986":[4,409728,19968],"5f9f221d":[4,429696,100224],"c55ea5c1":[4,529920,142080],"333caae0":[4,672000,43776],"cf844bbb":[4,715776,153984],"5303f230":[4,869760,96768],"932ea5f9":[4,966528,17664],"fecdf23d":[4,984192,23424],"8d70c16a":[4,1007616,117888],"78b2f0b0":[4,1125504,86016],"41b99732":[4,1211520,69888],"e9da21db":[4,1281408,43008],"dac11e91":[4,1324416,175104],"3b88cf09":[4,1499520,113280],"1001077f":[4,1612800,303360],"4ebf2c3e":[4,1916160,240000],"61711314":[4,2156160,123264],"d2b52ead":[4,2279424,82560],"54c4acae":[4,2361984,211968],"a59db408":[4,2573952,152448],"8f790927":[4,2726400,95616],"cb8c3d17":[4,2822016,105600],"5bf0c5c0":[4,2927616,94080],"d9c2ce3a":[4,3021696,90624],"f394b5b6":[4,3112320,84096],"5f232783":[4,3196416,19200],"944e30d9":[4,3215616,125568],"d6759c0d":[4,3341184,258432],"63ed23a4":[4,3599616,150528],"2147411d":[4,3750144,112896],"1a3d1976":[4,3863040,130560],"6adfb34c":[4,3993600,20352],"ff39f1b0":[4,4013952,86784],"7c2469e0":[4,4100736,17664],"3f12d7ca":[4,4118400,36864],"77a3f5e2":[4,4155264,124800],"e31055cb":[4,4280064,189696],"7f902a8b":[4,4469760,132096],"1889e7c3":[4,4601856,64896],"29808fd5":[4,4666752,148992],"a7bc6bac":[4,4815744,60288],"d2bd77d8":[4,4876032,271488],"3292e00c":[4,5147520,301824],"97df50d9":[4,5449344,228864],"d0082275":[4,5678208,248832],"b96f9174":[4,5927040,185472],"ab8364d0":[4,6112512,257280],"af9496d5":[4,6369792,320640],"d045e9e6":[4,6690432,40704],"65066345":[4,6731136,326784],"fa6a7d35":[4,7057920,77568],"85e974a8":[5,0,98688],"18bcc69a":[5,98688,105600],"df37982f":[5,204288,48000],"e1c85d18":[5,252288,64896],"9a94946":[5,317184,72960],"61c2daaa":[5,390144,43008],"be846784":[5,433152,47616],"86a3aac2":[5,480768,55680],"20b5f844":[5,536448,71808],"e7e87062":[5,608256,110208],"1c837a55":[5,718464,25728],"b4af73b3":[5,744192,44928],"2663048c":[5,789120,79488],"2dd3f75a":[5,868608,58368],"3c4c6253":[5,926976,122496],"27e47cf1":[5,1049472,155520],"171a1a5":[5,1204992,16896],"2a11ba75":[5,1221888,22656],"309fc3f4":[5,1244544,142848],"673e6811":[5,1387392,36096],"b3a1545b":[5,1423488,145920],"889eb238":[5,1569408,35712],"6108c3c3":[5,1605120,57984],"6f6700c4":[5,1663104,91392],"23d7bac0":[5,1754496,164352],"c1f0f7e2":[5,1918848,84480],"2efa29cb":[5,2003328,87168],"b18fad72":[5,2090496,172416],"c3f403c6":[5,2262912,173952],"4cb8b5af":[5,2436864,68352],"38aa9250":[5,2505216,39936],"ceb1b9ce":[5,2545152,46464],"6ff45f3a":[5,2591616,246528],"4adc2605":[5,2838144,143616],"7bba188e":[5,2981760,96384],"53d538e7":[5,3078144,72960],"ad27d49b":[5,3151104,77952],"5c33d62e":[5,3229056,127872],"bc30e244":[5,3356928,51072],"d289a89a":[5,3408000,140928],"965053a0":[5,3548928,97536],"5dc815a2":[5,3646464,116736],"b219cc2":[5,3763200,71424],"f347ad3c":[5,3834624,22272],"44194461":[5,3856896,266496],"47488cf":[5,4123392,67200],"a667efc":[5,4190592,61440],"ca7e661e":[5,4252032,126336],"6aac4c6d":[5,4378368,61824],"4fee64f":[5,4440192,96000],"20f58f27":[5,4536192,104832],"c5cd2195":[5,4641024,52608],"c9ef3d19":[5,4693632,110208],"d5a534ad":[5,4803840,86784],"a39e2a5d":[5,4890624,107520],"37c2edc4":[5,4998144,61056],"4a1d2366":[5,5059200,67584],"1226a94b":[5,5126784,163200],"e8df20fd":[5,5289984,192000],"a9b8d719":[5,5481984,71040],"7d01a5c9":[5,5553024,99072],"1287ec15":[5,5652096,132096],"a76dd0b4":[5,5784192,87168],"75028400":[5,5871360,137472],"1abc967":[5,6008832,290688],"6ae91c90":[5,6299520,170880],"86edabca":[5,6470400,76800],"af7a3ce9":[5,6547200,297600],"9354066b":[5,6844800,70272],"3eb9ee04":[5,6915072,271488],"c5cbd1f1":[6,0,90240],"9678656":[6,90240,220800],"1c0a33ff":[6,311040,192768],"30ebf9fd":[6,503808,99456],"8a058733":[6,603264,225408],"da848f1a":[6,828672,210048],"d639201b":[6,1038720,90240],"36450d09":[6,1128960,175488],"2c1e87d0":[6,1304448,282240],"ab593898":[6,1586688,265344],"61a60b61":[6,1852032,156288],"f6abd4ee":[6,2008320,194304],"4833e65b":[6,2202624,131712],"78ba8a40":[6,2334336,290688],"d9254a43":[6,2625024,109824],"893c5ce":[6,2734848,307200],"8807e221":[6,3042048,332160],"48fcad99":[6,3374208,127872],"269dcf70":[6,3502080,124416],"b9baa318":[6,3626496,142080],"8fd61f":[6,3768576,166656],"d83d7939":[6,3935232,231168],"9ed6447f":[6,4166400,228864],"bec5e357":[6,4395264,334848],"5581c9ad":[6,4730112,213888],"8f6915f":[6,4944000,203136],"2f3ac36a":[6,5147136,254592],"b378abaa":[6,5401728,245760],"2f8d63d5":[6,5647488,279168],"6873dc66":[6,5926656,286848],"fecc2c96":[6,6213504,251136],"92ed127":[6,6464640,358272]};window.__VPACKS=6;</script>
 <script>
 (function(){
 /* ================= ART: woodblock-style vector drawing ================= */
@@ -297,7 +301,7 @@ function portrait(ctx,s,W,H){
   const sw=kid?18:teen?(fem?20:22):fem?22:28,sy=kid?7:teen?3:0,sl=elder?5:0;
   ctx.beginPath();ctx.moveTo(-sw-1,32);ctx.quadraticCurveTo(-sw+1,7+sy+sl,-8,2+sy);ctx.lineTo(8,2+sy);ctx.quadraticCurveTo(sw-1,7+sy+sl,sw+1,32);ctx.closePath();inkFill(ctx,body,1.2);
   if(!s.coat){const c0=2+sy;
-    if(fem){ctx.fillStyle=s.eri||'#b8473a';ctx.beginPath();ctx.moveTo(-8,c0);ctx.lineTo(0,c0+15);ctx.lineTo(8,c0);ctx.lineTo(5.5,c0);ctx.lineTo(0,c0+10);ctx.lineTo(-5.5,c0);ctx.fill();}
+    if(fem){ctx.fillStyle=s.eri||(y<26?'#cf2f36':y<45?'#b8473a':'#6e5d55');ctx.beginPath();ctx.moveTo(-8,c0);ctx.lineTo(0,c0+15);ctx.lineTo(8,c0);ctx.lineTo(5.5,c0);ctx.lineTo(0,c0+10);ctx.lineTo(-5.5,c0);ctx.fill();}
     ctx.fillStyle='#efe9dc';ctx.beginPath();ctx.moveTo(-6,c0);ctx.lineTo(0,c0+(fem?11:14));ctx.lineTo(6,c0);ctx.lineTo(3.5,c0);ctx.lineTo(0,c0+8);ctx.lineTo(-3.5,c0);ctx.fill();
     ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-8,c0);ctx.lineTo(1,c0+17);ctx.moveTo(8,c0);ctx.lineTo(-1,c0+17);ctx.stroke();}
   else{const c0=2+sy;ctx.fillStyle='#e9e3d6';ctx.beginPath();ctx.moveTo(-4,c0);ctx.lineTo(0,c0+8);ctx.lineTo(4,c0);ctx.fill();if(s.coat!=='west'){ctx.fillStyle=P.gold;for(let i=0;i<3;i++){ell(ctx,0,c0+12+i*6,1.2,1.2);ctx.fill();}}else{ctx.fillStyle='#5a1f1a';ctx.beginPath();ctx.moveTo(-2,c0+2);ctx.lineTo(2,c0+2);ctx.lineTo(1,c0+10);ctx.lineTo(-1,c0+10);ctx.fill();}}
@@ -318,9 +322,10 @@ function portrait(ctx,s,W,H){
   if(s.hair==='top'){ctx.beginPath();ctx.moveTo(-10.8,-12);ctx.quadraticCurveTo(-12,-22,-8,-25);ctx.lineTo(-7,-17);ctx.lineTo(-9,-11);ctx.fill();ctx.beginPath();ctx.moveTo(10.8,-12);ctx.quadraticCurveTo(12,-22,8,-25);ctx.lineTo(7,-17);ctx.lineTo(9,-11);ctx.fill();
     ctx.fillStyle='rgba(80,60,50,.18)';ctx.beginPath();ctx.ellipse(0,-25,8,5,0,Math.PI,Math.PI*2);ctx.fill();ctx.fillStyle=hc;ctx.save();ctx.translate(0,-30);ctx.rotate(-0.15);rr(ctx,-2,-9,4,11,1.5);ctx.fill();ctx.restore();}
   else if(s.hair==='bun'){ // shimada: puffed side wings over the ears, a high knot, a pin; smaller and flatter for old women
-    const big=!elder;ctx.beginPath();ctx.moveTo(-10,-6);ctx.quadraticCurveTo(-15,-31,0,-32.5);ctx.quadraticCurveTo(15,-31,10,-6);ctx.quadraticCurveTo(8.6,-22,0,-24.5);ctx.quadraticCurveTo(-8.6,-22,-10,-6);ctx.fill();ctx.stroke();
+    // (15 Nov audit: wife, daughter and mother looked alike) married women wear the marumage: a wide round knot, no side wings
+    const wed=!!s.wed&&!elder,big=!elder&&!wed;ctx.beginPath();ctx.moveTo(-10,-6);ctx.quadraticCurveTo(-15,-31,0,-32.5);ctx.quadraticCurveTo(15,-31,10,-6);ctx.quadraticCurveTo(8.6,-22,0,-24.5);ctx.quadraticCurveTo(-8.6,-22,-10,-6);ctx.fill();ctx.stroke();
     if(big){ell(ctx,-11.4,-15,3.6,7.6);ctx.fill();ctx.stroke();ell(ctx,11.4,-15,3.6,7.6);ctx.fill();ctx.stroke();}
-    ell(ctx,0,-36,big?10:7,big?6:4.2);ctx.fill();ctx.stroke();if(big){ctx.fillStyle=s.pin||P.verm;rr(ctx,-2.2,-41.6,4.4,11,1.2);ctx.fill();ctx.fillStyle=hc;ell(ctx,0,-36,3,3);ctx.fill();}
+    ell(ctx,0,wed?-34.5:-36,big?10:wed?12.5:7,big?6:wed?7.8:4.2);ctx.fill();ctx.stroke();if(wed){ctx.fillStyle=s.pin||'#7a3b52';ctx.fillRect(-12.5,-35.2,25,2);ctx.fillStyle=hc;}if(big){ctx.fillStyle=s.pin||P.verm;rr(ctx,-2.2,-41.6,4.4,11,1.2);ctx.fill();ctx.fillStyle=hc;ell(ctx,0,-36,3,3);ctx.fill();}
     ctx.fillStyle=s.pin||P.verm;ctx.fillRect(-14,-37.2,28,1.6);ell(ctx,14,-36.4,1.8,1.8);ctx.fill();
     if(big&&y<40){ctx.fillStyle='#e4b04a';ell(ctx,-14,-36.4,1.4,1.4);ctx.fill();}}
   else if(s.hair==='child'){ctx.beginPath();ctx.moveTo(-11,-14);ctx.quadraticCurveTo(-11.6,-32,0,-32);ctx.quadraticCurveTo(11.6,-32,11,-14);
@@ -330,7 +335,7 @@ function portrait(ctx,s,W,H){
   else if(s.hair==='shaved'){ctx.fillStyle='rgba(70,60,55,.3)';ctx.beginPath();ctx.ellipse(0,-22,10,8.5,0,Math.PI,Math.PI*2);ctx.fill();}
   // face
   const m=s.mood||0,ey=kid?-12:-13.4,ex=kid?4.6:4.8;
-  if(fem||kid){ctx.fillStyle=kid?'rgba(225,110,95,.28)':'rgba(215,95,90,.26)';ell(ctx,-6.4,-7.2,2.6,1.6);ctx.fill();ell(ctx,6.4,-7.2,2.6,1.6);ctx.fill();}
+  if(fem&&y<40){ctx.fillStyle=kid?'rgba(225,110,95,.28)':'rgba(215,95,90,.26)';ell(ctx,-6.4,-7.2,2.6,1.6);ctx.fill();ell(ctx,6.4,-7.2,2.6,1.6);ctx.fill();}
   // brows: heavy and straight for men (grey and bushy when old), thin and arched for women, soft and high for children
   const by=fem?-18.6:kid?-17.6:-17.4;ctx.strokeStyle=old&&!fem?(hc==='#d2cdc2'?'#9a948a':'#5f5a54'):P.ink;ctx.lineCap='round';ctx.beginPath();
   if(fem){ctx.moveTo(-7.6,by+1);ctx.quadraticCurveTo(-5,by-1.6,-2.4,by+0.4);ctx.moveTo(7.6,by+1);ctx.quadraticCurveTo(5,by-1.6,2.4,by+0.4);ctx.lineWidth=0.7;}
@@ -760,7 +765,7 @@ addEventListener('resize',fitCanvas);
 
 /* ---------- Input ---------- */
 const K={};const pressed=new Set();
-addEventListener('keydown',e=>{if(e.target&&(e.target.tagName==='INPUT'))return;const k=e.key.toLowerCase();if(!K[k])pressed.add(k);K[k]=true;
+addEventListener('keydown',e=>{const tg=e.target&&e.target.tagName;if(tg==='INPUT'||tg==='TEXTAREA'||tg==='SELECT'||(e.target&&e.target.isContentEditable))return;const k=e.key.toLowerCase();if(!K[k])pressed.add(k);K[k]=true;
   if([' ','arrowup','arrowdown','arrowleft','arrowright','tab'].includes(k))e.preventDefault();});
 addEventListener('keyup',e=>{K[e.key.toLowerCase()]=false;});
 addEventListener('blur',()=>{for(const k in K)K[k]=false;});
@@ -785,7 +790,7 @@ function clearEnts(keepPlayer){G.ents=G.ents.filter(e=>keepPlayer&&e===G.player)
 
 /* ---------- Maps ---------- */
 let groundCache=null,groundKey='';
-function setMap(m,spawn){G.map=m;groundKey='';clearEnts(false);G.night=!!m.night;G.rain=!!m.rain;
+function setMap(m,spawn){G.map=m;G.goal=null;groundKey='';clearEnts(false);G.night=!!m.night;G.rain=!!m.rain;
   G.player=ent({id:'player',who:'juro',x:spawn[0],y:spawn[1],dir:spawn[2]||'d',speed:150,isPlayer:true});
   G.cam.x=G.player.x-G.view.w/2;G.cam.y=G.player.y-G.view.h/2;clampCam();
   (m.npcs||[]).forEach(n=>ent(Object.assign({},n)));}
@@ -803,6 +808,7 @@ let last=performance.now();
 function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;G.t=now;
   fitCanvas();if(G.map&&G.mode!=='title')update(dt);render();pressed.clear();requestAnimationFrame(frame);}
 function inputVec(){let x=0,y=0;if(K['arrowleft']||K['a'])x-=1;if(K['arrowright']||K['d'])x+=1;if(K['arrowup']||K['w'])y-=1;if(K['arrowdown']||K['s'])y+=1;if(touch.on){x=touch.x;y=touch.y;}
+  if(x||y)G.goal=null;else if(G.goal&&G.player){const dx=G.goal.x-G.player.x,dy=G.goal.y-G.player.y,d=Math.hypot(dx,dy);if(d<8){const act=G.goal.act;G.goal=null;if(act&&G.mode==='play'&&!G.fight&&nearest())interact();}else{x=dx/d;y=dy/d;}}
   const m=Math.hypot(x,y);if(m>1){x/=m;y/=m;}return [x,y];}
 function faceOf(x,y,d){if(Math.abs(x)<0.1&&Math.abs(y)<0.1)return d;return Math.abs(x)>Math.abs(y)?(x<0?'l':'r'):(y<0?'u':'d');}
 function update(dt){
@@ -847,7 +853,12 @@ function wts(x,y){const r=cv.getBoundingClientRect();const k=r.width/G.view.w;re
 function interact(){const n=nearest();if(!n||G.busy)return;const o=n.o;const p=G.player;
   if(n.kind==='e'){o.dir=faceOf(p.x-o.x,p.y-o.y,o.dir);p.dir=faceOf(o.x-p.x,o.y-p.y,p.dir);}
   G.busy=true;Promise.resolve(o.fn?o.fn():o.talk()).catch(e=>console.error(e)).finally(()=>{G.busy=false;});}
-$('cv').addEventListener('click',e=>{if(G.mode!=='play'||G.fight)return;const n=nearest();if(n)interact();});
+// (15 Nov audit: mouse-only students could not move) click the ground to walk there, or click a person to walk up and talk
+$('cv').addEventListener('click',e=>{if(G.mode!=='play'||!G.player)return;const r=cv.getBoundingClientRect();if(!r.width)return;
+  const wx=G.cam.x+(e.clientX-r.left)/r.width*G.view.w,wy=G.cam.y+(e.clientY-r.top)/r.height*G.view.h;
+  const who=G.ents.find(o=>o!==G.player&&(o.talk||o.mark)&&Math.hypot(o.x-wx,o.y-12-wy)<26)||G.spots.find(s=>s.fn&&Math.hypot(s.x-wx,s.y-wy)<30);
+  if(who&&!G.fight&&Math.hypot(who.x-G.player.x,(who.y-G.player.y)*1.2)<46){G.goal=null;interact();return;}
+  G.goal=who?{x:who.x,y:who.y+(who.talk||who.mark?22:6),act:!G.fight}:{x:wx,y:wy,act:false};});
 
 /* ---------- Combat ---------- */
 function weaponOf(){return G.player.wpn||spec('juro')?.wpn;}
@@ -857,13 +868,14 @@ function swing(p){sfx('swish');const reach=40;const fx={l:[-1,0],r:[1,0],u:[0,-1
 function hitEnemy(e,fx){if(e.block&&e.st.ph==='guard'&&Math.random()<0.6){sfx('clang');G.fx.push({kind:'spark',x:e.x,y:e.y-26,t:0.2});e.st.ph='recover';e.st.pt=0.25;return;}
   e.hp-=1;e.st.hurt=0.25;sfx('hit');G.shake=4;G.fx.push({kind:'spark',x:e.x,y:e.y-26,t:0.2});
   for(let i=0;i<6;i++)moveEnt(e,fx[0]*4,fx[1]*4);
-  if(e.ph!=='windup'||e.boss)e.st.ph='stagger',e.st.pt=e.boss?0.18:0.35;else{e.st.ph='stagger';e.st.pt=0.35;}
+  // (15 Nov audit: mashing J stun-locked every enemy) a hit only staggers when the enemy's poise is back; a boss's wind-up can't be interrupted
+  if(!(e.boss&&e.st.ph==='windup')&&!(e.st.poise>0)){e.st.ph='stagger';e.st.pt=e.boss?0.18:0.35;e.st.poise=e.boss?1.3:0.9;}
   if(e.hp<=0){e.st.down=true;e.st.ph='down';e.solid=false;sfx('thud');if(e.onDown)e.onDown();}}
 function hurtPlayer(n,from){if(G.iframe>0||G.player.st.down)return;G.hearts=Math.max(0,G.hearts-n);G.iframe=0.8;G.player.st.hurt=0.3;G.shake=7;sfx('ouch');
   if(from){const dx=G.player.x-from.x,dy=G.player.y-from.y,d=Math.hypot(dx,dy)||1;for(let i=0;i<5;i++)moveEnt(G.player,dx/d*5,dy/d*5);}
   drawHearts();if(G.hearts<=0){G.player.st.down=true;G.fight.lost=true;}}
 function aiStep(e,dt){if(e.st.down)return;const p=G.player;const s=e.st;const dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy*1.3);
-  s.pt=(s.pt||0)-dt;e.dir=faceOf(dx,dy,e.dir);e.moving=false;
+  s.pt=(s.pt||0)-dt;s.poise=(s.poise||0)-dt;e.dir=faceOf(dx,dy,e.dir);e.moving=false;
   if(e.ai==='rifle'){
     if(!s.ph||s.ph==='move'){if(d<150)moveEnt(e,-dx/d*e.speed*dt,-dy/d*e.speed*dt),e.moving=true;else if(d>300)moveEnt(e,dx/d*e.speed*dt,dy/d*e.speed*dt),e.moving=true;else if(s.pt<=0){s.ph='aim';s.pt=1.1;s.ax=p.x;s.ay=p.y;}}
     else if(s.ph==='aim'){s.ax+=(p.x-s.ax)*Math.min(1,dt*2.2);s.ay+=(p.y-s.ay)*Math.min(1,dt*2.2);if(s.pt<=0){s.ph='fire';s.pt=0.15;sfx('shot');G.fx.push({kind:'line',x:e.x,y:e.y-28,x2:s.ax,y2:s.ay-20,t:0.12});
@@ -890,7 +902,10 @@ function fight(list,opts){opts=opts||{};return new Promise(res=>{const pStart=[G
   const spawn=()=>{G.ents=G.ents.filter(e=>!e.ai);list.forEach((l,i)=>ent(Object.assign({id:'foe'+i,ai:'melee',hp:3,speed:95,r:11},l,{st:{ph:'move',pt:0.8+i*0.4}})));};
   spawn();G.hearts=G.maxHearts;drawHearts();$('hearts').hidden=false;document.body.classList.add('fighting');
   G.fight={resolve:()=>{G.fight=null;document.body.classList.remove('fighting');$('hearts').hidden=true;if(!opts.keep)G.ents=G.ents.filter(e=>!e.ai||e.st.down&&opts.keepDown);res();},reset:()=>{spawn();G.player.x=pStart[0];G.player.y=pStart[1];},loseMsg:opts.loseMsg};
-  setMode('play');if(opts.hint)toast(opts.hint,4500);});}
+  setMode('play');
+  if(skipFights()){toast('Fight skipped (teacher setting)',2500);setTimeout(()=>G.ents.forEach(e=>{if(e.ai&&!e.st.down){e.hp=0;e.st.down=true;e.st.ph='down';e.solid=false;if(e.onDown)e.onDown();}}),400);}
+  else if(opts.hint)toast(opts.hint,4500);});}
+function skipFights(){try{return localStorage.getItem('shio-skipfight')==='1';}catch(e){return false;}}
 function drawHearts(){const h=$('hearts');h.innerHTML='';for(let i=0;i<G.maxHearts;i++){const s=document.createElement('i');if(i>=G.hearts)s.className='gone';h.appendChild(s);}}
 
 /* ---------- Render ---------- */
@@ -904,6 +919,8 @@ function render(){const W=cv.width,H=cv.height;ctx.setTransform(1,0,0,1,0,0);
   const vis=[];const inView=(x,y,pad)=>x>cx-pad&&x<cx+G.view.w+pad&&y>cy-pad&&y<cy+G.view.h+pad*2.5;
   for(const b of m.props)if(inView(b.x+(b.w||0)/2,b.y,(b.w||60)+120))vis.push([b.sy||b.y,()=>drawProp(b)]);
   for(const e of G.ents)if(e.vis&&inView(e.x,e.y,60))vis.push([e.st.down?e.y-20:e.y,()=>drawEnt(e)]);
+  // (15 Nov audit: the ch5 notice board was a required step nobody could see) things to examine get the same gold marker as people
+  for(const s of G.spots)if(s.mark&&inView(s.x,s.y,60))vis.push([s.y+1,()=>{ctx.fillStyle=P.gold;ctx.strokeStyle=P.ink;ctx.lineWidth=1.2;const y=s.y-40+Math.sin(G.t*0.005)*2;ctx.beginPath();ctx.moveTo(s.x,y+8);ctx.lineTo(s.x-6,y);ctx.lineTo(s.x+6,y);ctx.closePath();ctx.fill();ctx.stroke();}]);
   vis.sort((a,b)=>a[0]-b[0]);vis.forEach(v=>v[1]());
   if(m.birds&&!G.night)birds(ctx,cx,Math.max(cy+30,TOWN.seaY-160),G.view.w,G.t);
   // fx
@@ -992,10 +1009,10 @@ function reach(x,y,w,h){return new Promise(res=>{(G.zones=G.zones||[]).push({x,y
 function talkTo(id,label){const e=byId(id);return new Promise(res=>{const old=e.talk;e.mark=true;if(label)e.label=label;e.talk=async()=>{e.mark=false;e.talk=old;e.label=null;res();};});}
 function spot(id,x,y,label,fn,r){const s={id,x,y,label,fn,r};G.spots.push(s);return s;}
 function removeSpot(id){G.spots=G.spots.filter(s=>s.id!==id);}
-function examine(id,x,y,label){return new Promise(res=>{spot(id,x,y,label,async()=>{removeSpot(id);res();});});}
+function examine(id,x,y,label){return new Promise(res=>{spot(id,x,y,label,async()=>{removeSpot(id);res();}).mark=true;});}
 function walk(id,pts,speed){const e=byId(id);if(!e)return Promise.resolve();if(speed)e.speed=speed;e.path=pts.map(p=>[p[0],p[1]]);return new Promise(res=>{e.onArrive=res;});}
 function faceTo(id,dir){const e=byId(id);if(e)e.dir=dir;}
-async function card(o){setMode('card');const c=$('card');c.hidden=false;$('fade').style.opacity=0;$('card-k').textContent=o.k||'';$('card-t').innerHTML=o.t||'';$('card-b').textContent=o.b||'';c.classList.toggle('plain',!o.art);
+async function card(o){setMode('card');const c=$('card');c.hidden=false;$('fade').style.opacity=0;$('card-k').textContent=o.k||'';$('card-t').innerHTML=o.t||'';$('card-b').textContent=(o.b||'').replace(/^\[\w+\]\s*/,'');c.classList.toggle('plain',!o.art);
   const cc=$('card-cv');let alive=true;const draw=()=>{if(!alive)return;const r=cc.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);const w=Math.round(r.width*d),h=Math.round(r.height*d);if(cc.width!==w||cc.height!==h){cc.width=w;cc.height=h;}
     const g=cc.getContext('2d');if(o.art)drawCard(g,w,h,o.art,performance.now());else{g.fillStyle='#1b1713';g.fillRect(0,0,w,h);grain(g,w,h,0.5);}requestAnimationFrame(draw);};draw();
   if(o.say)speak(o.say,null);else speak([o.t&&o.t.replace(/<[^>]+>/g,' '),o.b].filter(Boolean).join('. '),null);
@@ -1005,22 +1022,23 @@ async function card(o){setMode('card');const c=$('card');c.hidden=false;$('fade'
 /* ---------- Case book & tagging ---------- */
 const TAGS={S:'Social',P:'Political',E:'Economic'};
 // notes about Japan before 1868: still sorted, but filed as context, and not offered as evidence of the Restoration's effects
-const CONTEXT=new Set(['The closed country','Prices and trade','The unequal treaties']);
+const CONTEXT=new Set(['The closed country','Prices and trade']);
 async function caseNote(title,text,tag,why){const n={title,text,tag,ch:G.ch,year:G.year};G.book.push(n);setMode('tag');sfx('stamp');
   const o=$('tag');o.hidden=false;$('tag-title').textContent=title;$('tag-text').textContent=text;$('tag-msg').textContent='';
   speak('Case book. '+title+'. '+text+' Which kind of change is this?',null);
-  let tries=0;await new Promise(res=>{o.querySelectorAll('[data-tag]').forEach(b=>{b.disabled=false;b.classList.remove('wrong','right');b.onclick=()=>{tries++;if(b.dataset.tag===tag){b.classList.add('right');sfx('good');if(tries===1)G.tagScore[0]++;G.tagScore[1]++;n.got=tries===1;$('tag-msg').textContent=why||'Filed.';speak(why||'Filed.',null);setTimeout(res,why?2600:900);o.querySelectorAll('[data-tag]').forEach(x=>x.disabled=true);}
+  let tries=0;await new Promise(res=>{o.querySelectorAll('[data-tag]').forEach(b=>{b.disabled=false;b.classList.remove('wrong','right');b.onclick=()=>{tries++;if(tag.includes(b.dataset.tag)){b.classList.add('right');sfx('good');if(tries===1)G.tagScore[0]++;G.tagScore[1]++;n.got=tries===1;$('tag-msg').textContent=why||'Filed.';speak(why||'Filed.',null);setTimeout(res,why?2600:900);o.querySelectorAll('[data-tag]').forEach(x=>x.disabled=true);}
     else{b.classList.add('wrong');b.disabled=true;sfx('bad');const h=tag==='E'?'Think about money, trade, jobs or industry.':tag==='P'?'Think about government, laws, power or who rules.':'Think about how people live, dress, learn, or what class they belong to.';$('tag-msg').textContent='Not quite. '+h;speak('Not quite. '+h,null);}};});});
   o.hidden=true;setMode('play');save();
   toast(CONTEXT.has(title)?'Filed as context: this is from before 1868. Use it to set the scene, not as evidence of the Restoration\'s effects.':'Added to your case book (press B or tap Case book)',CONTEXT.has(title)?5200:2600);}
 function openBook(){if(G.mode!=='play')return;setMode('book');const o=$('book');o.hidden=false;const l=$('book-list');l.innerHTML='';
   if(!G.book.length)l.innerHTML='<p class="empty">No entries yet. Cases you solve are filed here.</p>';
-  G.book.forEach(n=>{const d=document.createElement('div');d.className='entry';d.innerHTML=`<b>${n.year||''} · ${n.title}</b><span class="tg t-${n.tag}">${TAGS[n.tag]}</span>${CONTEXT.has(n.title)?'<span class="tg t-ctx">Context · before 1868</span>':''}<p>${n.text}</p>`;l.appendChild(d);});
+  G.book.forEach(n=>{const d=document.createElement('div');d.className='entry';d.innerHTML=`<b>${n.year||''} · ${n.title}</b>${[...n.tag].map(t=>`<span class="tg t-${t}">${TAGS[t]}</span>`).join('')}${CONTEXT.has(n.title)?'<span class="tg t-ctx">Context · before 1868</span>':''}<p>${n.text}</p>`;l.appendChild(d);});
   $('book-close').onclick=()=>{o.hidden=true;setMode('play');};}
 $('btn-book').onclick=()=>openBook();
 
 /* ---------- Save ---------- */
-function save(){try{localStorage.setItem('shio-save',JSON.stringify({ch:G.ch,flags:G.flags,book:G.book,tag:G.tagScore,v:1}));}catch(e){}}
+// a note's tag may hold more than one letter ('SP' = Social or Political); the epilogue saves as chapter 6 so Continue doesn't replay chapter 5
+function save(){try{localStorage.setItem('shio-save',JSON.stringify({ch:G.epi?6:G.ch,flags:G.flags,book:G.book,tag:G.tagScore,arg:G.arg||null,v:1}));}catch(e){}}
 function loadSave(){try{return JSON.parse(localStorage.getItem('shio-save')||'null');}catch(e){return null;}}
 
 /* ================= WORLD: Shiomachi across five eras, plus side maps ================= */
@@ -1162,9 +1180,9 @@ const CAST={
   genji:{name:'Genji',voice:'genji',spec:()=>G.ch<=1?{kim:'#a7804e',obi:'#5a3a22',hair:'child',small:true,yrs:14}:G.ch<=2?{kim:'#2f4a3e',obi:'#c9a04a',hair:'top',pat:1}:G.ch<=4?{coat:'west',coatC:'#2f3a46',hair:'west',hat:'bowler'}:{coat:'west',coatC:'#3a3530',hair:'west',age:2,must:true}},
   hirata:{name:'Hirata',voice:'hirata',spec:()=>G.ch<=1?{kim:'#7a5a3a',hak:'#4a4038',hair:'top',small:true,yrs:19,wpn:'sword'}:G.ch<=2?{kim:'#3a2a22',hak:'#2a2a2a',hair:'top',hat:'jingasa',wpn:'sword'}:G.ch<=4?{kim:'#4a3a30',hak:'#3a3530',hair:'top',wpn:'sword',age:1,rough:1}:{kim:'#5a5248',hair:'short',age:2,rough:1}},
   sagara:{name:'Superintendent Sagara',voice:'sagara',spec:()=>({coat:'police',hat:'kepi',hair:'short',must:true,age:G.ch>=5?2:1,wpn:'saber'})},
-  sayo:{name:'Sayo',voice:'sayo',spec:()=>G.ch<=1?{kim:'#c3412b',hair:'child',small:true,fem:1,yrs:11}:G.ch<=3?{kim:'#a0423a',obi:'#e9c46a',hair:'bun',fem:1,pat:1}:{kim:'#5a4a6a',obi:'#c9a04a',hair:'bun',fem:1,age:1,hat:G.ch>=5?'tenugui':null}},
-  mitsu:{name:'Mitsu',voice:'mitsu',spec:()=>({kim:'#5a5a6e',obi:'#8a7a5a',hair:'bun',fem:1,age:G.ch<=2?1:G.ch<=4?2:3,pin:'#5a4a3a'})},
-  tami:{name:'Tami',voice:'tami',spec:()=>({kim:'#3f6b5a',obi:'#e4d5b5',hair:'bun',fem:1,age:G.ch>=5?1:0,pat:1})},
+  sayo:{name:'Sayo',voice:'sayo',spec:()=>G.ch<=1?{kim:'#c3412b',hair:'child',small:true,fem:1,yrs:11}:G.ch<=3?{kim:'#a0423a',obi:'#e9c46a',hair:'bun',fem:1,pat:1,yrs:G.ch<=2?22:28}:{kim:'#5a4a6a',obi:'#c9a04a',hair:'bun',fem:1,age:1,yrs:G.ch>=5?43:31,wed:G.ch>=5?1:0,hat:G.ch>=5?'tenugui':null}},
+  mitsu:{name:'Mitsu',voice:'mitsu',spec:()=>({kim:'#5a5a6e',obi:'#8a7a5a',hair:'bun',fem:1,age:G.ch<=2?1:G.ch<=4?2:3,yrs:G.ch<=1?44:G.ch<=2?58:G.ch<=4?64:74,wed:1,pin:'#5a4a3a'})},
+  tami:{name:'Tami',voice:'tami',spec:()=>({kim:'#3f6b5a',obi:'#e4d5b5',hair:'bun',fem:1,age:G.ch>=5?1:0,yrs:G.ch>=5?44:30,wed:1,pat:1})},
   masao:{name:'Masao',voice:'masao',spec:()=>G.ch<=2?{kim:'#d9c48e',hair:'child',small:true,yrs:6}:G.ch<=4?{kim:'#22305a',hair:'short',small:true,yrs:10}:{coat:'west',coatC:'#2a3140',hair:'short',yrs:23}},
   oume:{name:'Oume',voice:'oume',spec:()=>({kim:'#7a5a7a',obi:'#c3412b',hair:'bun',fem:1,age:G.ch<=1?0:G.ch<=3?1:G.ch<=4?2:3,pin:'#c9a04a'})},
   kiku:{name:'Kiku',voice:'kiku',spec:{kim:'#6b7f95',obi:'#c3412b',hair:'bun',fem:1,hat:'tenugui',small:true,yrs:16}},
@@ -1282,7 +1300,7 @@ async function chapter1(){
   if(c===0){G.flags.genjiSecret='kept';await say('juro','[warm] I won\'t tell anyone. Just... don\'t drown.');await say('genji','[excited] I\'ll bring you something back! A button. They\'ve got gold buttons, I heard. Gold!',1);}
   else{G.flags.genjiSecret='told';await say('juro','[firm] I\'m telling my father. It\'s too dangerous, Genji. I\'m sorry.');await say('genji','[bitter] ...Then tell him. Go on. Run and tell him. You\'re good at running.',-1);}
   await fade(1);
-  await card({k:'1853 to 1854',t:'The Black Ships',b:'Commodore Perry of the U.S. Navy delivered a letter demanding that Japan open its ports, and said he would return for an answer. In March 1854 he came back with nine ships. Japan had no navy to stop him. The shogun\'s government signed the Treaty of Kanagawa, opening two ports to American ships. Japan\'s isolation was over.',art:{title:1}});
+  await card({k:'1853 to 1854',t:'The Black Ships',b:'Commodore Perry of the U.S. Navy delivered a letter demanding that Japan open its ports, and said he would return for an answer. In February 1854 he came back with nine ships. Japan had no navy to stop him. In March, the shogun\'s government signed the Treaty of Kanagawa, opening two ports to American ships. Japan\'s isolation was over.',art:{title:1}});
   if(G.flags.genjiSecret==='told')await card({k:'Shiomachi',t:'',b:'[sad] Genji\'s father beat him for planning to row out to the ships. Genji didn\'t speak to Jūrō for a year.'});
   else await card({k:'Shiomachi',t:'',b:'Genji never made it to the ships. The guard boats turned him back. But he kept a brass button for the rest of his life, and nobody ever learned where he got it.'});
   await card({k:'Heizō',t:'',b:'"The shogun could not protect us. Remember that, Jūrō. Everything after this begins with that."',say:'The shogun could not protect us. Remember that, Jūrō. Everything after this begins with that.'});
@@ -1360,14 +1378,14 @@ async function chapter2(){
   else{await narr('[gentle] The poles go down. The fishermen line up. Genji\'s father will shout at him all night... but in the morning, the street is still standing.');}
   await caseNote('Prices and trade','After the treaties opened the ports in 1859, Japanese silk and tea sold abroad. Prices at home rose fast, and poor families went hungry while some merchants grew rich.','E','Economic: it\'s about trade, prices and money.');
   await fade(1);
-  await card({k:'May 1868',t:'The Restoration',b:'Edo surrendered to the Emperor\'s army without a fight. The shogun\'s rule, which had lasted 265 years, was over. The young Emperor moved to Edo, renamed Tokyo, "the eastern capital." The new era was named Meiji: "enlightened rule."',art:{sky:'dusk',fuji:1,sun:1,ground:'#6f8a57',hz:0.62}});
+  await card({k:'May 1868',t:'The Restoration',b:'Edo surrendered to the Emperor\'s army without a fight. The shogun\'s rule, which had lasted 265 years, was over. Later that year the new era was named Meiji, "enlightened rule," and the young Emperor moved to Edo, renamed Tokyo, "the eastern capital."',art:{sky:'dusk',fuji:1,sun:1,ground:'#6f8a57',hz:0.62}});
   await caseNote('The Restoration','In 1868 the shogun\'s rule ended and power was "restored" to the Emperor. In practice, a small group of samurai from Satsuma and Chōshū ran the new government in his name.','P','Political: it\'s about who governs Japan.');
   return 3;}
 
 /* ---------------- CHAPTER 3: Iron and Wire ---------------- */
 async function chapter3(){
   setChapter(3,1874);
-  await card({k:'Chapter 3',t:'Iron and Wire',b:'Shiomachi, October 1874. The old domains are gone, replaced by prefectures run from Tokyo. Trains run between Tokyo and Yokohama. Every child must go to school, and young men of every class must serve in the army. Japan\'s motto is now "Rich country, strong army."',art:{sky:'day',train:1,ground:'#8ea76b',hz:0.6}});
+  await card({k:'Chapter 3',t:'Iron and Wire',b:'Shiomachi, October 1874. The old domains are gone, replaced by prefectures run from Tokyo. Trains run between Tokyo and Yokohama. Every child must go to school, and young men of every class can be drafted into the army. Japan\'s motto is now "Rich country, strong army": National Wealth and Military Strength.',art:{sky:'day',train:1,ground:'#8ea76b',hz:0.6}});
   setMap(townMap(1874),[455,600,'u']);
   ent({id:'tami',who:'tami',x:420,y:600,dir:'r'});ent({id:'mitsu',who:'mitsu',x:380,y:596,dir:'r'});ent({id:'masao',who:'masao',x:510,y:610,dir:'l'});ent({id:'heizo',who:'heizo',x:540,y:596,dir:'l'});
   crowd(6,600,2300,580,680,13);
@@ -1383,9 +1401,9 @@ async function chapter3(){
   await say('mitsu','[proud] She\'s very good, apparently. Faster than the French instructors.');
   await say('masao','[excited] Father! The teacher says the earth goes around the sun! Did you know?');
   await say('juro','[wry] I knew it went around... something.');
-  await caseNote('Schools for everyone','The 1872 education law required schooling for all children, boys and girls, from every class. Schools taught Western science and mathematics alongside loyalty to the Emperor.','S','Social: it changes how people live and learn.');
+  await caseNote('Schools for everyone','The 1872 education law required schooling for all children, boys and girls, from every class. Schools taught Western science and mathematics. From the 1880s they also taught loyalty to the Emperor.','S','Social: it changes how people live and learn.');
   await say('heizo','[wry] And the army takes farmers now. Farmers. With rifles.');
-  await caseNote('Conscription','From 1873, every young man had to serve three years in the new army: farmers\' sons, merchants\' sons and samurai sons alike. Fighting was no longer the job of the samurai class alone.','S','Social: it changes what each class does. A farmer\'s son can now be a soldier.');
+  await caseNote('Conscription','From 1873, young men of every class could be drafted for three years in the new army: farmers\' sons, merchants\' sons and samurai sons alike. There were many exemptions, and a family could pay 270 yen to keep a son out. Still, fighting was no longer the job of the samurai class alone.','SP','Social or Political: it changes what each class does, and it gives the government a national army of its own.');
   ambient([{who:'oume',x:735,y:600,lines:[[['oume','Somebody\'s paying good money for copper in Yokohama. A scrap man near the new station. Copper\'s worth more than fish these days.']],[['oume','Beer! The foreign sailors want beer. I don\'t understand it either, but they pay in silver.']]]},
     {id:'tora',who:'tora',x:1700,y:1030,lines:[[['tora','My father goes fishing at night now. He says they bite better in the dark.'],['tora','He comes home with no fish, though.']]]},
     {who:'villager',x:1100,y:640,wander:40,lines:[[['villager','My son\'s in the army now. A farmer\'s son, with a rifle. My grandfather would have died of shock.']]]}]);
@@ -1414,11 +1432,11 @@ async function chapter3(){
   byId('sagara').x=1500;byId('sagara').y=630;
   await say('sagara','[tired] He\'s right, Kanda. Under the treaties, a foreigner can only be tried by his own consul. Not by our courts.');
   await say('juro','[angry] He hit a man. In our street.');
-  await say('sagara','[calm] Yes. Write it down. Exactly. Then take him to his consulate in Yokohama, on the noon train. And while you\'re there... see what that scrap dealer buys.');
+  await say('sagara','[calm] Yes. Write it down. Exactly. Then take him to his consulate in Yokohama, on the noon steamer. And while you\'re there... see what that scrap dealer buys.');
   await say('sagara','[quiet] This is why we are building a country with courts and laws the foreigners will have to respect. Until then... we write it down.');
   await caseNote('The unequal treaties','Under the treaties of the 1850s, foreigners in Japan were tried in their own consuls\' courts, not Japanese courts, and Japan could not set its own import taxes. Ending these treaties became a main goal of the Meiji government.','P','Political: it\'s about laws, treaties, and Japan\'s power as a country.');
   await fade(1);
-  await card({k:'The noon train',t:'',b:'The train covers the eighteen miles to Yokohama in under an hour. The walk takes most of a day. Mr. Hollis reads a newspaper the whole way and does not look out of the window once.',art:{sky:'day',train:1,ground:'#8ea76b',hz:0.6},sound:'whistle'});
+  await card({k:'The noon steamer',t:'',b:'The coastal steamer from Uraga reaches Yokohama in a few hours. The walk takes most of a day. Mr. Hollis reads a newspaper the whole way and does not look at the sea once.',art:{sky:'day',sea:1,hz:0.6},sound:'whistle'});
   setMap(yokohamaMap(),[440,440,'d']);
   ent({id:'hollis',who:'hollis',x:480,y:440,dir:'d'});ent({id:'consul',who:'official',x:820,y:400,dir:'d'});ent({id:'scrap',who:'scrap',x:115,y:400,dir:'d'});crowd(5,200,900,420,560,9);
   await fade(0);
@@ -1430,7 +1448,7 @@ async function chapter3(){
   removeEnt('hollis');
   objective('Ask the scrap dealer about copper',{x:115,y:400});
   await talkTo('scrap');objective(null);
-  await say('scrap','[wry] Copper wire? Mm. A fisherman sells me some. Big hands. Burn scar, here... on the wrist. Comes in on the first train after market day.');
+  await say('scrap','[wry] Copper wire? Mm. A fisherman sells me some. Big hands. Burn scar, here... on the wrist. Comes in on the first boat after market day.');
   await say('juro','[firm] His name?');
   await say('scrap','[wry] I don\'t ask names. Names are bad for business.');
   await caseNote('Railroad and telegraph','Japan\'s first railroad opened in 1872, Tokyo to Yokohama. By 1890 there were about 1,400 miles of track, and telegraph lines linked all the major cities by 1880.','E','Economic: rail and telegraph move goods, money and business faster.');
@@ -1465,7 +1483,7 @@ async function chapter3(){
 /* ---------------- CHAPTER 4: The Last Swords ---------------- */
 async function chapter4(){
   setChapter(4,1877);
-  await card({k:'Chapter 4',t:'The Last Swords',b:'February 1877. Last year the government banned samurai from wearing swords in public and ended the stipends it had paid them for centuries. In Satsuma, in the far south, Saigō Takamori, a hero of 1868, has risen in rebellion with thousands of samurai.',art:{sky:'storm',ground:'#6f7d58',hz:0.62,rain:1}});
+  await card({k:'Chapter 4',t:'The Last Swords',b:'February 1877. Last year the government banned samurai from wearing swords in public, and turned the stipends samurai had received for centuries into bonds worth far less. In Satsuma, in the far south, Saigō Takamori, a hero of 1868, has risen in rebellion with thousands of samurai.',art:{sky:'storm',ground:'#6f7d58',hz:0.62,rain:1}});
   setMap(townMap(1877),[455,600,'u']);
   ent({id:'heizo',who:'heizo',x:520,y:600,dir:'l'});ent({id:'mitsu',who:'mitsu',x:380,y:596,dir:'r'});ent({id:'clerkT',who:'clerk',x:470,y:640,dir:'u'});
   crowd(4,600,2300,580,680,14);
@@ -1479,7 +1497,7 @@ async function chapter4(){
   else if(h===1)await say('heizo','[quiet] I know what you earn.');
   else await narr('[gentle] Your father keeps working. His hands are shaking. Just a little.');
   removeEnt('clerkT');
-  await caseNote('The end of the samurai','In 1876 the samurai lost their stipends and the right to wear swords in public. Many old samurai families like the Kandas fell into debt and had to take ordinary work.','S','Social: it\'s about a whole class of people losing their place in society.');
+  await caseNote('The end of the samurai','In 1876 the samurai\'s yearly stipends were turned into one-time bonds worth far less, and they lost the right to wear swords in public. Many old samurai families like the Kandas fell into debt and had to take ordinary work.','S','Social: it\'s about a whole class of people losing their place in society.');
   objective('Report to Sagara at the police station',{x:1625,y:600});
   ent({id:'sagara',who:'sagara',x:1625,y:600,dir:'d'});
   await talkTo('sagara');objective(null);
@@ -1498,7 +1516,7 @@ async function chapter4(){
   const ph=talkTo('hirata').then(async()=>{saw.hirata=true;
     await say('hirata','[bitter] Jūrō. In a foreign coat. With a sword, even! I thought swords were banned.');
     await say('juro','[quiet] For police, they\'re allowed.');
-    await say('hirata','[angry] Of course they are. I fought for the Emperor in \'68, at Toba-Fushimi. You know what the Emperor\'s government gave me? It took my stipend, took my sword, and gave me a paper bond that buys a month of rice.');
+    await say('hirata','[angry] Of course they are. I fought for the Emperor in \'68, at Aizu. You know what the Emperor\'s government gave me? It took my stipend, took my sword, and gave me a paper bond that buys a month of rice.');
     await say('hirata','[sad] Saigō is the only one of them who remembers... what we were.');
     await say('juro','[firm] Are you recruiting, Hirata?');
     await say('hirata','[quiet] I\'m drinking. Don\'t come to the police storehouse tonight, Jūrō. ...That\'s a friend telling you.');});
@@ -1563,7 +1581,7 @@ async function chapter4(){
   await say('sagara','[sad] Don\'t say anything, Kanda. There\'s nothing that helps.');
   await fade(1);
   await card({k:'September 24, 1877',t:'Shiroyama',b:'Saigō Takamori and his last few hundred samurai died fighting the government\'s conscript army above Kagoshima. Rifles beat swords. The samurai as a privileged class were finished, and the government in Tokyo was stronger than any Japanese government had been.',art:{sky:'dusk',ground:'#4f5a40',hz:0.62}});
-  await caseNote('A modern army and navy','The Meiji government hired French officers to train a modern conscript army, and in 1877 that army defeated Saigō\'s samurai. It also built a modern navy, with warships designed by Japanese engineers trained by French experts, so that Japan could defend itself against the West.','P','Political: it\'s about the government\'s power and its ability to defend the country.');
+  await caseNote('A modern army and navy','The Meiji government hired French officers to train a modern conscript army, and in 1877 that army defeated Saigō\'s samurai. It also built and bought a modern navy with British and French help (the warship Matsushima was designed by a French engineer), so that Japan could defend itself against the West.','P','Political: it\'s about the government\'s power and its ability to defend the country.');
   if(G.flags.hirata==='south')await card({k:'Shiomachi, October',t:'',b:'[grave] A parcel arrives at the police station, addressed to Kanda Jūrō. Inside is Hirata\'s sword, wrapped in an old battery flag. ... There is no letter.'});
   else await card({k:'Shiomachi, October',t:'',b:'Hirata is sentenced to ten years in prison in Yokohama. He doesn\'t answer your letters. You keep writing them anyway, once a year.'});
   return 5;}
@@ -1673,7 +1691,7 @@ async function chapter5(){
 
 /* ---------------- EPILOGUE: the first election ---------------- */
 async function epilogue(){
-  setChapter(5,1890);G.ch=5;
+  G.epi=true;setChapter(5,1890);G.ch=5;
   await card({k:'July 1, 1890',t:'The First Election',b:'Japan votes for its first national assembly. The polling place in Shiomachi is the school.',art:{sky:'day',ground:'#8ea76b',hz:0.6}});
   setMap(townMap(1889),[660,990,'u']);G.player.wpn=G.flags.ending==='refusal'?null:'saber';
   ent({id:'official',who:'official',x:620,y:940,dir:'d'});ent({id:'genji',who:'genji',x:700,y:950,dir:'l'});ent({id:'masao',who:'masao',x:740,y:990,dir:'l'});
@@ -1703,14 +1721,14 @@ async function argument(){setMode('arg');const o=$('arg');o.hidden=false;const s
   speak('Pick two pieces of evidence from your case book that support your claim.',null);
   const ev=step.querySelector('.ev');const chosen=[];
   await new Promise(r=>{pool.forEach((n,i)=>{const b=document.createElement('button');b.innerHTML=`<b>${n.title}</b><span>${n.text}</span>`;b.onclick=()=>{if(b.disabled)return;
-    if(n.tag!==out.claim){b.classList.add('wrong');step.querySelector('.msg').textContent=`That one is ${TAGS[n.tag].toLowerCase()}, so it doesn't support a ${TAGS[out.claim].toLowerCase()} claim. Pick another.`;sfx('bad');return;}
+    if(!n.tag.includes(out.claim)){b.classList.add('wrong');step.querySelector('.msg').textContent=`That one is ${TAGS[n.tag[0]].toLowerCase()}, so it doesn't support a ${TAGS[out.claim].toLowerCase()} claim. Pick another.`;sfx('bad');return;}
     b.classList.add('right');b.disabled=true;chosen.push(n);sfx('good');if(chosen.length>=2)setTimeout(r,500);};ev.appendChild(b);});});
   out.ev=chosen;
   // 3 counterclaim
   const CC={
-    S:{who:'genji',cc:'"Social? Nonsense. Nothing changed until money changed. The railroad and the mill paid for every school and haircut in this town."',ops:[['However, the end of the samurai class and the new schools changed people\'s whole lives, not just their pay.',1],['However, money is not important.',0],['However, Genji is a merchant.',0]]},
-    P:{who:'sayo',cc:'"Political? Eleven men voted in this town. For most of us, the government changed its name and nothing else. It was the mills and the trains that changed our lives."',ops:[['However, the new government is what ended the samurai, built the schools and the railroads. Without the political change in 1868, none of the rest would have happened.',1],['However, voting is good.',0],['However, Sayo is not a politician.',0]]},
-    E:{who:'sayo',cc:'"Economic? The money went to men like Genji. What really changed was who we were. A samurai\'s son became a policeman, and a farm girl learned to read."',ops:[['However, railways, telegraphs and silk exports changed how almost everyone in Shiomachi earned a living, and paid for those schools.',1],['However, money is the most important thing in the world.',0],['However, Sayo should be grateful.',0]]}}[out.claim];
+    S:{who:'genji',cc:'"Social? Nonsense. Nothing changed until money changed. The railroad and the mill paid for every school and haircut in this town."',ops:[['However, the end of the samurai class and the new schools changed people\'s whole lives, not just their pay.',1],['However, the railroad and the mill did make some merchants rich, so money really was the biggest change in Shiomachi.',0],['However, Genji is a merchant who only cares about money, so his opinion about this town should not be trusted.',0]]},
+    P:{who:'sayo',cc:'"Political? Eleven men voted in this town. For most of us, the government changed its name and nothing else. It was the mills and the trains that changed our lives."',ops:[['However, the new government is what ended the samurai, built the schools and the railroads. Without the political change in 1868, none of the rest would have happened.',1],['However, voting is one of the most important rights a person can have, so any change in who could vote must be the biggest change of all.',0],['However, Sayo worked in a mill and was not a politician, so she probably did not understand what the new government was really doing.',0]]},
+    E:{who:'sayo',cc:'"Economic? The money went to men like Genji. What really changed was who we were. A samurai\'s son became a policeman, and a farm girl learned to read."',ops:[['However, railways, telegraphs and silk exports changed how almost everyone in Shiomachi earned a living, and paid for those schools.',1],['However, money is what people in every country care about most, so economic change is always the most important kind of change.',0],['However, Sayo should be grateful to men like Genji, because without merchants nobody in Shiomachi would have had any work.',0]]}}[out.claim];
   step.innerHTML=`<h3>Someone disagrees</h3><div class="cc"><canvas width="160" height="190"></canvas><div><b>${CAST[CC.who].name}</b><p>${CC.cc}</p></div></div><p>Choose the strongest rebuttal: the one that answers the point with evidence.</p><div class="opts col"></div><p class="msg"></p>`;
   portrait(step.querySelector('canvas').getContext('2d'),spec(CC.who),160,190);speak(CC.cc,CC.who);
   const box=step.querySelector('.opts');let tries=0;
@@ -1734,23 +1752,26 @@ async function argument(){setMode('arg');const o=$('arg');o.hidden=false;const s
     <div class="row"><button id="plan-print">Copy my paragraph</button><button id="plan-next" class="main">Continue to the quiz</button></div>`;
   speak('Here is your argument plan. Use it to write your paragraph.',null);
   const bx=id=>$('pl-'+id),para=()=>FLD.map(([id])=>bx(id).value.trim()).join(' ');
+  // (15 Nov audit) drafts are kept as the student types, so a reload or Continue doesn't lose the writing
+  try{const D=JSON.parse(localStorage.getItem('shio-draft')||'null');if(D&&D.claim===out.claim)FLD.forEach(([id])=>{if(D[id])bx(id).value=D[id];});}catch(e){}
+  $('plan').addEventListener('input',()=>{const D={claim:out.claim};FLD.forEach(([id])=>D[id]=bx(id).value);try{localStorage.setItem('shio-draft',JSON.stringify(D));}catch(e){}});
   const unfinished=()=>FLD.filter(([id,,st])=>bx(id).value.trim().length<st.length+12);
   $('plan-print').onclick=()=>{const t=para();const ok=()=>{$('plan-print').textContent='Copied';};try{navigator.clipboard.writeText(t).then(ok,()=>{$('plan-print').textContent='Select the boxes and press Ctrl+C';});}catch(e){$('plan-print').textContent='Select the boxes and press Ctrl+C';}};
   await new Promise(r=>$('plan-next').onclick=()=>{const u=unfinished();FLD.forEach(([id])=>bx(id).classList.remove('need'));
     if(u.length){u.forEach(([id])=>bx(id).classList.add('need'));$('plan-msg').textContent=`Finish ${u.map(f=>f[1]).join(', ')} first, in your own words.`;sfx('bad');bx(u[0][0]).focus();return;}
-    out.paragraph=para();r();});
+    out.paragraph=para();G.arg=out;save();r();});
   o.hidden=true;
   await quiz();}
 
 /* ---------- Quiz ---------- */
 const QUIZ=[
- ['The Tokugawa laws of the 1630s show that the shogun\'s government wanted to:',['expand trade with Europe','limit contact with foreign nations','build a strong navy','send students abroad'],1],
- ['Why did Japan agree to Commodore Perry\'s demands in 1854?',['Japan wanted Western goods','Japan had no navy strong enough to resist','The Emperor ordered it','The samurai supported trade'],1],
- ['What happened in 1868?',['Perry arrived in Uraga Bay','The shogun\'s rule ended and power was restored to the Emperor','Japan defeated Russia','The first election was held'],1],
- ['The Meiji slogan "Rich country, strong army" shows that the government\'s goal was to:',['return to isolation','modernize so Japan could stand up to the West','give power back to the samurai','end all trade'],1],
+ ['The Tokugawa laws of the 1630s show that the shogun\'s government wanted to:',['limit contact with foreign nations','expand trade with Europe','build a strong navy','send students abroad'],0],
+ ['Why did Japan agree to Commodore Perry\'s demands in 1854?',['Japan wanted Western goods','The Emperor ordered it','Japan had no navy strong enough to resist','The samurai supported trade'],2],
+ ['What happened in 1868?',['Perry arrived in Uraga Bay','Japan defeated Russia','The first election was held','The shogun\'s rule ended and power was restored to the Emperor'],3],
+ ['The Meiji slogan "Rich country, strong army" (National Wealth and Military Strength) shows that the government\'s goal was to:',['return to isolation','modernize so Japan could stand up to the West','give power back to the samurai','end all trade'],1],
  ['Building railroads, telegraph lines and silk mills is an example of which type of change?',['Social','Political','Economic','Religious'],2],
- ['Which was a political effect of the Meiji Restoration?',['Silk exports increased','A constitution created an elected House of Representatives','Children went to school','Samurai cut their topknots'],1],
- ['In 1876 the Meiji government banned samurai from wearing swords and ended their stipends. This mainly shows:',['the old class system was being ended','Japan was returning to isolation','the samurai controlled the government','the shogun was still in power'],0],
+ ['Which was a political effect of the Meiji Restoration?',['Silk exports increased','Children went to school','Samurai cut their topknots','A constitution created an elected House of Representatives'],3],
+ ['In 1876 the Meiji government banned samurai from wearing swords and turned their stipends into bonds worth far less. This mainly shows:',['the old class system was being ended','Japan was returning to isolation','the samurai controlled the government','the shogun was still in power'],0],
  ['In 1890 only men who paid 15 yen in taxes could vote. This shows that the Meiji government:',['was a full democracy','kept power in the hands of a few','let women vote','was run by the shogun'],1]];
 async function quiz(){setMode('quiz');const o=$('quiz');o.hidden=false;let score=0;
   for(let i=0;i<QUIZ.length;i++){const [q,ops,a]=QUIZ[i];$('quiz-n').textContent=`Question ${i+1} of ${QUIZ.length}`;$('quiz-q').textContent=q;const box=$('quiz-ops');box.innerHTML='';$('quiz-msg').textContent='';
@@ -1758,8 +1779,17 @@ async function quiz(){setMode('quiz');const o=$('quiz');o.hidden=false;let score
     await new Promise(r=>ops.forEach((t,j)=>{const b=document.createElement('button');b.textContent=String.fromCharCode(65+j)+'. '+t;b.onclick=()=>{box.querySelectorAll('button').forEach(x=>x.disabled=true);
       if(j===a){score++;b.classList.add('right');sfx('good');}else{b.classList.add('wrong');box.children[a].classList.add('right');sfx('bad');}setTimeout(r,1100);};box.appendChild(b);}));}
   G.quizScore=score;o.hidden=true;finish();}
-function finishCode(){const e={order:1,refusal:2,bargain:3}[G.flags.ending]||0;const q=G.quizScore;const t=Math.min(9,G.tagScore[0]);const base=`${e}${q}${t}`;let h=7;for(const ch of 'SHIO'+base)h=(h*31+ch.charCodeAt(0))%676;return `SHIO-${base}-${String.fromCharCode(65+Math.floor(h/26))}${String.fromCharCode(65+h%26)}`;}
-function checkCode(c){const m=/^SHIO-(\d)(\d)(\d)-([A-Z]{2})$/.exec((c||'').trim().toUpperCase());if(!m)return null;const base=m[1]+m[2]+m[3];let h=7;for(const ch of 'SHIO'+base)h=(h*31+ch.charCodeAt(0))%676;if(m[4]!==String.fromCharCode(65+Math.floor(h/26))+String.fromCharCode(65+h%26))return false;return {ending:['?','Order','Refusal','Bargain'][+m[1]],quiz:+m[2],tags:+m[3]};}
+// (15 Nov audit) code = ending, quiz score, case-book first-try score (two digits, no longer capped at 9), and 1 if a
+// teacher chapter-jump was used: SHIO-EQTTJ-XX
+function finishCode(){const e={order:1,refusal:2,bargain:3}[G.flags.ending]||0;const q=G.quizScore;const t=String(Math.min(99,G.tagScore[0])).padStart(2,'0');const base=`${e}${q}${t}${G.flags.jumped?1:0}`;let h=7;for(const ch of 'SHIO'+base)h=(h*31+ch.charCodeAt(0))%676;return `SHIO-${base}-${String.fromCharCode(65+Math.floor(h/26))}${String.fromCharCode(65+h%26)}`;}
+function checkCode(c){const m=/^SHIO-(\d)(\d)(\d\d)(\d)-([A-Z]{2})$/.exec((c||'').trim().toUpperCase());if(!m)return null;const base=m[1]+m[2]+m[3]+m[4];let h=7;for(const ch of 'SHIO'+base)h=(h*31+ch.charCodeAt(0))%676;if(m[5]!==String.fromCharCode(65+Math.floor(h/26))+String.fromCharCode(65+h%26))return false;return {ending:['?','Order','Refusal','Bargain'][+m[1]],quiz:+m[2],tags:+m[3],jumped:m[4]==='1'};}
+function paraText(p,code){return 'The Constable of Shiomachi: my argument\n\n'+p+'\n\nFinish code: '+code;}
+function showPara(p,code){$('end-para').hidden=!p;$('end-ptext').textContent=p||'';$('end-copy').textContent='Copy for Google Classroom';
+  $('end-copy').onclick=()=>{const t=paraText(p,code);const ok=()=>{$('end-copy').textContent='Copied! Paste it into Google Classroom.';};
+    try{navigator.clipboard.writeText(t).then(ok,()=>{const r=document.createRange();r.selectNodeContents($('end-ptext'));getSelection().removeAllRanges();getSelection().addRange(r);$('end-copy').textContent='Selected: press Ctrl+C';});}catch(e){}};}
+// the last finished game (code and paragraph) survives a reload, under "Last result" on the title screen
+function showLast(L){setMode('end');$('end').hidden=false;$('end-t').textContent='Your last result';$('end-b').textContent=L.when?'Finished '+L.when+'.':'';
+  $('end-facts').innerHTML='';$('end-code').textContent=L.code;$('end-hist').innerHTML='';showPara(L.paragraph,L.code);}
 function finish(){setMode('end');const o=$('end');o.hidden=false;const e=G.flags.ending;
   $('end-t').textContent={order:'Ending: Order',refusal:'Ending: Refusal',bargain:'Ending: The Bargain'}[e]||'The End';
   $('end-b').textContent={order:'You kept the law and lost your sister. Japan got its silk, and Shiomachi stayed quiet.',refusal:'You kept faith with your sister and lost your badge. The strike won some of what it asked for.',bargain:'You used what you knew about this town to find a third way, and paid for it with your career.'}[e]||'';
@@ -1767,6 +1797,8 @@ function finish(){setMode('end');const o=$('end');o.hidden=false;const e=G.flags
     ['Case book',`${G.tagScore[0]} of ${G.book.length} sorted right on the first try`],['Quiz',`${G.quizScore} of ${QUIZ.length}`]];
   $('end-facts').innerHTML=facts.map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');
   $('end-code').textContent=finishCode();
+  const para=(G.arg&&G.arg.paragraph)||'';showPara(para,finishCode());
+  try{localStorage.setItem('shio-last',JSON.stringify({code:finishCode(),paragraph:para,when:new Date().toLocaleDateString()}));localStorage.removeItem('shio-draft');}catch(e){}
   $('end-hist').innerHTML='<b>What was real?</b> Shiomachi, the Kandas, Genji, Sagara, Hirata and the Tokuda mill are fictional. The history around them is real: Perry\'s ships (1853), the Treaty of Kanagawa (1854), the Restoration (1868), the railway (1872), schools (1872) and conscription (1873), the police sword unit at Tabaruzaka and Saigō\'s death at Shiroyama (1877), the constitution (1889) and the first election (1890), when about 1% of Japanese could vote. The strike is based on the real 1886 strike at the Amamiya silk mill in Kōfu, Japan\'s first.';
   speak(($('end-t').textContent)+'. '+$('end-b').textContent+' Your finish code is '+finishCode().split('').join(' ')+'.',null);
   try{localStorage.removeItem('shio-save');}catch(e){}}
@@ -1789,11 +1821,18 @@ setInterval(()=>{if(!AU.on)return;const m=G.fight?'tense':'calm';if(AU.mood!==m)
 
 /* ---------- Voices ---------- */
 let readOn=true;
-const VOICE=window.__VOICE||{};const VPACKS=window.__VPACKS||0;const VBUF=[];let vLoaded=0;const VFILE=location.protocol==='file:';
-function vLoad(n){if(n>VPACKS)return;fetch('voice'+n+'.mp3').then(r=>r.ok?r.arrayBuffer():null).then(b=>{if(b){VBUF[n]=b;vLoaded++;}vProgress();vLoad(n+1);}).catch(()=>{vProgress();vLoad(n+1);});}
-function vProgress(){const el=$('vload');if(!el)return;if(VFILE||!VPACKS||vLoaded>=VPACKS){el.textContent=VPACKS?'Voices ready':'Voices: browser';el.classList.add('ok');}else el.textContent=`Loading voices… ${Math.round(vLoaded/VPACKS*100)}%`;}
-if(VPACKS&&!VFILE)vLoad(1);else vProgress();
-const vUrls={};function vUrl(k){const e=VOICE[k];if(!e||!VBUF[e[0]])return null;if(!vUrls[k]){const [p,o,l]=e;vUrls[k]=URL.createObjectURL(new Blob([VBUF[p].slice(o,o+l)],{type:'audio/mpeg'}));}return vUrls[k];}
+const VOICE=window.__VOICE||{};const VPACKS=window.__VPACKS||0;const VBUF=[];const VFILE=location.protocol==='file:';
+// (15 Nov audit: lines were silent until all 37 MB of voice packs had downloaded) each line now fetches only its own
+// slice of its pack with an HTTP Range request, just before it plays; a server that ignores Range sends the whole pack,
+// which is then kept for the lines after it
+const vUrls={},VSLICE={};
+function vClip(k){const e=VOICE[k];if(!e)return Promise.resolve(null);if(VFILE)return Promise.resolve('voice/'+k+'.mp3');if(vUrls[k])return Promise.resolve(vUrls[k]);
+  const [p,o,l]=e;const mk=b=>(vUrls[k]=URL.createObjectURL(new Blob([b],{type:'audio/mpeg'})));
+  if(VBUF[p])return Promise.resolve(mk(VBUF[p].slice(o,o+l)));
+  if(!VSLICE[k])VSLICE[k]=fetch('voice'+p+'.mp3',{headers:{Range:`bytes=${o}-${o+l-1}`}}).then(r=>!r.ok?null:r.arrayBuffer().then(b=>{if(r.status===206)return mk(b);VBUF[p]=b;return mk(b.slice(o,o+l));})).catch(()=>{delete VSLICE[k];return null;});
+  return VSLICE[k];}
+function vProgress(){const el=$('vload');if(!el)return;el.textContent=VPACKS?'Voices ready':'Voices: browser';el.classList.add('ok');}
+vProgress();
 function vkey(t){t=t.replace(/\s+/g,' ').trim().toLowerCase();let h=0x811c9dc5;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}return h.toString(16);}
 const TTS_PITCH={narr:1,juro:0.95,heizo:0.75,genji:1.1,hirata:0.85,sagara:0.8,sayo:1.15,mitsu:1.05,tami:1.2,masao:1.05,oume:1.25,kiku:1.35,hollis:0.95,gonzo:0.7,tora:1.2,clerk:0.9};
 function speechPrep(text,who,tag){const v=(who&&CAST[who]&&CAST[who].voice)||'narr';tag=tag||'';let t=text.replace(/\s+/g,' ').replace(/[“”"]/g,'').trim();
@@ -1801,9 +1840,11 @@ function speechPrep(text,who,tag){const v=(who&&CAST[who]&&CAST[who].voice)||'na
   for(let p of parts){p=p.trim();if(!p)continue;if(cur&&(cur+' '+p).length>260){out.push(cur);cur=p;}else cur=cur?cur+' '+p:p;}
   if(cur)out.push(cur);return out.filter(p=>/[a-z0-9]/i.test(p)).map(p=>[v,p,tag]);}
 let vq=[],vAudio=null;const COLLECT=QS.get('collect')==='1';window.__spoken=[];
-function vStop(){vq=[];auDuck(false);if(vAudio){vAudio.pause();vAudio=null;}try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}}
-function vNext(){const q=vq.shift();if(!q){auDuck(false);return;}auDuck(true);const [v,s,tg]=q;const k=vkey(v+'|'+(tg||'')+'|'+s);
-  if(VOICE[k]&&(VFILE||vUrl(k))){vAudio=new Audio(VFILE?'voice/'+k+'.mp3':vUrl(k));vAudio.volume=Math.min(1,AU.vol.voice);vAudio.onended=vNext;vAudio.onerror=vNext;vAudio.play().catch(vNext);}
+let vTok=0; // bumped by vStop, so a clip still downloading when the line is skipped never plays late
+function vStop(){vTok++;vq=[];auDuck(false);if(vAudio){vAudio.pause();vAudio=null;}try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}}
+function vNext(){const q=vq.shift();if(!q){auDuck(false);return;}auDuck(true);const [v,s,tg]=q;const k=vkey(v+'|'+(tg||'')+'|'+s);const tok=vTok;
+  if(VOICE[k]){vClip(k).then(u=>{if(tok!==vTok)return;if(!u){vNext();return;}vAudio=new Audio(u);vAudio.volume=Math.min(1,AU.vol.voice);vAudio.onended=vNext;vAudio.onerror=vNext;vAudio.play().catch(vNext);});
+    vq.slice(0,2).forEach(([v2,s2,t2])=>vClip(vkey(v2+'|'+(t2||'')+'|'+s2)));}
   else if(window.speechSynthesis&&!VPACKS){try{const u=new SpeechSynthesisUtterance(s);u.rate=0.98;u.pitch=TTS_PITCH[v]||1;u.volume=AU.vol.voice;const en=speechSynthesis.getVoices().filter(x=>/^en/i.test(x.lang));if(en.length)u.voice=en.find(x=>/natural|neural|google/i.test(x.name))||en[0];u.onend=vNext;u.onerror=vNext;speechSynthesis.speak(u);}catch(e){vNext();}}
   else vNext();}
 function speak(text,who,tag){if(!text)return;if(COLLECT)window.__spoken.push([text,who||'',tag||'']);if(!readOn||QS.get('mute')==='1')return;vStop();vq=speechPrep(text,who,tag);vNext();}
@@ -1814,7 +1855,10 @@ let sndPref=true;try{sndPref=localStorage.getItem('shio-snd')!=='0';readOn=local
 $('set-read').textContent='Voices: '+(readOn?'On':'Off');
 $('set-sound').onclick=()=>setSound(!AU.on);
 $('set-read').onclick=()=>{readOn=!readOn;if(!readOn)vStop();$('set-read').textContent='Voices: '+(readOn?'On':'Off');try{localStorage.setItem('shio-read',readOn?'1':'0');}catch(e){}};
-$('set-big').onclick=()=>{const b=document.body.classList.toggle('big');$('set-big').textContent='Bigger text: '+(b?'On':'Off');};
+// (15 Nov audit) the class was 'big', which clashed with the title buttons' .big style and turned text white; now remembered too
+function setBig(b){document.body.classList.toggle('bigtext',b);$('set-big').textContent='Bigger text: '+(b?'On':'Off');try{localStorage.setItem('shio-big',b?'1':'0');}catch(e){}}
+$('set-big').onclick=()=>setBig(!document.body.classList.contains('bigtext'));
+try{if(localStorage.getItem('shio-big')==='1')setBig(true);}catch(e){}
 ['voice','music','sfx'].forEach(k=>$('vol-'+k).oninput=e=>{AU.vol[k]=e.target.value/100;auApplyVol();if(vAudio)vAudio.volume=AU.vol.voice;});
 let prevMode='play';
 function openPanel(id){prevMode=G.mode;$(id).hidden=false;setMode('menu');}
@@ -1822,36 +1866,49 @@ function closePanel(id){$(id).hidden=true;setMode(prevMode==='menu'?'play':prevM
 $('btn-set').onclick=()=>openPanel('spanel');$('btn-help').onclick=()=>openPanel('hpanel');$('h-close').onclick=()=>closePanel('hpanel');$('set-close').onclick=()=>closePanel('spanel');
 $('btn-teach').onclick=()=>{openPanel('tpanel');$('t-lock').hidden=false;$('t-menu').hidden=true;$('t-pin').value='';$('t-err').textContent='';setTimeout(()=>$('t-pin').focus(),50);};
 $('t-close').onclick=()=>closePanel('tpanel');
-function pin(){try{return localStorage.getItem('shio-pin')||'4729';}catch(e){return '4729';}}
-$('t-ok').onclick=()=>{if($('t-pin').value===pin()){$('t-lock').hidden=true;$('t-menu').hidden=false;}else $('t-err').textContent='That PIN is not right.';};
+// (15 Nov audit: the PIN sat in the page source) only a hash of the PIN is kept, here and in localStorage
+function pinHash(p){let h=0x811c9dc5>>>0;const s='shiomachi-teacher|'+p;for(let r=0;r<20000;r++)for(let i=0;i<s.length;i++){h^=s.charCodeAt(i)^(r&255);h=Math.imul(h,0x01000193)>>>0;}return h.toString(36);}
+function pinOk(v){let want='4xsabp';try{want=localStorage.getItem('shio-pinh')||want;}catch(e){}return pinHash(v)===want;}
+$('t-ok').onclick=()=>{if(pinOk($('t-pin').value)){$('t-lock').hidden=true;$('t-menu').hidden=false;}else $('t-err').textContent='That PIN is not right.';};
 $('t-pin').onkeydown=e=>{if(e.key==='Enter')$('t-ok').click();};
-$('t-check').onclick=()=>{const r=checkCode($('t-code').value);$('t-res').textContent=r===null?'That isn\'t a code from this game.':r===false?'This code is not real. It may have been typed wrong or made up.':`Real code. Ending: ${r.ending}. Quiz: ${r.quiz} of 8. Case book sorted right first try: ${r.tags}.`;};
-$('t-setpin').onclick=()=>{const v=$('t-newpin').value.trim();if(!/^\d{4,6}$/.test(v)){$('t-res').textContent='Use 4 to 6 digits.';return;}try{localStorage.setItem('shio-pin',v);}catch(e){}$('t-res').textContent='PIN saved on this computer.';};
+$('t-check').onclick=()=>{const r=checkCode($('t-code').value);$('t-res').textContent=r===null?'That isn\'t a code from this game.':r===false?'This code is not real. It may have been typed wrong or made up.':`Real code. Ending: ${r.ending}. Quiz: ${r.quiz} of 8. Case book sorted right first try: ${r.tags}.${r.jumped?' A teacher chapter-jump was used, so the student did not play every chapter.':''}`;};
+$('t-setpin').onclick=()=>{const v=$('t-newpin').value.trim();if(!/^\d{4,6}$/.test(v)){$('t-res').textContent='Use 4 to 6 digits.';return;}try{localStorage.setItem('shio-pinh',pinHash(v));localStorage.removeItem('shio-pin');}catch(e){}$('t-res').textContent='PIN saved on this computer.';};
+$('t-skip').textContent='Skip fights: '+(skipFights()?'On':'Off');
+$('t-skip').onclick=()=>{const on=!skipFights();try{localStorage.setItem('shio-skipfight',on?'1':'0');}catch(e){}$('t-skip').textContent='Skip fights: '+(on?'On':'Off');};
 const JUMPS=[[1,'1 · 1853'],[2,'2 · 1868'],[3,'3 · 1874'],[4,'4 · 1877'],[5,'5 · 1889'],[6,'Election and ending']];
 JUMPS.forEach(([n,l])=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>{$('tpanel').hidden=true;jumpTo(n);};$('t-jump').appendChild(b);});
 const DEFAULT_FLAGS={genjiSecret:'kept',backedSayo:'yes',rice:'sold',topknot:'cut',gonzo:'spared',hirata:'arrested',deadline:true,ending:'bargain'};
 const DEFAULT_BOOK=[['The closed country','Since the 1630s the shogun\'s government had kept Japan closed: no Japanese could leave, and almost no foreigners could enter.','P',1],['Prices and trade','After the treaties opened the ports in 1859, Japanese silk and tea sold abroad. Prices at home rose fast, and poor families went hungry while some merchants grew rich.','E',2],
- ['The Restoration','In 1868 the shogun\'s rule ended and power was "restored" to the Emperor.','P',2],['Schools and the army','The 1872 education law required schooling for all children. From 1873, conscription made young men of every class serve in the army.','S',3],['The unequal treaties','Foreigners in Japan were tried in their own consuls\' courts, and Japan could not set its own import taxes.','P',3],
- ['Railroad and telegraph','Japan\'s first railroad opened in 1872. By 1890 there were about 1,400 miles of track, and telegraphs linked the major cities by 1880.','E',3],['The end of the samurai','In 1876 the samurai lost their stipends and the right to wear swords. Many fell into debt and took ordinary work.','S',4],
+ ['The Restoration','In 1868 the shogun\'s rule ended and power was "restored" to the Emperor.','P',2],['Civilization and Enlightenment','From the 1870s the government urged people to copy Western ways: haircuts, clothes, buildings, newspapers.','S',3],
+ ['Schools for everyone','The 1872 education law required schooling for all children, boys and girls, from every class.','S',3],['Conscription','From 1873, young men of every class could be drafted into the new army, though there were many exemptions.','SP',3],
+ ['The unequal treaties','Foreigners in Japan were tried in their own consuls\' courts, and Japan could not set its own import taxes. Ending these treaties became a main goal of the Meiji government.','P',3],
+ ['Railroad and telegraph','Japan\'s first railroad opened in 1872. By 1890 there were about 1,400 miles of track, and telegraphs linked the major cities by 1880.','E',3],['The end of the samurai','In 1876 the samurai\'s stipends were turned into bonds worth far less, and they lost the right to wear swords. Many fell into debt.','S',4],
+ ['Banks and factories','The government built the Tomioka silk mill (1872), lent money to companies and set up the Bank of Japan (1882).','E',4],['A modern army and navy','French officers trained a conscript army, which beat Saigō\'s samurai in 1877, and Japan built a navy with British and French help.','P',4],
  ['The Meiji Constitution','The 1889 constitution created an elected House of Representatives, but only about 1 in 100 people could vote.','P',5],['The silk mills','Silk was Japan\'s biggest export. The mills ran on young women working fourteen hours a day for low pay.','E',5]];
 async function jumpTo(n){vStop();$('title').hidden=true;['tag','book','arg','quiz','end','card'].forEach(id=>$(id).hidden=true);$('dlg').hidden=true;
   const keep={};const order=['genjiSecret','backedSayo','rice','topknot','gonzo','hirata','deadline','ending'];const setIn=[1,2,2,3,3,4,5,5];
   order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch}));G.tagScore=[G.book.length,G.book.length];
   if(n===6&&!G.flags.ending)G.flags.ending='bargain';
-  location.hash='ch'+n;location.reload();}
+  try{sessionStorage.setItem('shio-jump',String(n));}catch(e){}location.hash='ch'+n;location.reload();}
 function start(fromSave){$('title').hidden=true;if(!AU.ctx&&sndPref)setSound(true);
-  let from=1;if(fromSave){const s=loadSave();if(s){G.flags=s.flags||{};G.book=s.book||[];G.tagScore=s.tag||[0,0];from=s.ch||1;}}
+  let from=1;if(fromSave){const s=loadSave();if(s){G.flags=s.flags||{};from=s.ch||1;
+    // (15 Nov audit) Continue replays the chapter from its start, so forget notes filed in it, or they'd be filed twice
+    G.book=(s.book||[]).filter(b=>(b.ch||0)<from);G.tagScore=[G.book.filter(b=>b.got).length,G.book.length];}}
   run(from).catch(e=>console.error(e));}
-$('start').onclick=()=>{try{localStorage.removeItem('shio-save');}catch(e){}start(false);};
+$('start').onclick=()=>{const s=loadSave();if(s&&s.ch>1&&!confirm('Start a new game? Your saved game (Chapter '+Math.min(5,s.ch)+') will be erased. To keep it, press Cancel and choose Continue.'))return;
+  try{localStorage.removeItem('shio-save');localStorage.removeItem('shio-draft');}catch(e){}start(false);};
 $('resume').onclick=()=>start(true);
-$('end-again').onclick=()=>{try{localStorage.removeItem('shio-save');}catch(e){}location.hash='';location.reload();};
+$('end-again').onclick=()=>{if(!confirm('Play again? Write down your finish code first. (Your code and paragraph stay under "Last result" on the title screen.)'))return;try{localStorage.removeItem('shio-save');}catch(e){}location.hash='';location.reload();};
+try{const L=JSON.parse(localStorage.getItem('shio-last')||'null');if(L&&L.code){$('lastres').hidden=false;$('lastres').onclick=()=>{$('title').hidden=true;showLast(L);};}}catch(e){}
 const sv=loadSave();if(sv&&sv.ch>1)$('resume').hidden=false,$('resume').textContent='Continue (Chapter '+Math.min(5,sv.ch)+')';
 // title art
 (function titleArt(){const c=$('title-cv');const g=c.getContext('2d');const draw=()=>{if($('title').hidden)return;const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);const w=Math.round(r.width*d),h=Math.round(r.height*d);if(c.width!==w||c.height!==h){c.width=w;c.height=h;}
-  drawCard(g,w,h,{title:1},performance.now());requestAnimationFrame(draw);};draw();})();
+  if(w>0&&h>0)try{drawCard(g,w,h,{title:1},performance.now());}catch(e){} requestAnimationFrame(draw);};draw();})();
 // hash jump (teacher)
-(function(){const m=/^#ch(\d)$/.exec(location.hash);if(!m)return;const n=+m[1];const keep={};const order=['genjiSecret','backedSayo','rice','topknot','gonzo','hirata','deadline','ending'];const setIn=[1,2,2,3,3,4,5,5];
-  order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});if(n===6)keep.ending=keep.ending||'bargain';G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch}));G.tagScore=[G.book.length,G.book.length];
+// (15 Nov audit: typing #ch6 skipped the game and still earned a real code) only a jump started from the teacher panel works
+(function(){const m=/^#ch(\d)$/.exec(location.hash);if(!m)return;const n=+m[1];let ok=false;try{ok=sessionStorage.getItem('shio-jump')===String(n);sessionStorage.removeItem('shio-jump');}catch(e){}
+  if(!ok){history.replaceState(null,'',location.pathname+location.search);return;}const keep={};const order=['genjiSecret','backedSayo','rice','topknot','gonzo','hirata','deadline','ending'];const setIn=[1,2,2,3,3,4,5,5];
+  order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});if(n===6)keep.ending=keep.ending||'bargain';keep.jumped=true;G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch}));G.tagScore=[G.book.length,G.book.length];
   history.replaceState(null,'',location.pathname+location.search);$('title').hidden=true;setTimeout(()=>{if(!AU.ctx&&sndPref)setSound(true);run(n).catch(e=>console.error(e));},50);})();
 // first tap enables audio (browsers block it until then)
 addEventListener('pointerdown',()=>{if(sndPref&&!AU.ctx)setSound(true);else if(AU.ctx&&AU.ctx.state==='suspended')AU.ctx.resume();},{once:true});
