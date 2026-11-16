@@ -154,7 +154,7 @@ button.wrong{background:#e6c9bd!important;color:#7a2a1a!important;text-decoratio
     <canvas id="title-cv"></canvas>
     <div class="t-card"><small>Japan · 1853 to 1890</small><h1>The Constable<br>of Shiomachi</h1>
       <p>One fishing town. Thirty-seven years. The Black Ships arrive when you are fourteen. By the time you are fifty, everything you grew up with is gone, and you are the man who enforces what replaced it.</p>
-      <div class="row"><button id="start" class="big" type="button">Begin</button><button id="resume" class="big alt" type="button" hidden>Continue</button><button id="lastres" class="lastres" type="button" hidden>Last result</button></div>
+      <div class="row"><button id="start" class="big" type="button">Begin</button><button id="resume" class="big alt" type="button" hidden>Continue</button><button id="lastres" class="lastres" type="button" hidden>Last result</button><button id="title-teach" class="lastres" type="button">Teacher</button></div>
       <span class="meta">Wear headphones: this game talks. · Arrow keys or WASD to move, E to talk, J to strike, K to dodge · <span id="vload">Loading voices…</span> · © 2026 Cordel. All rights reserved.</span></div>
   </section>
 
@@ -854,7 +854,7 @@ function interact(){const n=nearest();if(!n||G.busy)return;const o=n.o;const p=G
   if(n.kind==='e'){o.dir=faceOf(p.x-o.x,p.y-o.y,o.dir);p.dir=faceOf(o.x-p.x,o.y-p.y,p.dir);}
   G.busy=true;Promise.resolve(o.fn?o.fn():o.talk()).catch(e=>console.error(e)).finally(()=>{G.busy=false;});}
 // (15 Nov audit: mouse-only students could not move) click the ground to walk there, or click a person to walk up and talk
-$('cv').addEventListener('click',e=>{if(G.mode!=='play'||!G.player)return;const r=cv.getBoundingClientRect();if(!r.width)return;
+$('cv').addEventListener('click',e=>{if(G.mode!=='play'||!G.player)return;if(G.fight)document.body.classList.add('touch');const r=cv.getBoundingClientRect();if(!r.width)return;
   const wx=G.cam.x+(e.clientX-r.left)/r.width*G.view.w,wy=G.cam.y+(e.clientY-r.top)/r.height*G.view.h;
   const who=G.ents.find(o=>o!==G.player&&(o.talk||o.mark)&&Math.hypot(o.x-wx,o.y-12-wy)<26)||G.spots.find(s=>s.fn&&Math.hypot(s.x-wx,s.y-wy)<30);
   if(who&&!G.fight&&Math.hypot(who.x-G.player.x,(who.y-G.player.y)*1.2)<46){G.goal=null;interact();return;}
@@ -866,10 +866,13 @@ function swing(p){sfx('swish');const reach=40;const fx={l:[-1,0],r:[1,0],u:[0,-1
   const hx=p.x+fx[0]*24,hy=p.y-14+fx[1]*20;G.fx.push({kind:'arc',x:hx,y:hy,dir:p.dir,t:0.15});
   for(const e of G.ents){if(!e.ai||e.st.down)continue;const d=Math.hypot(e.x-hx,(e.y-14-hy));if(d<reach){hitEnemy(e,fx);}}}
 function hitEnemy(e,fx){if(e.block&&e.st.ph==='guard'&&Math.random()<0.6){sfx('clang');G.fx.push({kind:'spark',x:e.x,y:e.y-26,t:0.2});e.st.ph='recover';e.st.pt=0.25;return;}
+  // a boss still braced from your last hit parries half of the follow-ups and swings back: rushing him costs hearts
+  if(e.boss&&e.st.poise>0&&e.st.ph!=='windup'&&e.st.ph!=='strike'&&Math.random()<0.5){sfx('clang');G.fx.push({kind:'spark',x:e.x,y:e.y-26,t:0.2});e.st.ph='windup';e.st.pt=0.3;return;}
   e.hp-=1;e.st.hurt=0.25;sfx('hit');G.shake=4;G.fx.push({kind:'spark',x:e.x,y:e.y-26,t:0.2});
   for(let i=0;i<6;i++)moveEnt(e,fx[0]*4,fx[1]*4);
   // (15 Nov audit: mashing J stun-locked every enemy) a hit only staggers when the enemy's poise is back; a boss's wind-up can't be interrupted
   if(!(e.boss&&e.st.ph==='windup')&&!(e.st.poise>0)){e.st.ph='stagger';e.st.pt=e.boss?0.18:0.35;e.st.poise=e.boss?1.3:0.9;}
+  else if(e.st.ph!=='windup'&&e.st.ph!=='strike'&&(e.boss||Math.random()<0.5)){e.st.ph='windup';e.st.pt=e.boss?0.32:0.4;}
   if(e.hp<=0){e.st.down=true;e.st.ph='down';e.solid=false;sfx('thud');if(e.onDown)e.onDown();}}
 function hurtPlayer(n,from){if(G.iframe>0||G.player.st.down)return;G.hearts=Math.max(0,G.hearts-n);G.iframe=0.8;G.player.st.hurt=0.3;G.shake=7;sfx('ouch');
   if(from){const dx=G.player.x-from.x,dy=G.player.y-from.y,d=Math.hypot(dx,dy)||1;for(let i=0;i<5;i++)moveEnt(G.player,dx/d*5,dy/d*5);}
@@ -963,7 +966,7 @@ function drawObjective(ctx,cx,cy){const t=G.objTarget;if(!t||G.mode!=='play')ret
   ctx.restore();}
 
 /* ---------- Script helpers (async) ---------- */
-function setMode(m){G.mode=m;document.body.dataset.mode=m;}
+function setMode(m){G.mode=m;document.body.dataset.mode=m;if(m!=='play')G.goal=null;}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const ADV=['e','enter',' ','j'];
 function onKeyOnce(keys,fn){const h=e=>{const k=e.key.toLowerCase();if(keys.includes(k)){if(e.repeat)return;e.preventDefault();pressed.delete(k);fn(k);}};addEventListener('keydown',h);return ()=>removeEventListener('keydown',h);}
@@ -1038,7 +1041,7 @@ $('btn-book').onclick=()=>openBook();
 
 /* ---------- Save ---------- */
 // a note's tag may hold more than one letter ('SP' = Social or Political); the epilogue saves as chapter 6 so Continue doesn't replay chapter 5
-function save(){try{localStorage.setItem('shio-save',JSON.stringify({ch:G.epi?6:G.ch,flags:G.flags,book:G.book,tag:G.tagScore,arg:G.arg||null,v:1}));}catch(e){}}
+function save(){if(G.done)return;try{localStorage.setItem('shio-save',JSON.stringify({ch:G.epi?6:G.ch,flags:G.flags,book:G.book,tag:G.tagScore,arg:G.arg||null,v:1}));}catch(e){}}
 function loadSave(){try{return JSON.parse(localStorage.getItem('shio-save')||'null');}catch(e){return null;}}
 
 /* ================= WORLD: Shiomachi across five eras, plus side maps ================= */
@@ -1222,7 +1225,7 @@ async function chapter1(){
   await say('genji','[tease] Last one to the end of the pier... carries both nets. Up the hill. Both of them.');
   await say('juro','[wry] You said that yesterday. And then you tripped me.');
   await say('genji','[excited] I slipped! Into you. Go — go, go!');
-  toast('Move with the arrow keys or WASD. On a touch screen, use the stick.',5000);
+  toast('Move with the arrow keys or WASD, or click where you want to walk. On a touch screen, use the stick.',5000);
   objective('Race Genji to the end of the pier',{x:1322,y:1250});
   let genjiWon=false;walk('genji',[[1322,1080],[1322,1250]],118).then(()=>{genjiWon=true;});
   await reach(1300,1215,44,60);
@@ -1753,8 +1756,9 @@ async function argument(){setMode('arg');const o=$('arg');o.hidden=false;const s
   speak('Here is your argument plan. Use it to write your paragraph.',null);
   const bx=id=>$('pl-'+id),para=()=>FLD.map(([id])=>bx(id).value.trim()).join(' ');
   // (15 Nov audit) drafts are kept as the student types, so a reload or Continue doesn't lose the writing
-  try{const D=JSON.parse(localStorage.getItem('shio-draft')||'null');if(D&&D.claim===out.claim)FLD.forEach(([id])=>{if(D[id])bx(id).value=D[id];});}catch(e){}
-  $('plan').addEventListener('input',()=>{const D={claim:out.claim};FLD.forEach(([id])=>D[id]=bx(id).value);try{localStorage.setItem('shio-draft',JSON.stringify(D));}catch(e){}});
+  try{const D=JSON.parse(localStorage.getItem('shio-draft')||'null');if(D&&D._claim===out.claim)FLD.forEach(([id])=>{if(D[id])bx(id).value=D[id];});}catch(e){}
+  $('plan').addEventListener('focusin',e=>{const t=e.target;if(t.tagName==='TEXTAREA'&&t.selectionStart===0&&t.selectionEnd===0)setTimeout(()=>{t.selectionStart=t.selectionEnd=t.value.length;},0);});
+  $('plan').addEventListener('input',()=>{const D={_claim:out.claim};FLD.forEach(([id])=>D[id]=bx(id).value);try{localStorage.setItem('shio-draft',JSON.stringify(D));}catch(e){}});
   const unfinished=()=>FLD.filter(([id,,st])=>bx(id).value.trim().length<st.length+12);
   $('plan-print').onclick=()=>{const t=para();const ok=()=>{$('plan-print').textContent='Copied';};try{navigator.clipboard.writeText(t).then(ok,()=>{$('plan-print').textContent='Select the boxes and press Ctrl+C';});}catch(e){$('plan-print').textContent='Select the boxes and press Ctrl+C';}};
   await new Promise(r=>$('plan-next').onclick=()=>{const u=unfinished();FLD.forEach(([id])=>bx(id).classList.remove('need'));
@@ -1790,7 +1794,7 @@ function showPara(p,code){$('end-para').hidden=!p;$('end-ptext').textContent=p||
 // the last finished game (code and paragraph) survives a reload, under "Last result" on the title screen
 function showLast(L){setMode('end');$('end').hidden=false;$('end-t').textContent='Your last result';$('end-b').textContent=L.when?'Finished '+L.when+'.':'';
   $('end-facts').innerHTML='';$('end-code').textContent=L.code;$('end-hist').innerHTML='';showPara(L.paragraph,L.code);}
-function finish(){setMode('end');const o=$('end');o.hidden=false;const e=G.flags.ending;
+function finish(){G.done=true;setMode('end');const o=$('end');o.hidden=false;const e=G.flags.ending;
   $('end-t').textContent={order:'Ending: Order',refusal:'Ending: Refusal',bargain:'Ending: The Bargain'}[e]||'The End';
   $('end-b').textContent={order:'You kept the law and lost your sister. Japan got its silk, and Shiomachi stayed quiet.',refusal:'You kept faith with your sister and lost your badge. The strike won some of what it asked for.',bargain:'You used what you knew about this town to find a third way, and paid for it with your career.'}[e]||'';
   const facts=[['Your choices',`${G.flags.genjiSecret==='kept'?'Kept Genji\'s secret':'Told on Genji'} · ${G.flags.rice==='sold'?'Talked Genji into selling the rice':'Defended the warehouse'} · ${G.flags.gonzo==='spared'?'Spared Gonzō':'Arrested Gonzō'} · ${G.flags.hirata==='south'?'Let Hirata go south':'Arrested Hirata'}`],
@@ -1887,7 +1891,7 @@ const DEFAULT_BOOK=[['The closed country','Since the 1630s the shogun\'s governm
  ['The Meiji Constitution','The 1889 constitution created an elected House of Representatives, but only about 1 in 100 people could vote.','P',5],['The silk mills','Silk was Japan\'s biggest export. The mills ran on young women working fourteen hours a day for low pay.','E',5]];
 async function jumpTo(n){vStop();$('title').hidden=true;['tag','book','arg','quiz','end','card'].forEach(id=>$(id).hidden=true);$('dlg').hidden=true;
   const keep={};const order=['genjiSecret','backedSayo','rice','topknot','gonzo','hirata','deadline','ending'];const setIn=[1,2,2,3,3,4,5,5];
-  order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch}));G.tagScore=[G.book.length,G.book.length];
+  order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch,got:true}));G.tagScore=[G.book.length,G.book.length];
   if(n===6&&!G.flags.ending)G.flags.ending='bargain';
   try{sessionStorage.setItem('shio-jump',String(n));}catch(e){}location.hash='ch'+n;location.reload();}
 function start(fromSave){$('title').hidden=true;if(!AU.ctx&&sndPref)setSound(true);
@@ -1899,8 +1903,9 @@ $('start').onclick=()=>{const s=loadSave();if(s&&s.ch>1&&!confirm('Start a new g
   try{localStorage.removeItem('shio-save');localStorage.removeItem('shio-draft');}catch(e){}start(false);};
 $('resume').onclick=()=>start(true);
 $('end-again').onclick=()=>{if(!confirm('Play again? Write down your finish code first. (Your code and paragraph stay under "Last result" on the title screen.)'))return;try{localStorage.removeItem('shio-save');}catch(e){}location.hash='';location.reload();};
+$('title-teach').onclick=()=>$('btn-teach').click();
 try{const L=JSON.parse(localStorage.getItem('shio-last')||'null');if(L&&L.code){$('lastres').hidden=false;$('lastres').onclick=()=>{$('title').hidden=true;showLast(L);};}}catch(e){}
-const sv=loadSave();if(sv&&sv.ch>1)$('resume').hidden=false,$('resume').textContent='Continue (Chapter '+Math.min(5,sv.ch)+')';
+const sv=loadSave();if(sv&&sv.ch>1)$('resume').hidden=false,$('resume').textContent=sv.ch>=6?'Continue (the election)':'Continue (Chapter '+sv.ch+')';
 // title art
 (function titleArt(){const c=$('title-cv');const g=c.getContext('2d');const draw=()=>{if($('title').hidden)return;const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);const w=Math.round(r.width*d),h=Math.round(r.height*d);if(c.width!==w||c.height!==h){c.width=w;c.height=h;}
   if(w>0&&h>0)try{drawCard(g,w,h,{title:1},performance.now());}catch(e){} requestAnimationFrame(draw);};draw();})();
@@ -1908,7 +1913,7 @@ const sv=loadSave();if(sv&&sv.ch>1)$('resume').hidden=false,$('resume').textCont
 // (15 Nov audit: typing #ch6 skipped the game and still earned a real code) only a jump started from the teacher panel works
 (function(){const m=/^#ch(\d)$/.exec(location.hash);if(!m)return;const n=+m[1];let ok=false;try{ok=sessionStorage.getItem('shio-jump')===String(n);sessionStorage.removeItem('shio-jump');}catch(e){}
   if(!ok){history.replaceState(null,'',location.pathname+location.search);return;}const keep={};const order=['genjiSecret','backedSayo','rice','topknot','gonzo','hirata','deadline','ending'];const setIn=[1,2,2,3,3,4,5,5];
-  order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});if(n===6)keep.ending=keep.ending||'bargain';keep.jumped=true;G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch}));G.tagScore=[G.book.length,G.book.length];
+  order.forEach((k,i)=>{if(setIn[i]<n)keep[k]=DEFAULT_FLAGS[k];});if(n===6)keep.ending=keep.ending||'bargain';keep.jumped=true;G.flags=keep;G.book=DEFAULT_BOOK.filter(b=>b[3]<n).map(([title,text,tag,ch])=>({title,text,tag,ch,got:true}));G.tagScore=[G.book.length,G.book.length];
   history.replaceState(null,'',location.pathname+location.search);$('title').hidden=true;setTimeout(()=>{if(!AU.ctx&&sndPref)setSound(true);run(n).catch(e=>console.error(e));},50);})();
 // first tap enables audio (browsers block it until then)
 addEventListener('pointerdown',()=>{if(sndPref&&!AU.ctx)setSound(true);else if(AU.ctx&&AU.ctx.state==='suspended')AU.ctx.resume();},{once:true});
